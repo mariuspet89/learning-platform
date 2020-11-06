@@ -1,4 +1,4 @@
-package eu.accesa.Learning_Platform;
+package eu.accesa.learningplatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

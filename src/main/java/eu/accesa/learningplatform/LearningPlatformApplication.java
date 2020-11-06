@@ -1,4 +1,4 @@
-package eu.accesa.Learning_Platform;
+package eu.accesa.learningplatform;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
