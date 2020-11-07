@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS USERS (
+create table if not exists USERS (
  
-    ID int AUTO_INCREMENT PRIMARY KEY,
+    ID int AUTO_INCREMENT NOT NULL PRIMARY KEY,
     FIRST_NAME varchar(50),
     LAST_NAME varchar(50),
     EMAIL varchar(50),
