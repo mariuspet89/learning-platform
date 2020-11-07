@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS LESSONS (
+    ID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    NAME varchar(20),
+    CONTENT varchar(50),
+    DURATION double
+)
