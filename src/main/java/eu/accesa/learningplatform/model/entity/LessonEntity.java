@@ -5,7 +5,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "LESSONS")
+@Table(name = "LESSON")
 public class LessonEntity {
     @Id
     @Column(name = "ID")
@@ -19,16 +19,6 @@ public class LessonEntity {
     private double duration;
 
 
-    public LessonEntity(Long id, String name, String content, double duration) {
-        this.id = id;
-        this.name = name;
-        this.content = content;
-        this.duration = duration;
-    }
-
-    public LessonEntity() {
-
-    }
 
     public Long getId() {
         return id;
