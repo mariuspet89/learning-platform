@@ -1,25 +1,27 @@
 package eu.accesa.learningplatform.model.entity;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "FEEDBACKS")
-public class Feedback {
+public class FeedbackEntity {
 
     @Id
     @Column(name = "ID")
-    private Integer id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     @Column(name = "TITLE")
     private String title;
     @Column(name = "DESCRIPTION")
     private String description;
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,16 +46,15 @@ public class Feedback {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Feedback feedback = (Feedback) o;
-        return Objects.equals(id, feedback.id) &&
-                Objects.equals(title, feedback.title) &&
-                Objects.equals(description, feedback.description);
+        FeedbackEntity that = (FeedbackEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, title, description);
     }
-
 
 }
