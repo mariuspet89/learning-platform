@@ -9,6 +9,7 @@ public class JobTitleEntity {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "JOB_TITLE")
