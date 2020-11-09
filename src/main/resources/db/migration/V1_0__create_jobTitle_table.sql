@@ -1,10 +1,5 @@
-CREATE TABLE IF NOT EXISTS job_titles
+CREATE TABLE IF NOT EXISTS JOB_TITLE
 (
-
-    id int NOT NULL auto_increment PRIMARY KEY ,
-    job_title ENUM ('Java Developer', '.NET DEVELOPER',
-        'DevOps Engineer', 'Business Analyst',
-        'UI/UX Designer', 'Test Engineer','Project Delivery Manager') NOT NULL
-
-
+    ID        int         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    JOB_TITLE VARCHAR(50) NOT NULL
 );
