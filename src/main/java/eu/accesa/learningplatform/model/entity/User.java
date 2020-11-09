@@ -3,8 +3,6 @@ package eu.accesa.learningplatform.model.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 @Entity
 @Table(name = "USERS")
 public class User {
@@ -22,6 +20,47 @@ public class User {
     private String imageUrl;
     @Column(name = "PASSWORD")
     private String password;
+
+/*
+    ***    PRE MAPPED RELATIONSHIPS    ***
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private UserType userType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private JobTitle jobTitle;
+
+    @OneToOne
+    @MapsId
+    private CompetenceArea competenceArea;
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public JobTitle getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(JobTitle jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public CompetenceArea getCompetenceArea() {
+        return competenceArea;
+    }
+
+    public void setCompetenceArea(CompetenceArea competenceArea) {
+        this.competenceArea = competenceArea;
+    }
+
+ */
 
     public Long getId() {
         return id;
