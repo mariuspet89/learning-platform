@@ -1,6 +1,7 @@
 package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,7 +19,8 @@ public class LessonEntity {
     @Column(name = "DURATION")
     private double duration;
 
-
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    private List<LessonContentEntity> lessonContentEntities;
 
     public Long getId() {
         return id;
@@ -52,6 +54,14 @@ public class LessonEntity {
         this.duration = duration;
     }
 
+    public List<LessonContentEntity> getLessonContentEntities() {
+        return lessonContentEntities;
+    }
+
+    public void setLessonContentEntities(List<LessonContentEntity> lessonContentEntities) {
+        this.lessonContentEntities = lessonContentEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,4 +77,5 @@ public class LessonEntity {
     public int hashCode() {
         return Objects.hash(id, name, content, duration);
     }
+
 }
