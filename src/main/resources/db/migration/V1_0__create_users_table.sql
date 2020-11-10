@@ -1,9 +1,9 @@
 create table if not exists USERS (
 
-    ID int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ID bigint AUTO_INCREMENT NOT NULL PRIMARY KEY,
     FIRST_NAME varchar(50),
     LAST_NAME varchar(50),
-    EMAIL varchar(50),
+    EMAIL varchar(50) UNIQUE NOT NULL,
     IMAGE_URL varchar(50),
     PASSWORD varchar(50),
     JOB_TITLE_ID int,

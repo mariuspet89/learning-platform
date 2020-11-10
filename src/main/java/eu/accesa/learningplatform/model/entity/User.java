@@ -9,6 +9,7 @@ public class User {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -24,16 +25,16 @@ public class User {
 /*
     ***    PRE MAPPED RELATIONSHIPS    ***
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+              fetch = FetchType.LAZY, optional = false)
     private UserType userType;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+              fetch = FetchType.LAZY, optional = false)
     private JobTitle jobTitle;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+              fetch = FetchType.LAZY, optional = false)
     private CompetenceArea competenceArea;
 
     public UserType getUserType() {
