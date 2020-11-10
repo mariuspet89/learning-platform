@@ -13,7 +13,7 @@ public class JobTitleEntity {
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "JOB_TITLE")
-    private JobTitleEnum jobTitleEnum;
+    private JobTitleEnum name;
 
     public Long getId() {
         return id;
@@ -24,11 +24,11 @@ public class JobTitleEntity {
     }
 
     public JobTitleEnum getJob() {
-        return jobTitleEnum;
+        return name;
     }
 
-    public void setJob(JobTitleEnum jobTitleEnum) {
-        this.jobTitleEnum = jobTitleEnum;
+    public void setJob(JobTitleEnum name) {
+        this.name = name;
     }
 
     @Override
@@ -37,11 +37,11 @@ public class JobTitleEntity {
         if (o == null || getClass() != o.getClass()) return false;
         JobTitleEntity jobTitleEntity = (JobTitleEntity) o;
         return Objects.equals(id, jobTitleEntity.id) &&
-                jobTitleEnum == jobTitleEntity.jobTitleEnum;
+                name == jobTitleEntity.name;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, jobTitleEnum);
+        return Objects.hash(id, name);
     }
 }
