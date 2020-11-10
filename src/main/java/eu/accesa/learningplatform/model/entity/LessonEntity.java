@@ -19,7 +19,7 @@ public class LessonEntity {
     @Column(name = "DURATION")
     private double duration;
 
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lessonEntity", cascade = CascadeType.ALL)
     private List<LessonContentEntity> lessonContentEntities;
 
     public Long getId() {
