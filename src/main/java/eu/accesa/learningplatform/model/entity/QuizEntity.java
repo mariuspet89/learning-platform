@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Table(name = "QUIZ")
 public class QuizEntity {
     @Id
-    @Column(name="QUIZ_ID")
+    @Column(name="ID")
     @GeneratedValue(strategy = AUTO)
     private Long id;
     @Column(name="TITLE")
