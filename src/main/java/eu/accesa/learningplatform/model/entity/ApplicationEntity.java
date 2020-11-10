@@ -7,6 +7,7 @@ import static javax.persistence.GenerationType.AUTO;
 @Entity
 @Table(name = "APPLICATION")
 public class ApplicationEntity {
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = AUTO)
@@ -17,6 +18,10 @@ public class ApplicationEntity {
 
     @Column(name = "COURSE_IDEA")
     private String courseIdea;
+
+    @ManyToOne()
+    @JoinColumn(name = "USER_ID")
+    private UserEntity userEntity;
 
     public Long getId() {
         return id;
