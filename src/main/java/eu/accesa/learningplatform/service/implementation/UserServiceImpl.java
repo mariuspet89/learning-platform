@@ -32,6 +32,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto createUser(UserDto userDto) {
+        LOGGER.info("Service: creating user with values: {}", userDto);
+        UserEntity userEntity = userRepository.save(mapper.map(userDto, UserEntity.class));
+        return mapper.map(userEntity, UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> getAllUsers() {
+        LOGGER.info("Service: retrieving all users");
+        return mapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
+        }.getType());
+    }
+
+    @Override
     public UserDto getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
         UserEntity userEntity = userRepository.findById(id).orElseThrow(()
@@ -43,7 +57,8 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsersByUserType(UserTypeEnum userType) {
         LOGGER.info("Service: retrieving all users with user type: {}", userType);
         List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Name(userType);
-        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {}.getType());
+        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
+        }.getType());
     }
 
     //TODO: find a way to map dto to entity without null-check on every field
@@ -57,5 +72,13 @@ public class UserServiceImpl implements UserService {
         mapper.map(userDto, userEntity);
 
         return mapper.map(userEntity, UserDto.class);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        LOGGER.info("Service: deleting the user with id: {} ", id);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+        userRepository.delete(userEntity);
     }
 }
