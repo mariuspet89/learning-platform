@@ -20,6 +20,10 @@ public class ApplicationEntity {
     private String courseIdea;
 
     @ManyToOne()
+    @JoinColumn(name = "APPLICATION_STATUS_ID")
+    private ApplicationStatusEntity applicationStatus;
+
+    @ManyToOne()
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
 
@@ -45,6 +49,22 @@ public class ApplicationEntity {
 
     public void setCourseIdea(String courseIdea) {
         this.courseIdea = courseIdea;
+    }
+
+    public ApplicationStatusEntity getApplicationStatus() {
+        return applicationStatus;
+    }
+
+    public void setApplicationStatus(ApplicationStatusEntity applicationStatus) {
+        this.applicationStatus = applicationStatus;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     @Override
