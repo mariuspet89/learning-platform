@@ -21,7 +21,7 @@ public class ApplicationEntity {
 
     @ManyToOne()
     @JoinColumn(name = "APPLICATION_STATUS_ID")
-    private ApplicationStatusEntity applicationStatus;
+    private ApplicationStatusEntity applicationStatusEntity;
 
     @ManyToOne()
     @JoinColumn(name = "USER_ID")
@@ -51,12 +51,12 @@ public class ApplicationEntity {
         this.courseIdea = courseIdea;
     }
 
-    public ApplicationStatusEntity getApplicationStatus() {
-        return applicationStatus;
+    public ApplicationStatusEntity getApplicationStatusEntity() {
+        return applicationStatusEntity;
     }
 
-    public void setApplicationStatus(ApplicationStatusEntity applicationStatus) {
-        this.applicationStatus = applicationStatus;
+    public void setApplicationStatusEntity(ApplicationStatusEntity applicationStatus) {
+        this.applicationStatusEntity = applicationStatus;
     }
 
     public UserEntity getUserEntity() {

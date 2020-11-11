@@ -18,8 +18,8 @@ public class ApplicationStatusEntity {
     @Enumerated(EnumType.STRING)
     private ApplicationStatusEnum status;
 
-    @OneToMany(mappedBy = "applicationStatus")
-    Set<ApplicationEntity> applicationEntitySet;
+    @OneToMany(mappedBy = "applicationStatusEntity")
+    Set<ApplicationEntity> applicationEntities;
 
     public Long getId() {
         return id;
@@ -38,10 +38,10 @@ public class ApplicationStatusEntity {
     }
 
     public Set<ApplicationEntity> getApplicationEntitySet() {
-        return applicationEntitySet;
+        return applicationEntities;
     }
 
-    public void setApplicationEntitySet(Set<ApplicationEntity> applicationEntitySet) {
-        this.applicationEntitySet = applicationEntitySet;
+    public void setApplicationEntitySet(Set<ApplicationEntity> applicationEntities) {
+        this.applicationEntities = applicationEntities;
     }
 }
