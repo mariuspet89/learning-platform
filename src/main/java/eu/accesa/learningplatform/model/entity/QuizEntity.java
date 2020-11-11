@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,6 +19,9 @@ public class QuizEntity {
 
     @OneToOne(mappedBy = "quizEntity")
     private CourseEntity courseEntity;
+
+    @OneToMany(mappedBy = "quizEntity")
+    private Set<QuizItemEntity> quizItems;
 
     public Long getId() {
         return id;
@@ -41,6 +45,14 @@ public class QuizEntity {
 
     public void setCourseEntity(CourseEntity courseEntity) {
         this.courseEntity = courseEntity;
+    }
+
+    public Set<QuizItemEntity> getQuizItems() {
+        return quizItems;
+    }
+
+    public void setQuizItems(Set<QuizItemEntity> quizItems) {
+        this.quizItems = quizItems;
     }
 
     @Override
