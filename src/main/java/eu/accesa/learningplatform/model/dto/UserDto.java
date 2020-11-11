@@ -1,14 +1,20 @@
 package eu.accesa.learningplatform.model.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class UserDto {
 
+    @NotNull
     private Long id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String email;
     private String imageUrl;
+    @NotNull
     private String password;
 
     public Long getId() {
