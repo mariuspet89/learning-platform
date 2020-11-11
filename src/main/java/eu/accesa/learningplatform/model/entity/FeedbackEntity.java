@@ -9,13 +9,22 @@ public class FeedbackEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(name = "TITLE")
     private String title;
+
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "LESSON_ID")
+    private LessonEntity lessonEntity;
 
     public Long getId() {
         return id;
@@ -41,6 +50,21 @@ public class FeedbackEntity {
         this.description = description;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public LessonEntity getLessonEntity() {
+        return lessonEntity;
+    }
+
+    public void setLessonEntity(LessonEntity lessonEntity) {
+        this.lessonEntity = lessonEntity;
+    }
 
     @Override
     public boolean equals(Object o) {

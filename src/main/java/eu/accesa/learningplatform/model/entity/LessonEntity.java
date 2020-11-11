@@ -3,17 +3,20 @@ package eu.accesa.learningplatform.model.entity;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-
+import java.util.Set;
 
 @Entity
 @Table(name = "LESSON")
 public class LessonEntity {
+
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "NAME")
     private String name;
+
     @Column(name = "DURATION")
     private double duration;
 
@@ -23,6 +26,9 @@ public class LessonEntity {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private CourseEntity courseEntity;
+
+    @OneToMany(mappedBy = "lessonEntity")
+    private Set<FeedbackEntity> feedbackEntities;
 
     public Long getId() {
         return id;
@@ -62,6 +68,14 @@ public class LessonEntity {
 
     public void setCourseEntity(CourseEntity courseEntity) {
         this.courseEntity = courseEntity;
+    }
+
+    public Set<FeedbackEntity> getFeedbackEntities() {
+        return feedbackEntities;
+    }
+
+    public void setFeedbackEntities(Set<FeedbackEntity> feedbackEntities) {
+        this.feedbackEntities = feedbackEntities;
     }
 
     @Override
