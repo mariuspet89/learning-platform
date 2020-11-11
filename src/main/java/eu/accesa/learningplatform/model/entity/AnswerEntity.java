@@ -26,8 +26,6 @@ public class AnswerEntity {
     @OneToOne(mappedBy = "answer")
     private UserAnswerEntity userAnswerEntity;
 
-
-
     public Long getId() {
         return id;
     }

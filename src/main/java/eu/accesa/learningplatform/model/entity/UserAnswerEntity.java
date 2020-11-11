@@ -17,14 +17,12 @@ public class UserAnswerEntity {
     @Column(name = "USER_ANSWER_TEXT")
     private String userAnswerText;
 
-    // todo -  to map also in User entity
-//    @ManyToOne()
-//    @JoinColumn(name = "USER_ID")
-//    private User user;
+    @ManyToOne()
+    @JoinColumn(name = "USER_ID")
+    private UserEntity user;
 
     @OneToOne
     @JoinColumn(name = "ANSWER_ID")
-    @NotNull
     private AnswerEntity answer;
 
     public Long getId() {

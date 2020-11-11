@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -15,13 +16,11 @@ public class QuizItemTypeEntity {
     @GeneratedValue(strategy=AUTO)
     private Long id;
 
-
     @Column(name = "TYPE")
     @Enumerated(EnumType.STRING)
     private QuizItemTypeEnum type;
 
-
-    @OneToMany(mappedBy = "quizItemType")
+    @OneToMany(mappedBy = "quizItemTypeEntity")
     Set<QuizItemEntity> quizItemEntities;
 
     public Long getId() {
@@ -38,5 +37,28 @@ public class QuizItemTypeEntity {
 
     public void setType(QuizItemTypeEnum type) {
         this.type = type;
+    }
+
+    public Set<QuizItemEntity> getQuizItemEntities() {
+        return quizItemEntities;
+    }
+
+    public void setQuizItemEntities(Set<QuizItemEntity> quizItemEntities) {
+        this.quizItemEntities = quizItemEntities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuizItemTypeEntity that = (QuizItemTypeEntity) o;
+        return Objects.equals(id, that.id) &&
+                type == that.type &&
+                Objects.equals(quizItemEntities, that.quizItemEntities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, type, quizItemEntities);
     }
 }

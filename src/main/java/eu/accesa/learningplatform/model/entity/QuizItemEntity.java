@@ -15,25 +15,19 @@ public class QuizItemEntity {
     @GeneratedValue(strategy=AUTO)
     private Long id;
 
-
     @Column(name = "QUESTION")
     private String question;
-
 
     @ManyToOne()
     @JoinColumn(name = "QUIZ_ITEM_TYPE_ID")
     private QuizItemTypeEntity quizItemTypeEntity;
 
-
-    @OneToMany(mappedBy = "quizItem")
+    @OneToMany(mappedBy = "quizItemEntity")
     Set<AnswerEntity> answerSet;
 
-    // todo - relation needs to be mapped in Quiz entity also
-//    @ManyToOne()
-//    @JoinColumn(name = "QUIZ_ID")
-//    private Quiz quiz;
-
-
+    @ManyToOne()
+    @JoinColumn(name = "QUIZ_ID")
+    private QuizEntity quizEntity;
 
     public Long getId() {
         return id;
