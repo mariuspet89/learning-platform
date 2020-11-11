@@ -12,11 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static io.swagger.v3.oas.integration.StringOpenApiConfigurationLoader.LOGGER;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -32,24 +34,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
-        UserDto userDto = mapper.map(userRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found")), UserDto.class);
-        return userDto;
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+        return mapper.map(userEntity, UserDto.class);
     }
 
     @Override
     public List<UserDto> getUsersByUserType(UserTypeEnum userType) {
         LOGGER.info("Service: retrieving all users with user type: {}", userType);
-        List<UserDto> userDtos = mapper.map(userRepository.findAllByUserTypeEntity_Name(userType),
-                new TypeToken<List<UserDto>>() {}.getType());
-        return userDtos;
+        List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Name(userType);
+        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {}.getType());
     }
 
+    //TODO: find a way to map dto to entity without null-check on every field
     @Override
     public UserDto updateUser(UserDto userDto) {
         LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto);
-        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-        UserDto updatedUserDto = mapper.map(userRepository.save(userEntity), UserDto.class);
-        return updatedUserDto;
+
+        UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+
+        mapper.map(userDto, userEntity);
+
+        return mapper.map(userEntity, UserDto.class);
     }
 }
