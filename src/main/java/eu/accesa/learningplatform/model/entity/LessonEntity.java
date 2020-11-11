@@ -14,8 +14,6 @@ public class LessonEntity {
     private Long id;
     @Column(name = "NAME")
     private String name;
-    @Column(name = "CONTENT")
-    private String content;
     @Column(name = "DURATION")
     private double duration;
 
@@ -36,14 +34,6 @@ public class LessonEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public double getDuration() {
@@ -69,13 +59,12 @@ public class LessonEntity {
         LessonEntity lesson = (LessonEntity) o;
         return Double.compare(lesson.duration, duration) == 0 &&
                 Objects.equals(id, lesson.id) &&
-                Objects.equals(name, lesson.name) &&
-                Objects.equals(content, lesson.content);
+                Objects.equals(name, lesson.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, content, duration);
+        return Objects.hash(id, name, duration);
     }
 
 }
