@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "USER")
@@ -33,6 +34,14 @@ public class UserEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "competence_area_id")
     private CompetenceAreaEntity competenceAreaEntity;
+
+    @ManyToMany(cascade = CascadeType.ALL )
+    @JoinTable(
+            name = "ENROLLMENT",
+            joinColumns =  @JoinColumn(name = "USER_ID") ,
+            inverseJoinColumns =  @JoinColumn(name = "PROGRAM_ID")
+    )
+    Set<ProgramEntity> programEntities;
 
     public UserTypeEntity getUserTypeEntity() {
         return userTypeEntity;
@@ -104,6 +113,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<ProgramEntity> getProgramEntities() {
+        return programEntities;
+    }
+
+    public void setProgramEntities(Set<ProgramEntity> programEntities) {
+        this.programEntities = programEntities;
     }
 
     @Override
