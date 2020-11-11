@@ -22,17 +22,16 @@ public class UserEntity {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_type_entity_id")
+    @JoinColumn(name = "user_type_id")
     private UserTypeEntity userTypeEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_title_entity_id")
+    @JoinColumn(name = "job_title_id")
     private JobTitleEntity jobTitleEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "competence_area_entity_id")
+    @JoinColumn(name = "competence_area_id")
     private CompetenceAreaEntity competenceAreaEntity;
 
     public UserTypeEntity getUserTypeEntity() {
