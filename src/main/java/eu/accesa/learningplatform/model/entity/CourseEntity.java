@@ -12,20 +12,30 @@ public class CourseEntity {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(name = "NAME")
     private String name;
+
     @Column(name = "DESCRIPTION")
     private String description;
+
     @Column(name = "TOTAL_DURATION")
     private Double totalDuration;
+
     @ManyToOne
     @JoinColumn(name = "PROGRAM_ID")
     private ProgramEntity programEntity;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
+
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LessonEntity> lessonEntities;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "QUIZ_ID")
+    private QuizEntity quizEntity;
 
     public Long getId() {
         return id;
@@ -81,6 +91,14 @@ public class CourseEntity {
 
     public void setLessonEntities(List<LessonEntity> lessonEntities) {
         this.lessonEntities = lessonEntities;
+    }
+
+    public QuizEntity getQuizEntity() {
+        return quizEntity;
+    }
+
+    public void setQuizEntity(QuizEntity quizEntity) {
+        this.quizEntity = quizEntity;
     }
 
     @Override

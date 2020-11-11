@@ -13,8 +13,12 @@ public class QuizEntity {
     @Column(name="ID")
     @GeneratedValue(strategy = AUTO)
     private Long id;
+
     @Column(name="TITLE")
     private String title;
+
+    @OneToOne(mappedBy = "quizEntity")
+    private CourseEntity courseEntity;
 
     public Long getId() {
         return id;
@@ -30,6 +34,14 @@ public class QuizEntity {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public CourseEntity getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(CourseEntity courseEntity) {
+        this.courseEntity = courseEntity;
     }
 
     @Override
