@@ -7,7 +7,6 @@ import java.util.Objects;
 @Table(name = "COURSE")
 public class Course {
 
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +17,12 @@ public class Course {
     private String description;
     @Column(name = "TOTAL_DURATION")
     private Double totalDuration;
-
+    @ManyToOne
+    @JoinColumn(name = "PROGRAM_ID")
+    private ProgramEntity programEntity;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private UserEntity userEntity;
 
     public Long getId() {
         return id;
@@ -50,6 +54,22 @@ public class Course {
 
     public void setTotalDuration(Double totalDuration) {
         this.totalDuration = totalDuration;
+    }
+
+    public ProgramEntity getProgramEntity() {
+        return programEntity;
+    }
+
+    public void setProgramEntity(ProgramEntity programEntity) {
+        this.programEntity = programEntity;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     @Override
