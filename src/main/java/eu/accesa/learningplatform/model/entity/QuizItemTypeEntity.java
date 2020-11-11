@@ -8,7 +8,7 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "QUIZ_ITEM_TYPE")
-public class QuizItemType {
+public class QuizItemTypeEntity {
 
     @Id
     @Column(name = "ID")
@@ -22,7 +22,7 @@ public class QuizItemType {
 
 
     @OneToMany(mappedBy = "quizItemType")
-    Set<QuizItem> quizItems;
+    Set<QuizItemEntity> quizItemEntities;
 
     public Long getId() {
         return id;

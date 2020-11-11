@@ -8,7 +8,7 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "QUIZ_ITEM")
-public class QuizItem {
+public class QuizItemEntity {
 
     @Id
     @Column(name = "ID")
@@ -22,11 +22,11 @@ public class QuizItem {
 
     @ManyToOne()
     @JoinColumn(name = "QUIZ_ITEM_TYPE_ID")
-    private QuizItemType quizItemType;
+    private QuizItemTypeEntity quizItemTypeEntity;
 
 
     @OneToMany(mappedBy = "quizItem")
-    Set<Answer> answerSet;
+    Set<AnswerEntity> answerSet;
 
     // todo - relation needs to be mapped in Quiz entity also
 //    @ManyToOne()
@@ -51,19 +51,19 @@ public class QuizItem {
         this.question = question;
     }
 
-    public QuizItemType getQuizItemType() {
-        return quizItemType;
+    public QuizItemTypeEntity getQuizItemType() {
+        return quizItemTypeEntity;
     }
 
-    public void setQuizItemType(QuizItemType quizItemType) {
-        this.quizItemType = quizItemType;
+    public void setQuizItemType(QuizItemTypeEntity quizItemTypeEntity) {
+        this.quizItemTypeEntity = quizItemTypeEntity;
     }
 
-    public Set<Answer> getAnswerSet() {
+    public Set<AnswerEntity> getAnswerSet() {
         return answerSet;
     }
 
-    public void setAnswerSet(Set<Answer> answerSet) {
+    public void setAnswerSet(Set<AnswerEntity> answerSet) {
         this.answerSet = answerSet;
     }
 }

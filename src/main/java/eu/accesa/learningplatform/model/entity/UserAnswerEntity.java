@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
-@Table(name = "USERANSWER")
-public class UserAnswer {
+@Table(name = "USER_ANSWER")
+public class UserAnswerEntity {
 
     @Id
     @Column(name = "ID")
@@ -25,7 +25,7 @@ public class UserAnswer {
     @OneToOne
     @JoinColumn(name = "ANSWER_ID")
     @NotNull
-    private Answer answer;
+    private AnswerEntity answer;
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class UserAnswer {
         this.userAnswerText = userAnswerText;
     }
 
-    public Answer getAnswer() {
+    public AnswerEntity getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Answer answer) {
+    public void setAnswer(AnswerEntity answer) {
         this.answer = answer;
     }
 }

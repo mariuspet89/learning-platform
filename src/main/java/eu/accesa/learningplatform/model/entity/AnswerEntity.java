@@ -6,7 +6,7 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "ANSWER")
-public class Answer {
+public class AnswerEntity {
 
     @Id
     @Column(name = "ID")
@@ -14,17 +14,17 @@ public class Answer {
     private Long id;
 
     @Column(name = "ANSWER_TEXT")
-    private String answer;
+    private String answerText;
 
     @Column(name = "CORRECT_ANSWER")
     private boolean isCorrect;
 
     @ManyToOne()
-    @JoinColumn(name = "QUIZITEM_ID")
-    private QuizItem quizItem;
+    @JoinColumn(name = "QUIZ_ITEM_ID")
+    private QuizItemEntity quizItemEntity;
 
     @OneToOne(mappedBy = "answer")
-    private UserAnswer userAnswer;
+    private UserAnswerEntity userAnswerEntity;
 
 
 
@@ -36,12 +36,12 @@ public class Answer {
         this.id = id;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getAnswerText() {
+        return answerText;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswerText(String answerText) {
+        this.answerText = answerText;
     }
 
     public boolean isCorrect() {
@@ -52,19 +52,19 @@ public class Answer {
         isCorrect = correct;
     }
 
-    public QuizItem getQuizItem() {
-        return quizItem;
+    public QuizItemEntity getQuizItem() {
+        return quizItemEntity;
     }
 
-    public void setQuizItem(QuizItem quizItem) {
-        this.quizItem = quizItem;
+    public void setQuizItem(QuizItemEntity quizItemEntity) {
+        this.quizItemEntity = quizItemEntity;
     }
 
-    public UserAnswer getUserAnswer() {
-        return userAnswer;
+    public UserAnswerEntity getUserAnswer() {
+        return userAnswerEntity;
     }
 
-    public void setUserAnswer(UserAnswer userAnswer) {
-        this.userAnswer = userAnswer;
+    public void setUserAnswer(UserAnswerEntity userAnswerEntity) {
+        this.userAnswerEntity = userAnswerEntity;
     }
 }
