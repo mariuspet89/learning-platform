@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "COMPETENCE_AREA")
@@ -14,7 +15,7 @@ public class CompetenceAreaEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotNull

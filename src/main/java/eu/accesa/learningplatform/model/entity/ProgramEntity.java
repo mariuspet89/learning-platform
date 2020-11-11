@@ -8,13 +8,14 @@ import java.util.Objects;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "PROGRAM")
 public class ProgramEntity {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotNull
