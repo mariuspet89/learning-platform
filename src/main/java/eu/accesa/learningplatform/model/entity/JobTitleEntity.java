@@ -12,7 +12,7 @@ public class JobTitleEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Enumerated(EnumType.STRING)
-    @Column(name = "JOB_TITLE")
+    @Column(name = "NAME")
     private JobTitleEnum name;
 
     public Long getId() {
@@ -23,11 +23,11 @@ public class JobTitleEntity {
         this.id = id;
     }
 
-    public JobTitleEnum getJob() {
+    public JobTitleEnum getName() {
         return name;
     }
 
-    public void setJob(JobTitleEnum name) {
+    public void setName(JobTitleEnum name) {
         this.name = name;
     }
 
