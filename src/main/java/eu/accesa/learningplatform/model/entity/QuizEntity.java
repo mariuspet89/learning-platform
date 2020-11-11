@@ -1,17 +1,16 @@
 package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
-
 import java.util.Objects;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "QUIZ")
 public class QuizEntity {
     @Id
     @Column(name="ID")
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name="TITLE")
