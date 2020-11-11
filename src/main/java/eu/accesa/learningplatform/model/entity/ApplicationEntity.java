@@ -14,14 +14,11 @@ public class ApplicationEntity {
     private Long id;
 
     @Column(name = "STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatusEnum status;
 
     @Column(name = "COURSE_IDEA")
     private String courseIdea;
-
-    @ManyToOne()
-    @JoinColumn(name = "APPLICATION_STATUS_ID")
-    private ApplicationStatusEntity applicationStatusEntity;
 
     @ManyToOne()
     @JoinColumn(name = "USER_ID")
@@ -35,11 +32,11 @@ public class ApplicationEntity {
         this.id = id;
     }
 
-    public String getStatus() {
+    public ApplicationStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ApplicationStatusEnum status) {
         this.status = status;
     }
 
@@ -49,14 +46,6 @@ public class ApplicationEntity {
 
     public void setCourseIdea(String courseIdea) {
         this.courseIdea = courseIdea;
-    }
-
-    public ApplicationStatusEntity getApplicationStatusEntity() {
-        return applicationStatusEntity;
-    }
-
-    public void setApplicationStatusEntity(ApplicationStatusEntity applicationStatus) {
-        this.applicationStatusEntity = applicationStatus;
     }
 
     public UserEntity getUserEntity() {
