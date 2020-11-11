@@ -12,8 +12,6 @@ public enum ApplicationStatusEnum {
 
     @Override
     public String toString() {
-        return "ApplicationStatusEnum{" +
-                "status='" + status + '\'' +
-                '}';
+        return status;
     }
 }
