@@ -20,6 +20,10 @@ public class LessonEntity {
     @OneToMany(mappedBy = "lessonEntity", cascade = CascadeType.ALL)
     private List<LessonContentEntity> lessonContentEntities;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private CourseEntity courseEntity;
+
     public Long getId() {
         return id;
     }
@@ -50,6 +54,14 @@ public class LessonEntity {
 
     public void setLessonContentEntities(List<LessonContentEntity> lessonContentEntities) {
         this.lessonContentEntities = lessonContentEntities;
+    }
+
+    public CourseEntity getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(CourseEntity courseEntity) {
+        this.courseEntity = courseEntity;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class LessonContentEntity {
     @Column(name = "CONTENT")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "lesson_id")
     private LessonEntity lessonEntity;
 

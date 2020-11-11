@@ -1,11 +1,12 @@
 package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "COURSE")
-public class Course {
+public class CourseEntity {
 
     @Id
     @Column(name = "ID")
@@ -23,6 +24,8 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity userEntity;
+    @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<LessonEntity> lessonEntities;
 
     public Long getId() {
         return id;
@@ -72,19 +75,28 @@ public class Course {
         this.userEntity = userEntity;
     }
 
+    public List<LessonEntity> getLessonEntities() {
+        return lessonEntities;
+    }
+
+    public void setLessonEntities(List<LessonEntity> lessonEntities) {
+        this.lessonEntities = lessonEntities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Course course = (Course) o;
-        return Objects.equals(id, course.id) &&
-                Objects.equals(name, course.name) &&
-                Objects.equals(description, course.description) &&
-                Objects.equals(totalDuration, course.totalDuration);
+        CourseEntity courseEntity = (CourseEntity) o;
+        return Objects.equals(id, courseEntity.id) &&
+                Objects.equals(name, courseEntity.name) &&
+                Objects.equals(description, courseEntity.description) &&
+                Objects.equals(totalDuration, courseEntity.totalDuration);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, totalDuration);
     }
+
 }
