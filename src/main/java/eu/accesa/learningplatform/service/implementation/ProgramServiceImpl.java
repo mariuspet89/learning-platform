@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,25 +27,26 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
 
-    private final Logger logger;
+    private final Logger logger = Logger.getLogger(ProgramServiceImpl.class.getName());
 
-    @Autowired
     public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository) {
         this.modelMapper = modelMapper;
         this.programRepository = programRepository;
-        this.logger = Logger.getLogger(
-                ProgramService.class.getName());
     }
 
     @Override
     public ProgramDto createProgram(ProgramDto programDto) {
-
         return null;
     }
 
     @Override
     public List<ProgramDto> findAllPrograms() {
-        return null;
+        List<ProgramDto> programEntities = programRepository.findAll()
+                .stream()
+                .map(programEntity -> modelMapper.map(programEntity, ProgramDto.class))
+                .collect(Collectors.toList());
+        logger.log(Level.INFO, "program entities found: " + programEntities.toString());
+        return programEntities;
     }
 
     @Override
@@ -78,6 +82,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public void deleteProgram(Long id) {
-
+        logger.log(Level.INFO, "Delete program with id:" + id);
+        programRepository.deleteById(id);
     }
 }
