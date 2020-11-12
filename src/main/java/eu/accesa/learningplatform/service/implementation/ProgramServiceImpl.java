@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class ProgramServiceImpl implements ProgramService {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    private ProgramRepository programRepository;
+    private final ProgramRepository programRepository;
 
     public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository) {
         this.modelMapper = modelMapper;
