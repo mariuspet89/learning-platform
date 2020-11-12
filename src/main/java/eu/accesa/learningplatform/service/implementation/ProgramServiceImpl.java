@@ -1,13 +1,16 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.ProgramDto;
+import eu.accesa.learningplatform.model.entity.ProgramEntity;
 import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
@@ -16,6 +19,8 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
 
+    private final Logger logger = Logger.getLogger(ProgramServiceImpl.class.getName());
+
     public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository) {
         this.modelMapper = modelMapper;
         this.programRepository = programRepository;
@@ -23,12 +28,19 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public ProgramDto createProgram(ProgramDto programDto) {
-        return null;
+        ProgramEntity programEntity = programRepository.save(modelMapper.map(programDto, ProgramEntity.class));
+        logger.log(Level.INFO, "Created new program" + programEntity);
+        return modelMapper.map(programEntity, ProgramDto.class);
     }
 
     @Override
     public List<ProgramDto> findAllPrograms() {
-        return null;
+        List<ProgramDto> programEntities = programRepository.findAll()
+                .stream()
+                .map(programEntity -> modelMapper.map(programEntity, ProgramDto.class))
+                .collect(Collectors.toList());
+        logger.log(Level.INFO, "program entities found: " + programEntities.toString());
+        return programEntities;
     }
 
     @Override
@@ -48,6 +60,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public void deleteProgram(Long id) {
-
+        logger.log(Level.INFO, "Delete program with id:" + id);
+        programRepository.deleteById(id);
     }
 }
