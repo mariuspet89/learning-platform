@@ -3,7 +3,6 @@ package eu.accesa.learningplatform.model.entity;
 import javax.persistence.*;
 import java.util.Objects;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
