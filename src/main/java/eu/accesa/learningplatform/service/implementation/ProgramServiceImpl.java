@@ -6,19 +6,13 @@ import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
 import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
@@ -39,7 +33,6 @@ public class ProgramServiceImpl implements ProgramService {
         ProgramEntity programEntity = programRepository.save(modelMapper.map(programDto, ProgramEntity.class));
         logger.log(Level.INFO, "Created new program" + programEntity);
         return modelMapper.map(programEntity, ProgramDto.class);
-
     }
 
     @Override
@@ -77,17 +70,17 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public ProgramDto updateProgram(ProgramDto programDto, Long id) throws EntityNotFoundException {
 
-       Optional<ProgramEntity> optionalProgramEntityFromDb = programRepository.findById(id);
+        Optional<ProgramEntity> optionalProgramEntityFromDb = programRepository.findById(id);
 
-       if(optionalProgramEntityFromDb.isEmpty()){
-           throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
-       }
+        if (optionalProgramEntityFromDb.isEmpty()) {
+            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
+        }
 
-       ProgramEntity updatedProgramEntity = modelMapper.map(programDto, ProgramEntity.class);
-       programRepository.save(updatedProgramEntity);
+        ProgramEntity updatedProgramEntity = modelMapper.map(programDto, ProgramEntity.class);
+        programRepository.save(updatedProgramEntity);
 
-       ProgramDto updatedProgramDto = modelMapper.map(updatedProgramEntity, ProgramDto.class);
-       return updatedProgramDto;
+        ProgramDto updatedProgramDto = modelMapper.map(updatedProgramEntity, ProgramDto.class);
+        return updatedProgramDto;
     }
 
     @Override
