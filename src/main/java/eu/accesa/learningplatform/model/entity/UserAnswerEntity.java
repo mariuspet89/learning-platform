@@ -1,9 +1,8 @@
 package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "USER_ANSWER")
@@ -11,7 +10,7 @@ public class UserAnswerEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy=AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "USER_ANSWER_TEXT")

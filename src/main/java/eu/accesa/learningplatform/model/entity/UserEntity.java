@@ -35,11 +35,11 @@ public class UserEntity {
     @JoinColumn(name = "competence_area_id")
     private CompetenceAreaEntity competenceAreaEntity;
 
-    @ManyToMany(cascade = CascadeType.ALL )
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "ENROLLMENT",
-            joinColumns =  @JoinColumn(name = "USER_ID") ,
-            inverseJoinColumns =  @JoinColumn(name = "PROGRAM_ID")
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PROGRAM_ID")
     )
     Set<ProgramEntity> programEntities;
 
