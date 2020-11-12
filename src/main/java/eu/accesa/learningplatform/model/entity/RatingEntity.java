@@ -9,7 +9,7 @@ public class RatingEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "NO_OF_STARS")
@@ -17,6 +17,14 @@ public class RatingEntity {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private UserEntity userEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "COURSE_ID")
+    private CourseEntity courseEntity;
 
     public Long getId() {
         return id;
@@ -40,6 +48,22 @@ public class RatingEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    public CourseEntity getCourseEntity() {
+        return courseEntity;
+    }
+
+    public void setCourseEntity(CourseEntity courseEntity) {
+        this.courseEntity = courseEntity;
     }
 
     @Override
