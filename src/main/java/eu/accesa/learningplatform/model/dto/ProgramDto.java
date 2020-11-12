@@ -2,7 +2,10 @@ package eu.accesa.learningplatform.model.dto;
 
 import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+
 
 public class ProgramDto {
 
@@ -15,8 +18,6 @@ public class ProgramDto {
     private LocalDate startDate;
 
     private LocalDate endDate;
-
-    private CompetenceAreaEntity competenceAreaEntity; //competenceAreaDto?
 
     public Long getId() {
         return id;
@@ -58,11 +59,15 @@ public class ProgramDto {
         this.endDate = endDate;
     }
 
-    public CompetenceAreaEntity getCompetenceAreaEntity() {
-        return competenceAreaEntity;
-    }
 
-    public void setCompetenceAreaEntity(CompetenceAreaEntity competenceAreaEntity) {
-        this.competenceAreaEntity = competenceAreaEntity;
+    @Override
+    public String toString() {
+        return "ProgramDto{" +
+                "id=" + id +
+                ", programName='" + programName + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }
