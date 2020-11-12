@@ -1,6 +1,6 @@
 
-CREATE TABLE IF NOT EXISTS PROGRAM (
-
+CREATE TABLE IF NOT EXISTS PROGRAM
+(
     ID                  bigint      NOT NULL AUTO_INCREMENT PRIMARY KEY,
     NAME                varchar(30) NOT NULL,
     DESCRIPTION         varchar(100),

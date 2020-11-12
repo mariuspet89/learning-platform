@@ -2,7 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "ANSWER")
@@ -10,7 +10,7 @@ public class AnswerEntity {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy=AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "ANSWER_TEXT")

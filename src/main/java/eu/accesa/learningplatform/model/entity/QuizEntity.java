@@ -10,11 +10,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "QUIZ")
 public class QuizEntity {
     @Id
-    @Column(name="ID")
+    @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name="TITLE")
+    @Column(name = "TITLE")
     private String title;
 
     @OneToOne(mappedBy = "quizEntity")

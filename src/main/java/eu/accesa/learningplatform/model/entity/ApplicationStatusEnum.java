@@ -6,8 +6,8 @@ public enum ApplicationStatusEnum {
     REJECTED("REJECTED");
     private final String status;
 
-    ApplicationStatusEnum(String status){
-        this.status  = status;
+    ApplicationStatusEnum(String status) {
+        this.status = status;
     }
 
     @Override

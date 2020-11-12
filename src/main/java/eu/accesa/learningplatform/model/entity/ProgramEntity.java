@@ -2,12 +2,10 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -34,7 +32,7 @@ public class ProgramEntity {
     private LocalDate endDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="COMPETENCE_AREA_ID",referencedColumnName = "ID")
+    @JoinColumn(name = "COMPETENCE_AREA_ID", referencedColumnName = "ID")
     private CompetenceAreaEntity competenceAreaEntity;
 
     @ManyToMany(mappedBy = "programEntities")
