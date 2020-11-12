@@ -1,9 +1,5 @@
 package eu.accesa.learningplatform.model.dto;
 
-import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 

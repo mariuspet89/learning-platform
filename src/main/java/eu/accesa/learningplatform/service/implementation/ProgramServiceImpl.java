@@ -36,7 +36,10 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public ProgramDto createProgram(ProgramDto programDto) {
-        return null;
+        ProgramEntity programEntity = programRepository.save(modelMapper.map(programDto, ProgramEntity.class));
+        logger.log(Level.INFO, "Created new program" + programEntity);
+        return modelMapper.map(programEntity, ProgramDto.class);
+
     }
 
     @Override
@@ -50,8 +53,15 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ProgramDto findProgramById(Long id) {
-        return null;
+    public ProgramDto findProgramById(Long id) throws EntityNotFoundException {
+        Optional<ProgramEntity> programEntity = programRepository.findById(id);
+        if(programEntity.isPresent()){
+            logger.log(Level.INFO, "Found program: " + programEntity.get());
+        } else {
+            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
+        }
+        ProgramDto programDto = modelMapper.map(programEntity, ProgramDto.class);
+        return programDto;
     }
 
     @Override
