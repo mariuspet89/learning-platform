@@ -66,8 +66,8 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UserDto userDto) {
         LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto);
 
-        UserEntity userEntity = userRepository.findById(userDto.getId()).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+        UserEntity userEntity = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
 
         mapper.map(userDto, userEntity);
 
