@@ -42,18 +42,36 @@ public class ProgramController {
     }
 
     @GetMapping
-    @ApiResponse(responseCode = "200", description = "Succesfully get all programs")
+    @ApiResponse(responseCode = "200", description = "found all programs successfully")
     public ResponseEntity<List<ProgramDto>> getAllPrograms() {
         return new ResponseEntity<>(programService.findAllPrograms(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @ApiResponse(responseCode = "200", description = "Succesfully get a program by id")
-    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) throws EntityNotFoundException {
+    @ApiResponse(responseCode = "200", description = "found a program by id successfully")
+    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) {
         ProgramDto programDto = programService.findProgramById(id);
         if(programDto != null){
             return new ResponseEntity<>(programDto,HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/{id}")
+    @ApiResponse(responseCode = "200", description = "Successfully updated a program")
+    public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) throws EntityNotFoundException {
+        ProgramDto program = programService.updateProgram(programDto, id);
+        if(programDto != null){
+            return new ResponseEntity<>(program,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+    @DeleteMapping("/{id}")
+    @ApiResponse(responseCode = "200", description = "Successfully deleted a program by id")
+    public ResponseEntity<Long> deleteProgram(final @PathVariable Long id) {
+        programService.deleteProgram(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
