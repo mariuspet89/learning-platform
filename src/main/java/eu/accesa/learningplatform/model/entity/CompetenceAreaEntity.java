@@ -1,5 +1,7 @@
 package eu.accesa.learningplatform.model.entity;
 
+import eu.accesa.learningplatform.converter.CompetenceAreaConverter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class CompetenceAreaEntity {
     @NotNull
     @Column(name = "NAME")
     @Enumerated(EnumType.STRING)
+    @Convert(converter = CompetenceAreaConverter.class)
     private CompetenceAreaEnum name;
 
 

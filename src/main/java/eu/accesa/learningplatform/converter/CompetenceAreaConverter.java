@@ -20,7 +20,7 @@ public class CompetenceAreaConverter implements AttributeConverter<CompetenceAre
 
     public static CompetenceAreaEnum of(final String value) {
         for (final CompetenceAreaEnum competenceAreaEnum : CompetenceAreaEnum.values()) {
-            if (competenceAreaEnum.name().equalsIgnoreCase(value)) {
+            if (competenceAreaEnum.toString().equalsIgnoreCase(value)) {
                 return competenceAreaEnum;
             }
         }
