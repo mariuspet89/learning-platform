@@ -2,7 +2,6 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
-
 @Entity
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {
@@ -70,11 +69,13 @@ public class FeedbackEntity {
         FeedbackEntity that = (FeedbackEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description);
+                Objects.equals(description, that.description) &&
+                Objects.equals(userEntity, that.userEntity) &&
+                Objects.equals(lessonEntity, that.lessonEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id, title, description, userEntity, lessonEntity);
     }
 }
