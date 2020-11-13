@@ -34,8 +34,7 @@ public class CourseEntity {
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LessonEntity> lessonEntities;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "QUIZ_ID")
+    @OneToOne(mappedBy = "courseEntity")
     private QuizEntity quizEntity;
 
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

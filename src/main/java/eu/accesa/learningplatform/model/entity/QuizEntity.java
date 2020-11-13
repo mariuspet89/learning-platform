@@ -17,7 +17,8 @@ public class QuizEntity {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToOne(mappedBy = "quizEntity")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "COURSE_ID")
     private CourseEntity courseEntity;
 
     @OneToMany(mappedBy = "quizEntity")
