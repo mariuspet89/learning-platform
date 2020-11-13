@@ -3,7 +3,6 @@ package eu.accesa.learningplatform.service.implementation;
 import eu.accesa.learningplatform.converter.CompetenceAreaConverter;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
-import eu.accesa.learningplatform.model.entity.CompetenceAreaEnum;
 import eu.accesa.learningplatform.model.entity.ProgramEntity;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
@@ -39,9 +38,7 @@ public class ProgramServiceImpl implements ProgramService {
     public ProgramDto createProgram(ProgramDto programDto) {
         ProgramEntity programEntity = modelMapper.map(programDto, ProgramEntity.class);
         CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.getOne(programDto.getCompetenceAreaId());
-        logger.log(Level.INFO, "competenceAreaEntity" + competenceAreaEntity.getName());
-        CompetenceAreaEnum competenceAreaEnum = competenceAreaEntity.getName();
-        programEntity.getCompetenceAreaEntity().setName(competenceAreaEnum);
+        programEntity.setCompetenceAreaEntity(competenceAreaEntity);
         programRepository.save(programEntity);
         logger.log(Level.INFO, "Created new program" + programEntity);
         return programDto;
