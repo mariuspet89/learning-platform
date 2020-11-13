@@ -3,6 +3,7 @@ package eu.accesa.learningplatform.model.entity;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "COURSE")
@@ -36,6 +37,9 @@ public class CourseEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "QUIZ_ID")
     private QuizEntity quizEntity;
+
+    @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<RatingEntity> ratingEntities;
 
     public Long getId() {
         return id;
@@ -99,6 +103,14 @@ public class CourseEntity {
 
     public void setQuizEntity(QuizEntity quizEntity) {
         this.quizEntity = quizEntity;
+    }
+
+    public Set<RatingEntity> getRatingEntities() {
+        return ratingEntities;
+    }
+
+    public void setRatingEntities(Set<RatingEntity> ratingEntities) {
+        this.ratingEntities = ratingEntities;
     }
 
     @Override

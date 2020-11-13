@@ -46,14 +46,10 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ProgramDto findProgramById(Long id) throws EntityNotFoundException {
-        Optional<ProgramEntity> programEntity = programRepository.findById(id);
-        if(programEntity.isPresent()){
-            logger.log(Level.INFO, "Found program: " + programEntity.get());
-        } else {
-            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
-        }
+    public ProgramDto findProgramById(Long id){
+        ProgramEntity programEntity = programRepository.getOne(id);
         ProgramDto programDto = modelMapper.map(programEntity, ProgramDto.class);
+        logger.log(Level.INFO, "found program with id: " + id);
         return programDto;
     }
 

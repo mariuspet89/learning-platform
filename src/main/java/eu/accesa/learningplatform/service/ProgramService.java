@@ -11,7 +11,7 @@ public interface ProgramService {
 
     List<ProgramDto> findAllPrograms();
 
-    ProgramDto findProgramById(Long id) throws EntityNotFoundException;
+    ProgramDto findProgramById(Long id);
 
     List<ProgramDto> findAllEnrolledProgramsForUser(Long userId);
 
