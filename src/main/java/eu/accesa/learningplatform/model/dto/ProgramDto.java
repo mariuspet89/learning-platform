@@ -15,6 +15,8 @@ public class ProgramDto {
 
     private LocalDate endDate;
 
+    private Long competenceAreaId;
+
     public Long getId() {
         return id;
     }
@@ -55,6 +57,13 @@ public class ProgramDto {
         this.endDate = endDate;
     }
 
+    public Long getCompetenceAreaId() {
+        return competenceAreaId;
+    }
+
+    public void setCompetenceAreaId(Long competenceAreaId) {
+        this.competenceAreaId = competenceAreaId;
+    }
 
     @Override
     public String toString() {
