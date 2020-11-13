@@ -1,7 +1,11 @@
 package eu.accesa.learningplatform.service.implementation;
 
+import eu.accesa.learningplatform.converter.CompetenceAreaConverter;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
+import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
+import eu.accesa.learningplatform.model.entity.CompetenceAreaEnum;
 import eu.accesa.learningplatform.model.entity.ProgramEntity;
+import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
 import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
@@ -21,18 +25,26 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final ProgramRepository programRepository;
 
+    private final CompetenceAreaRepository competenceAreaRepository;
+
     private final Logger logger = Logger.getLogger(ProgramServiceImpl.class.getName());
 
-    public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository) {
+    public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository, CompetenceAreaRepository competenceAreaRepository) {
         this.modelMapper = modelMapper;
         this.programRepository = programRepository;
+        this.competenceAreaRepository = competenceAreaRepository;
     }
 
     @Override
     public ProgramDto createProgram(ProgramDto programDto) {
-        ProgramEntity programEntity = programRepository.save(modelMapper.map(programDto, ProgramEntity.class));
+        ProgramEntity programEntity = modelMapper.map(programDto, ProgramEntity.class);
+        CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.getOne(programDto.getCompetenceAreaId());
+        logger.log(Level.INFO, "competenceAreaEntity" + competenceAreaEntity.getName());
+        CompetenceAreaEnum competenceAreaEnum = competenceAreaEntity.getName();
+        programEntity.getCompetenceAreaEntity().setName(competenceAreaEnum);
+        programRepository.save(programEntity);
         logger.log(Level.INFO, "Created new program" + programEntity);
-        return modelMapper.map(programEntity, ProgramDto.class);
+        return programDto;
     }
 
     @Override
