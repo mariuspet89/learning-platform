@@ -10,7 +10,7 @@ public class CompetenceAreaConverter implements AttributeConverter<CompetenceAre
 
     @Override
     public String convertToDatabaseColumn(CompetenceAreaEnum competenceAreaEnum) {
-        return competenceAreaEnum == null ? null : String.valueOf(competenceAreaEnum);
+        return competenceAreaEnum == null ? null : competenceAreaEnum.toString();
     }
 
     @Override
@@ -18,7 +18,7 @@ public class CompetenceAreaConverter implements AttributeConverter<CompetenceAre
         return competenceArea == null ? null : of(competenceArea);
     }
 
-    public static CompetenceAreaEnum of(final String value) {
+    public CompetenceAreaEnum of(final String value) {
         for (final CompetenceAreaEnum competenceAreaEnum : CompetenceAreaEnum.values()) {
             if (competenceAreaEnum.toString().equalsIgnoreCase(value)) {
                 return competenceAreaEnum;
