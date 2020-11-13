@@ -48,7 +48,7 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public ProgramDto findProgramById(Long id) throws EntityNotFoundException {
         Optional<ProgramEntity> programEntity = programRepository.findById(id);
-        if(programEntity.isPresent()){
+        if (programEntity.isPresent()) {
             logger.log(Level.INFO, "Found program: " + programEntity.get());
         } else {
             throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
