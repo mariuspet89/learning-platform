@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class UserDto {
 
-    @NotNull
     private Long id;
     @NotNull
     private String firstName;

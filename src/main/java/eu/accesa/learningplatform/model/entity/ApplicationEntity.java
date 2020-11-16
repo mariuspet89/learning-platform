@@ -15,7 +15,6 @@ public class ApplicationEntity {
     private Long id;
 
     @Column(name = "STATUS")
-    @Enumerated(EnumType.STRING)
     private ApplicationStatusEnum status;
 
     @Column(name = "COURSE_IDEA")

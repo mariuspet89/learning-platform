@@ -16,7 +16,6 @@ public class QuizItemTypeEntity {
     private Long id;
 
     @Column(name = "TYPE")
-    @Enumerated(EnumType.STRING)
     private QuizItemTypeEnum type;
 
     @OneToMany(mappedBy = "quizItemTypeEntity")

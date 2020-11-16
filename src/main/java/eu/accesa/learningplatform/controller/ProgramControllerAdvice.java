@@ -23,7 +23,7 @@ public class ProgramControllerAdvice {
         String entityName = exception.getEntityName();
         String entityField = exception.getEntityField();
         String entityFieldValue = exception.getEntityFieldValue();
-        String message = "Entity " + " with field " + entityField + "=" + entityFieldValue + " not found!";
+        String message = "Entity " + entityName  + " with field " + entityField + "=" + entityFieldValue + " not found!";
         logger.log(Level.WARNING, message);
         return new ResponseEntity(message, HttpStatus.NOT_FOUND);
     }

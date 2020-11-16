@@ -1,9 +1,9 @@
 package eu.accesa.learningplatform.service.implementation;
 
-import eu.accesa.learningplatform.converter.CompetenceAreaConverter;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
 import eu.accesa.learningplatform.model.entity.ProgramEntity;
+import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
@@ -90,7 +90,7 @@ public class ProgramServiceImpl implements ProgramService {
         Long competenceAreaId = programDto.getCompetenceAreaId();
         Optional<CompetenceAreaEntity> competenceAreaEntityOptional = competenceAreaRepository.findById(competenceAreaId);
 
-        if(competenceAreaEntityOptional.isEmpty()){
+        if (competenceAreaEntityOptional.isEmpty()) {
             throw new EntityNotFoundException(CompetenceAreaEntity.class.getSimpleName(), "id", competenceAreaId.toString());
         }
 
@@ -107,10 +107,13 @@ public class ProgramServiceImpl implements ProgramService {
         logger.log(Level.INFO, "Deleting program with id:" + id);
         Optional<ProgramEntity> programEntityOptional = programRepository.findById(id);
         if (programEntityOptional.isPresent()) {
+            for (UserEntity userEntity : programEntityOptional.get().getUserEntities()) {
+                userEntity.getProgramEntities().remove(programEntityOptional.get());
+            }
+            programEntityOptional.get().getUserEntities().clear();
             programRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), "id", id.toString());
         }
-
     }
 }

@@ -60,7 +60,7 @@ public class ProgramController {
     })
     public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) throws EntityNotFoundException {
         ProgramDto programDto = programService.findProgramById(id);
-        return new ResponseEntity<>(programDto,HttpStatus.OK);
+        return new ResponseEntity<>(programDto, HttpStatus.OK);
     }
 
 
@@ -71,7 +71,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "400", description = "Programs for userId not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<List<ProgramDto>> getAllEnrolledProgramsForUser(final @PathVariable Long userId){
+    public ResponseEntity<List<ProgramDto>> getAllEnrolledProgramsForUser(final @PathVariable Long userId) {
         List<ProgramDto> programDtosForUser = programService.findAllEnrolledProgramsForUser(userId);
         return new ResponseEntity<>(programDtosForUser, HttpStatus.OK);
     }
@@ -85,7 +85,7 @@ public class ProgramController {
     })
     public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) throws EntityNotFoundException {
         ProgramDto updatedProgramDto = programService.updateProgram(programDto, id);
-        return new ResponseEntity<>(updatedProgramDto,HttpStatus.OK);
+        return new ResponseEntity<>(updatedProgramDto, HttpStatus.OK);
     }
 
 
