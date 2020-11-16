@@ -50,16 +50,21 @@ public class ProgramServiceImpl implements ProgramService {
                 .stream()
                 .map(programEntity -> modelMapper.map(programEntity, ProgramDto.class))
                 .collect(Collectors.toList());
-        logger.log(Level.INFO, "program entities found: " + programEntities.toString());
+        logger.log(Level.INFO, "Program entities found: " + programEntities.toString());
         return programEntities;
     }
 
     @Override
-    public ProgramDto findProgramById(Long id){
-        ProgramEntity programEntity = programRepository.getOne(id);
-        ProgramDto programDto = modelMapper.map(programEntity, ProgramDto.class);
-        logger.log(Level.INFO, "found program with id: " + id);
-        return programDto;
+    public ProgramDto findProgramById(Long id) throws EntityNotFoundException {
+        Optional<ProgramEntity> programEntityOptional = programRepository.findById(id);
+        if (programEntityOptional.isPresent()) {
+            ProgramEntity programEntity = programEntityOptional.get();
+            ProgramDto programDto = modelMapper.map(programEntity, ProgramDto.class);
+            logger.log(Level.INFO, "Found program in repo with id: " + id);
+            return programDto;
+        } else {
+            throw new EntityNotFoundException(ProgramDto.class.getSimpleName(), "id", id.toString());
+        }
     }
 
     @Override
@@ -68,7 +73,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<ProgramDto> programDtosForUser = programEntitiesForUser
                 .stream().map(e -> modelMapper.map(e, ProgramDto.class))
                 .collect(Collectors.toList());
-        logger.log(Level.INFO, "ProgramDtos for user with id " + userId + ": " + programDtosForUser);
+        logger.log(Level.INFO, "ProgramDtos for user with id=" + userId + ": " + programDtosForUser);
         return programDtosForUser;
     }
 
@@ -78,10 +83,19 @@ public class ProgramServiceImpl implements ProgramService {
         Optional<ProgramEntity> optionalProgramEntityFromDb = programRepository.findById(id);
 
         if (optionalProgramEntityFromDb.isEmpty()) {
-            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), id.toString());
+            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), "id", id.toString());
         }
 
         ProgramEntity updatedProgramEntity = modelMapper.map(programDto, ProgramEntity.class);
+        Long competenceAreaId = programDto.getCompetenceAreaId();
+        Optional<CompetenceAreaEntity> competenceAreaEntityOptional = competenceAreaRepository.findById(competenceAreaId);
+
+        if(competenceAreaEntityOptional.isEmpty()){
+            throw new EntityNotFoundException(CompetenceAreaEntity.class.getSimpleName(), "id", competenceAreaId.toString());
+        }
+
+        updatedProgramEntity.setCompetenceAreaEntity(competenceAreaEntityOptional.get());
+        logger.log(Level.INFO, "saving to repo the updated program with id= " + id);
         programRepository.save(updatedProgramEntity);
 
         ProgramDto updatedProgramDto = modelMapper.map(updatedProgramEntity, ProgramDto.class);
@@ -89,8 +103,14 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public void deleteProgram(Long id) {
-        logger.log(Level.INFO, "Delete program with id:" + id);
-        programRepository.deleteById(id);
+    public void deleteProgram(Long id) throws EntityNotFoundException {
+        logger.log(Level.INFO, "Deleting program with id:" + id);
+        Optional<ProgramEntity> programEntityOptional = programRepository.findById(id);
+        if (programEntityOptional.isPresent()) {
+            programRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException(ProgramEntity.class.getSimpleName(), "id", id.toString());
+        }
+
     }
 }

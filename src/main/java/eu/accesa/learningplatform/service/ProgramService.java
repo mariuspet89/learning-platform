@@ -11,13 +11,13 @@ public interface ProgramService {
 
     List<ProgramDto> findAllPrograms();
 
-    ProgramDto findProgramById(Long id);
+    ProgramDto findProgramById(Long id) throws EntityNotFoundException;
 
     List<ProgramDto> findAllEnrolledProgramsForUser(Long userId);
 
     ProgramDto updateProgram(ProgramDto programDto, Long id) throws EntityNotFoundException;
 
-    void deleteProgram(Long id);
+    void deleteProgram(Long id) throws EntityNotFoundException;
 
 
 }

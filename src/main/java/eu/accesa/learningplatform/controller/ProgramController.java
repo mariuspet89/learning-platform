@@ -30,47 +30,73 @@ public class ProgramController {
 
     @PostMapping
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Company created successfully",
+            @ApiResponse(responseCode = "201", description = "Program created successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Invalid Program",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
     public ResponseEntity<ProgramDto> createProgram(@RequestBody ProgramDto programDto) {
         ProgramDto program = programService.createProgram(programDto);
-        if(program != null){
-            return new ResponseEntity<>(program, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(program, HttpStatus.CREATED);
     }
 
     @GetMapping
-    @ApiResponse(responseCode = "200", description = "found all programs successfully")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Programs retrieved successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Programs cannot be retrieved",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    })
     public ResponseEntity<List<ProgramDto>> getAllPrograms() {
         return new ResponseEntity<>(programService.findAllPrograms(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    @ApiResponse(responseCode = "200", description = "found a program by id successfully")
-    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Program retrieved successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "404", description = "Program not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    })
+    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) throws EntityNotFoundException {
         ProgramDto programDto = programService.findProgramById(id);
-        if(programDto != null){
-            return new ResponseEntity<>(programDto,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(programDto,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/user/{userId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Programs retrieved successfully by userId",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Programs for userId not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    })
+    public ResponseEntity<List<ProgramDto>> getAllEnrolledProgramsForUser(final @PathVariable Long userId){
+        List<ProgramDto> programDtosForUser = programService.findAllEnrolledProgramsForUser(userId);
+        return new ResponseEntity<>(programDtosForUser, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    @ApiResponse(responseCode = "200", description = "Successfully updated a program")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Program updated successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "404", description = "Program not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    })
     public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) throws EntityNotFoundException {
-        ProgramDto program = programService.updateProgram(programDto, id);
-        if(programDto != null){
-            return new ResponseEntity<>(program,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        ProgramDto updatedProgramDto = programService.updateProgram(programDto, id);
+        return new ResponseEntity<>(updatedProgramDto,HttpStatus.OK);
     }
 
 
     @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "200", description = "Successfully deleted a program by id")
-    public ResponseEntity<Long> deleteProgram(final @PathVariable Long id) {
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Program deleted successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            @ApiResponse(responseCode = "404", description = "Program not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    })
+    public ResponseEntity<Long> deleteProgram(final @PathVariable Long id) throws EntityNotFoundException {
         programService.deleteProgram(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
