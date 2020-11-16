@@ -16,10 +16,12 @@ public enum UserTypeEnum {
         return userType;
     }
 
-    @Override
-    public String toString() {
-        return "UserTypeEnum{" +
-                "userType='" + userType + '\'' +
-                '}';
+    public static UserTypeEnum of(String userType) {
+        for (UserTypeEnum userTypeEnum : UserTypeEnum.values()) {
+            if (userTypeEnum.getUserType().equalsIgnoreCase(userType)) {
+                return userTypeEnum;
+            }
+        }
+        throw new IllegalArgumentException("Unknown userType value:" + userType);
     }
 }

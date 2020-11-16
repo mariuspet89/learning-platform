@@ -10,8 +10,16 @@ public enum ApplicationStatusEnum {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
+    public String getStatus() {
         return status;
+    }
+
+    public static ApplicationStatusEnum of(String status) {
+        for (ApplicationStatusEnum applicationStatusEnum : ApplicationStatusEnum.values()) {
+            if (applicationStatusEnum.getStatus().equalsIgnoreCase(status)) {
+                return applicationStatusEnum;
+            }
+        }
+        throw new IllegalArgumentException("Unknown status value:" + status);
     }
 }

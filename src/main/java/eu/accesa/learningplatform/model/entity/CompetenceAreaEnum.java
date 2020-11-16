@@ -15,8 +15,16 @@ public enum CompetenceAreaEnum {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
+    public String getName() {
         return name;
+    }
+
+    public static CompetenceAreaEnum of(String name) {
+        for (CompetenceAreaEnum competenceAreaEnum : CompetenceAreaEnum.values()) {
+            if (competenceAreaEnum.getName().equalsIgnoreCase(name)) {
+                return competenceAreaEnum;
+            }
+        }
+        throw new IllegalArgumentException("Unknown name value:" + name);
     }
 }
