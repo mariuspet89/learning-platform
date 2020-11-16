@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto getUserById(Long id);
 
-    List<UserDto> getUsersByUserType (UserTypeEnum userType);
+    List<UserDto> getUsersByUserType(UserTypeEnum userType);
 
     List<UserDto> getAllUsers();
 

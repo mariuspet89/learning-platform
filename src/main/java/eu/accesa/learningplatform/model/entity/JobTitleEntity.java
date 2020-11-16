@@ -11,7 +11,7 @@ public class JobTitleEntity {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+
     @Column(name = "NAME")
     private JobTitleEnum name;
 

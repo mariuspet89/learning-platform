@@ -17,7 +17,6 @@ public class CompetenceAreaEntity {
 
     @NotNull
     @Column(name = "NAME")
-    @Enumerated(EnumType.STRING)
     private CompetenceAreaEnum name;
 
 
