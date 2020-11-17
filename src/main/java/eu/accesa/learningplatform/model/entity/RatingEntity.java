@@ -6,15 +6,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "RATING")
 public class RatingEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "NO_OF_STARS")
     private Integer noOfStars;
-
     @Column(name = "DESCRIPTION")
     private String description;
 

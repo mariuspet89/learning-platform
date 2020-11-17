@@ -1,13 +1,14 @@
 CREATE TABLE IF NOT EXISTS COMPETENCE_AREA
 (
-    ID bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    NAME varchar(30)
+    ID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(50)
 );
-insert ignore into COMPETENCE_AREA values(null, 'Project Management');
-insert ignore into COMPETENCE_AREA values(null, 'Product Design');
-insert ignore into COMPETENCE_AREA values(null, 'Software Architecture');
-insert ignore into COMPETENCE_AREA values(null, 'Quality Assurance');
-insert ignore into COMPETENCE_AREA values(null, 'System Operations');
-insert ignore into COMPETENCE_AREA values(null, 'Java Technology');
-insert ignore into COMPETENCE_AREA values(null, 'Web & mobile');
-insert ignore into COMPETENCE_AREA values(null, '.NET Technology');
+
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Project Management');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Product Design');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Software Architecture');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Quality Assurance');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'System Operations');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Java Technology');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, 'Web & mobile');
+INSERT IGNORE INTO COMPETENCE_AREA VALUES(null, '.NET Technology');
