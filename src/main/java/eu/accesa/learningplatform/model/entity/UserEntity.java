@@ -1,5 +1,7 @@
 package eu.accesa.learningplatform.model.entity;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -23,14 +25,17 @@ public class UserEntity {
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "user_type_id")
     private UserTypeEntity userTypeEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "job_title_id")
     private JobTitleEntity jobTitleEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "competence_area_id")
     private CompetenceAreaEntity competenceAreaEntity;
 
@@ -38,8 +43,7 @@ public class UserEntity {
     @JoinTable(
             name = "ENROLLMENT",
             joinColumns = @JoinColumn(name = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PROGRAM_ID")
-    )
+            inverseJoinColumns = @JoinColumn(name = "PROGRAM_ID"))
     Set<ProgramEntity> programEntities;
 
     public UserTypeEntity getUserTypeEntity() {

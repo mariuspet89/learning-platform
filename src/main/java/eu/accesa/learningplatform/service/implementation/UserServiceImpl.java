@@ -1,41 +1,75 @@
 package eu.accesa.learningplatform.service.implementation;
 
+import eu.accesa.learningplatform.LearningPlatformApplication;
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
+import eu.accesa.learningplatform.model.entity.JobTitleEntity;
 import eu.accesa.learningplatform.model.entity.UserEntity;
-import eu.accesa.learningplatform.model.entity.UserTypeEnum;
+import eu.accesa.learningplatform.model.entity.UserTypeEntity;
+import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
+import eu.accesa.learningplatform.repository.JobTitleRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
+import eu.accesa.learningplatform.repository.UserTypeRepository;
 import eu.accesa.learningplatform.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-import static io.swagger.v3.oas.integration.StringOpenApiConfigurationLoader.LOGGER;
-
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LearningPlatformApplication.class);
+
     private final UserRepository userRepository;
+
+    private final CompetenceAreaRepository competenceAreaRepository;
+
+    private final JobTitleRepository jobTitleRepository;
+
+    private final UserTypeRepository userTypeRepository;
 
     private final ModelMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper mapper) {
+    public UserServiceImpl(UserRepository userRepository, CompetenceAreaRepository competenceAreaRepository, JobTitleRepository jobTitleRepository, UserTypeRepository userTypeRepository, ModelMapper mapper) {
         this.userRepository = userRepository;
+        this.competenceAreaRepository = competenceAreaRepository;
+        this.jobTitleRepository = jobTitleRepository;
+        this.userTypeRepository = userTypeRepository;
         this.mapper = mapper;
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        LOGGER.info("Service: creating user with values: {}", userDto);
-        UserEntity userEntity = userRepository.save(mapper.map(userDto, UserEntity.class));
-        return mapper.map(userEntity, UserDto.class);
+        LOGGER.info("Service: creating user with values: {}", userDto.toString());
+
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+
+        CompetenceAreaEntity competenceAreaEntity =
+                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Competence area doesn't exist."));
+
+        JobTitleEntity jobTitleEntity =
+                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Job title doesn't exist."));
+
+        UserTypeEntity userTypeEntity =
+                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User type doesn't exist."));
+
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setUserTypeEntity(userTypeEntity);
+
+        return mapper.map(userRepository.save(userEntity), UserDto.class);
+
     }
 
     @Override
@@ -54,9 +88,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getUsersByUserType(UserTypeEnum userType) {
-        LOGGER.info("Service: retrieving all users with user type: {}", userType);
-        List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Name(userType);
+    public List<UserDto> getUsersByUserType(Long userTypeId) {
+        LOGGER.info("Service: retrieving all users with user type: {}", userTypeId);
+
+        List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Id(userTypeId);
         return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
         }.getType());
     }
@@ -64,12 +99,30 @@ public class UserServiceImpl implements UserService {
     //TODO: find a way to map dto to entity without null-check on every field
     @Override
     public UserDto updateUser(UserDto userDto) {
-        LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto);
+        LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto.toString());
 
         UserEntity userEntity = userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
 
         mapper.map(userDto, userEntity);
+
+        CompetenceAreaEntity competenceAreaEntity =
+                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Competence area doesn't exist."));
+
+        JobTitleEntity jobTitleEntity =
+                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Job title doesn't exist."));
+
+        UserTypeEntity userTypeEntity =
+                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User type doesn't exist."));
+
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setUserTypeEntity(userTypeEntity);
+
+        userRepository.save(userEntity);
 
         return mapper.map(userEntity, UserDto.class);
     }

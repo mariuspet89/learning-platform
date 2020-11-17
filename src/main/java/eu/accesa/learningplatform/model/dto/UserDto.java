@@ -2,7 +2,6 @@ package eu.accesa.learningplatform.model.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 public class UserDto {
     private Long id;
@@ -16,6 +15,12 @@ public class UserDto {
     private String imageUrl;
     @NotNull
     private String password;
+    @NotNull
+    private Long competenceAreaId;
+    @NotNull
+    private Long jobTitleId;
+    @NotNull
+    private Long userTypeId;
 
     public Long getId() {
         return id;
@@ -65,21 +70,42 @@ public class UserDto {
         this.password = password;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDto userDto = (UserDto) o;
-        return Objects.equals(id, userDto.id) &&
-                Objects.equals(firstName, userDto.firstName) &&
-                Objects.equals(lastName, userDto.lastName) &&
-                Objects.equals(email, userDto.email) &&
-                Objects.equals(imageUrl, userDto.imageUrl) &&
-                Objects.equals(password, userDto.password);
+    public Long getCompetenceAreaId() {
+        return competenceAreaId;
+    }
+
+    public void setCompetenceAreaId(Long competenceAreaId) {
+        this.competenceAreaId = competenceAreaId;
+    }
+
+    public Long getJobTitleId() {
+        return jobTitleId;
+    }
+
+    public void setJobTitleId(Long jobTitleId) {
+        this.jobTitleId = jobTitleId;
+    }
+
+    public Long getUserTypeId() {
+        return userTypeId;
+    }
+
+    public void setUserTypeId(Long userTypeId) {
+        this.userTypeId = userTypeId;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, imageUrl, password);
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", password='" + password + '\'' +
+                ", competenceAreaId=" + competenceAreaId +
+                ", jobTitleId=" + jobTitleId +
+                ", userTypeId=" + userTypeId +
+                '}';
     }
 }
