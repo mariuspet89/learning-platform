@@ -50,5 +50,4 @@ public class LessonController {
     public void deleteById(@PathVariable Long id) {
         lessonService.deleteLesson(id);
     }
-
 }

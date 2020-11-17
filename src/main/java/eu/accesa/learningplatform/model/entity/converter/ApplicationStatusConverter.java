@@ -10,7 +10,7 @@ public class ApplicationStatusConverter implements AttributeConverter<Applicatio
 
     @Override
     public String convertToDatabaseColumn(ApplicationStatusEnum applicationStatusEnum) {
-        return applicationStatusEnum.getStatus();
+        return applicationStatusEnum.getApplicationStatus();
     }
 
     @Override

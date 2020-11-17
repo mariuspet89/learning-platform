@@ -1,25 +1,26 @@
 package eu.accesa.learningplatform.model.entity;
 
 public enum ApplicationStatusEnum {
-    PENDING("PENDING"),
-    APPROVED("APPROVED"),
-    REJECTED("REJECTED");
-    private final String status;
+    PENDING("Pending"),
+    APPROVED("Approved"),
+    REJECTED("Rejected");
 
-    ApplicationStatusEnum(String status) {
-        this.status = status;
+    private final String applicationStatus;
+
+    ApplicationStatusEnum(String applicationStatus) {
+        this.applicationStatus = applicationStatus;
     }
 
-    public String getStatus() {
-        return status;
+    public String getApplicationStatus() {
+        return applicationStatus;
     }
 
-    public static ApplicationStatusEnum of(String status) {
+    public static ApplicationStatusEnum of(String applicationStatus) {
         for (ApplicationStatusEnum applicationStatusEnum : ApplicationStatusEnum.values()) {
-            if (applicationStatusEnum.getStatus().equalsIgnoreCase(status)) {
+            if (applicationStatusEnum.getApplicationStatus().equalsIgnoreCase(applicationStatus)) {
                 return applicationStatusEnum;
             }
         }
-        throw new IllegalArgumentException("Unknown status value:" + status);
+        throw new IllegalArgumentException("Unknown applicationStatus value:" + applicationStatus);
     }
 }

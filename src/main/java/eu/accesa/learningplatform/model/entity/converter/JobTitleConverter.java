@@ -10,7 +10,7 @@ public class JobTitleConverter implements AttributeConverter<JobTitleEnum, Strin
 
     @Override
     public String convertToDatabaseColumn(JobTitleEnum jobTitleEnum) {
-        return jobTitleEnum.getName();
+        return jobTitleEnum.getJobTitle();
     }
 
     @Override

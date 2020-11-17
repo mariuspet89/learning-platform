@@ -1,14 +1,14 @@
-create table if not exists USER
+CREATE TABLE IF NOT EXISTS USER
 (
-    ID                 bigint AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    FIRST_NAME         varchar(50)           NOT NULL,
-    LAST_NAME          varchar(50)           NOT NULL,
-    EMAIL              varchar(50) UNIQUE    NOT NULL,
-    IMAGE_URL          varchar(50),
-    PASSWORD           varchar(50)           NOT NULL,
-    JOB_TITLE_ID       bigint                NOT NULL,
-    COMPETENCE_AREA_ID bigint                NOT NULL,
-    USER_TYPE_ID       bigint                NOT NULL,
+    ID                 BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    FIRST_NAME         VARCHAR(50)           NOT NULL,
+    LAST_NAME          VARCHAR(50)           NOT NULL,
+    EMAIL              VARCHAR(50) UNIQUE    NOT NULL,
+    IMAGE_URL          VARCHAR(255),
+    PASSWORD           VARCHAR(255)          NOT NULL,
+    JOB_TITLE_ID       BIGINT                NOT NULL,
+    COMPETENCE_AREA_ID BIGINT                NOT NULL,
+    USER_TYPE_ID       BIGINT                NOT NULL,
 
     FOREIGN KEY (JOB_TITLE_ID) REFERENCES JOB_TITLE (ID),
     FOREIGN KEY (COMPETENCE_AREA_ID) REFERENCES COMPETENCE_AREA (ID),

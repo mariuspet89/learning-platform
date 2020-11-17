@@ -6,15 +6,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "TITLE")
     private String title;
-
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -80,5 +77,4 @@ public class FeedbackEntity {
     public int hashCode() {
         return Objects.hash(id, title, description);
     }
-
 }

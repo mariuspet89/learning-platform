@@ -2,20 +2,19 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "ANSWER")
 public class AnswerEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @Column(name = "ANSWER_TEXT")
     private String answerText;
-
     @Column(name = "CORRECT_ANSWER")
     private boolean isCorrect;
 
@@ -64,5 +63,22 @@ public class AnswerEntity {
 
     public void setUserAnswer(UserAnswerEntity userAnswerEntity) {
         this.userAnswerEntity = userAnswerEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnswerEntity that = (AnswerEntity) o;
+        return isCorrect == that.isCorrect &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(answerText, that.answerText) &&
+                Objects.equals(quizItemEntity, that.quizItemEntity) &&
+                Objects.equals(userAnswerEntity, that.userAnswerEntity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, answerText, isCorrect, quizItemEntity, userAnswerEntity);
     }
 }

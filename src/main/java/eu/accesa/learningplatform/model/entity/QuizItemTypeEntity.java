@@ -9,12 +9,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "QUIZ_ITEM_TYPE")
 public class QuizItemTypeEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @Column(name = "TYPE")
     private QuizItemTypeEnum type;
 

@@ -6,11 +6,11 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class QuizTypeConverter implements AttributeConverter<QuizItemTypeEnum, String> {
+public class QuizItemTypeConverter implements AttributeConverter<QuizItemTypeEnum, String> {
 
     @Override
     public String convertToDatabaseColumn(QuizItemTypeEnum quizItemTypeEnum) {
-        return quizItemTypeEnum.getChoice();
+        return quizItemTypeEnum.getQuizItemType();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package eu.accesa.learningplatform.model.entity;
 
 public enum UserTypeEnum {
-
     ADMIN("Admin"),
     TRAINEE("Trainee"),
     TRAINER("Trainer");

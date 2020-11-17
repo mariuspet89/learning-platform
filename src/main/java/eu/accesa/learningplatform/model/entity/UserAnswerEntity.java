@@ -2,17 +2,17 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 
+import java.util.Objects;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "USER_ANSWER")
 public class UserAnswerEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @Column(name = "USER_ANSWER_TEXT")
     private String userAnswerText;
 
@@ -46,5 +46,21 @@ public class UserAnswerEntity {
 
     public void setAnswer(AnswerEntity answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAnswerEntity that = (UserAnswerEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(userAnswerText, that.userAnswerText) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(answer, that.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userAnswerText, user, answer);
     }
 }

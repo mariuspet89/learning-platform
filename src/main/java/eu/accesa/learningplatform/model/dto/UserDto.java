@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class UserDto {
-
     private Long id;
     @NotNull
     private String firstName;
@@ -82,17 +81,5 @@ public class UserDto {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email, imageUrl, password);
-    }
-
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }
