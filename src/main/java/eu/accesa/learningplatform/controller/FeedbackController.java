@@ -1,12 +1,16 @@
 package eu.accesa.learningplatform.controller;
 
+import eu.accesa.learningplatform.exceptionhandler.EmptyFieldsException;
+import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.service.FeedbackService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,30 +27,39 @@ public class FeedbackController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FeedbackDto save(@RequestBody FeedbackDto feedbackEntityDto) {
-        return feedbackService.createFeedback(feedbackEntityDto);
+    public FeedbackDto save(@RequestBody FeedbackDto feedbackDto) throws LearningPlatformException, EmptyFieldsException {
+        return feedbackService.createFeedback(feedbackDto);
 
     }
 
     @GetMapping("/{id}")
-    public FeedbackDto findById(@PathVariable Long id) {
-        return  feedbackService.findFeedbackById(id);
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<FeedbackDto> findById(@Valid @PathVariable Long id)
+            throws LearningPlatformException {
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findFeedbackById(id));
     }
 
     @PutMapping("/{id}")
-    public FeedbackDto update(@PathVariable Long id, @RequestBody FeedbackDto feedbackEntityDto) {
-        return feedbackService.updateFeedback(feedbackEntityDto);
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<FeedbackDto> update(@Valid @PathVariable Long id,
+                                              @RequestBody FeedbackDto feedbackDto)
+            throws LearningPlatformException {
+
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.updateFeedback(feedbackDto));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> deleteById(@Valid @PathVariable Long id)
+            throws LearningPlatformException {
         feedbackService.deleteFeedback(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Feedback Deleted");
     }
 
     @GetMapping("/byLesson/{id}")
-    public List<FeedbackDto> getFeedbackEntityByLesson_Id(@PathVariable Long id) {
-        return feedbackService.findFeedbackEntityByLesson_Id(id);
+    public ResponseEntity<List<FeedbackDto>> getFeedbackEntityByLesson_Id(@Valid @PathVariable Long id)
+            throws LearningPlatformException {
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findFeedbackEntityByLesson_Id(id));
     }
-
 
 }

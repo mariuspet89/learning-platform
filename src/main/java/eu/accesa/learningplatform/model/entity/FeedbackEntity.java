@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {

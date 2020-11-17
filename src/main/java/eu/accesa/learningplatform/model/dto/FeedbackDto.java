@@ -6,13 +6,12 @@ import javax.validation.constraints.NotNull;
 
 public class FeedbackDto {
 
-    @NotNull
     private Long id;
     @NotNull
     private String title;
     @NotNull
     private String description;
-
+    @NotNull
     private LessonEntity lessonEntity;
 
     public LessonEntity getLessonEntity() {
@@ -46,6 +45,5 @@ public class FeedbackDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 }
