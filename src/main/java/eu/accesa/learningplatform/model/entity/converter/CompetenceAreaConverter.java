@@ -10,7 +10,7 @@ public class CompetenceAreaConverter implements AttributeConverter<CompetenceAre
 
     @Override
     public String convertToDatabaseColumn(CompetenceAreaEnum competenceAreaEnum) {
-        return competenceAreaEnum.getName();
+        return competenceAreaEnum.getCompetenceArea();
     }
 
     @Override

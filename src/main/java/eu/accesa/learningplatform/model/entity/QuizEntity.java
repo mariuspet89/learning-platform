@@ -13,7 +13,6 @@ public class QuizEntity {
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @Column(name = "TITLE")
     private String title;
 

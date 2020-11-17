@@ -1,23 +1,26 @@
 package eu.accesa.learningplatform.model.entity;
 
 public enum QuizItemTypeEnum {
-    SINGLE_CHOICE("SINGLE CHOICE"), MULTIPLE_CHOICE("MULTIPLE CHOICE"), OPEN_ANSWER("OPEN ANSWER");
-    private final String choice;
+    SINGLE_CHOICE("Single choice"),
+    MULTIPLE_CHOICE("Multiple choice"),
+    OPEN_ANSWER("Open answer");
 
-    QuizItemTypeEnum(String choice) {
-        this.choice = choice;
+    private final String quizItemType;
+
+    QuizItemTypeEnum(String quizItemType) {
+        this.quizItemType = quizItemType;
     }
 
-    public String getChoice() {
-        return choice;
+    public String getQuizItemType() {
+        return quizItemType;
     }
 
-    public static QuizItemTypeEnum of(String choice) {
+    public static QuizItemTypeEnum of(String quizItemType) {
         for (QuizItemTypeEnum quizItemTypeEnum : QuizItemTypeEnum.values()) {
-            if (quizItemTypeEnum.getChoice().equalsIgnoreCase(choice)) {
+            if (quizItemTypeEnum.getQuizItemType().equalsIgnoreCase(quizItemType)) {
                 return quizItemTypeEnum;
             }
         }
-        throw new IllegalArgumentException("Unknown choice value:" + choice);
+        throw new IllegalArgumentException("Unknown quizItemType value:" + quizItemType);
     }
 }

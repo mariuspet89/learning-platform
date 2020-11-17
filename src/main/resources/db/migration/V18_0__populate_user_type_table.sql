@@ -1,6 +1,3 @@
-insert into USER_TYPE
-values (null, 'Admin');
-insert into USER_TYPE
-values (null, 'Trainer');
-insert into USER_TYPE
-values (null, 'Trainee');
+INSERT INTO USER_TYPE VALUES (null, 'Admin');
+INSERT INTO USER_TYPE VALUES (null, 'Trainer');
+INSERT INTO USER_TYPE VALUES (null, 'Trainee');

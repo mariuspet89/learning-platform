@@ -6,12 +6,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "JOB_TITLE")
 public class JobTitleEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "NAME")
     private JobTitleEnum name;
 

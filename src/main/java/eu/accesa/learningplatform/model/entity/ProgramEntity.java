@@ -15,18 +15,14 @@ public class ProgramEntity {
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @NotNull
     @Column(name = "NAME")
     private String programName;
-
     @Column(name = "DESCRIPTION")
     private String description;
-
     @NotNull
     @Column(name = "START_DATE")
     private LocalDate startDate;
-
     @NotNull
     @Column(name = "END_DATE")
     private LocalDate endDate;

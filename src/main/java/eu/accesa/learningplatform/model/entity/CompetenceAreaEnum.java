@@ -9,22 +9,23 @@ public enum CompetenceAreaEnum {
     JAVA_TECHNOLOGY("Java Technology"),
     WEB_AND_MOBILE("Web & mobile"),
     DOT_NET_TECHNOLOGY(".NET Technology");
-    private final String name;
 
-    CompetenceAreaEnum(String name) {
-        this.name = name;
+    private final String competenceArea;
+
+    CompetenceAreaEnum(String competenceArea) {
+        this.competenceArea = competenceArea;
     }
 
-    public String getName() {
-        return name;
+    public String getCompetenceArea() {
+        return competenceArea;
     }
 
-    public static CompetenceAreaEnum of(String name) {
+    public static CompetenceAreaEnum of(String competenceArea) {
         for (CompetenceAreaEnum competenceAreaEnum : CompetenceAreaEnum.values()) {
-            if (competenceAreaEnum.getName().equalsIgnoreCase(name)) {
+            if (competenceAreaEnum.getCompetenceArea().equalsIgnoreCase(competenceArea)) {
                 return competenceAreaEnum;
             }
         }
-        throw new IllegalArgumentException("Unknown name value:" + name);
+        throw new IllegalArgumentException("Unknown competenceArea value:" + competenceArea);
     }
 }

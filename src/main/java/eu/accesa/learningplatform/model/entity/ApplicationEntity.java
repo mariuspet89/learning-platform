@@ -8,15 +8,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "APPLICATION")
 public class ApplicationEntity {
-
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     @Column(name = "STATUS")
     private ApplicationStatusEnum status;
-
     @Column(name = "COURSE_IDEA")
     private String courseIdea;
 
