@@ -19,7 +19,6 @@ public class ExceptionHandlerControllerAdvice {
         logger.warn(exception.getMessage());
         return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(LearningPlatformException.class)
     public ResponseEntity handleLearningPlatformException(LearningPlatformException exception) {
         logger.warn(exception.getMessage());
