@@ -28,7 +28,10 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class.getName());
 
-    public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository, CompetenceAreaRepository competenceAreaRepository) {
+    public ProgramServiceImpl(
+            ModelMapper modelMapper,
+            ProgramRepository programRepository,
+            CompetenceAreaRepository competenceAreaRepository) {
         this.modelMapper = modelMapper;
         this.programRepository = programRepository;
         this.competenceAreaRepository = competenceAreaRepository;
