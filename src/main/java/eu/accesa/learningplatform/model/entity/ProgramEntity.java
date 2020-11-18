@@ -27,7 +27,7 @@ public class ProgramEntity {
     @Column(name = "END_DATE")
     private LocalDate endDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "COMPETENCE_AREA_ID", referencedColumnName = "ID")
     private CompetenceAreaEntity competenceAreaEntity;
 
