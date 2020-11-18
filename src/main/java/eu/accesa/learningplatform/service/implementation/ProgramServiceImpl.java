@@ -104,7 +104,7 @@ public class ProgramServiceImpl implements ProgramService {
                 .orElseThrow(() -> new EntityNotFoundException(ProgramEntity.class.getSimpleName(),
                         "id",
                         id.toString()));
-        for (UserEntity userEntity: programEntity.getUserEntities()) {
+        for (UserEntity userEntity : programEntity.getUserEntities()) {
             userEntity.getProgramEntities().remove(programEntity);
         }
         programEntity.getUserEntities().clear();
