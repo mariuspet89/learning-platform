@@ -7,7 +7,7 @@ import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
-import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
+import eu.accesa.learningplatform.service.exception.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
@@ -26,7 +25,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final CompetenceAreaRepository competenceAreaRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class);
 
     public ProgramServiceImpl(
             ModelMapper modelMapper,
@@ -42,7 +41,7 @@ public class ProgramServiceImpl implements ProgramService {
         ProgramEntity programEntity = modelMapper.map(programDto, ProgramEntity.class);
         CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository
                 .findById(programDto.getCompetenceAreaId())
-                .orElseThrow(() -> new LearningPlatformException(CompetenceAreaEntity.class.getSimpleName(),
+                .orElseThrow(() -> new EntityNotFoundException(CompetenceAreaEntity.class.getSimpleName(),
                         "id",
                         programDto.getCompetenceAreaId().toString()));
         programEntity.setCompetenceAreaEntity(competenceAreaEntity);
@@ -60,7 +59,7 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public ProgramDto findProgramById(Long id) {
         ProgramEntity programEntity = programRepository.findById(id)
-                .orElseThrow(() -> new LearningPlatformException(ProgramEntity.class.getSimpleName(),
+                .orElseThrow(() -> new EntityNotFoundException(ProgramEntity.class.getSimpleName(),
                         "id",
                         id.toString()));
         logger.info("Found program in repo with id: " + id);
@@ -78,15 +77,19 @@ public class ProgramServiceImpl implements ProgramService {
     public ProgramDto updateProgram(ProgramDto programDto, Long id) {
 
         ProgramEntity programEntityFromDb = programRepository.findById(id)
-                .orElseThrow(() -> new LearningPlatformException(ProgramEntity.class.getSimpleName(),
+                .orElseThrow(() -> new EntityNotFoundException(
+                        ProgramEntity.class.getSimpleName(),
                         "id",
-                        id.toString()));
+                        id.toString()
+                ));
 
         Long competenceAreaId = programDto.getCompetenceAreaId();
         CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(competenceAreaId)
-                .orElseThrow(() -> new LearningPlatformException(CompetenceAreaEntity.class.getSimpleName(),
+                .orElseThrow(() -> new EntityNotFoundException(
+                        CompetenceAreaEntity.class.getSimpleName(),
                         "id",
-                        competenceAreaId.toString()));
+                        competenceAreaId.toString()
+                ));
         programEntityFromDb.setCompetenceAreaEntity(competenceAreaEntity);
         modelMapper.map(programDto, programEntityFromDb);
         logger.info("saving to repo the updated program with id= " + id);
@@ -97,14 +100,14 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public void deleteProgram(Long id) {
         logger.info("Deleting program with id:" + id);
-        ProgramEntity programEntityOptional = programRepository.findById(id)
-                .orElseThrow(() -> new LearningPlatformException(ProgramEntity.class.getSimpleName(),
+        ProgramEntity programEntity = programRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ProgramEntity.class.getSimpleName(),
                         "id",
                         id.toString()));
-            for (UserEntity userEntity : programEntityOptional.getUserEntities()) {
-                userEntity.getProgramEntities().remove(programEntityOptional);
-            }
-            programEntityOptional.getUserEntities().clear();
-            programRepository.deleteById(id);
+        for (UserEntity userEntity: programEntity.getUserEntities()) {
+            userEntity.getProgramEntities().remove(programEntity);
+        }
+        programEntity.getUserEntities().clear();
+        programRepository.deleteById(id);
     }
 }

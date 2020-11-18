@@ -1,50 +1,40 @@
 package eu.accesa.learningplatform.controller;
 
-import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import eu.accesa.learningplatform.service.exception.EntityNotFoundException;
+import eu.accesa.learningplatform.service.exception.LearningPlatformException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 @ControllerAdvice
 public class ProgramControllerAdvice {
 
-    private final Logger logger = Logger.getLogger(ProgramControllerAdvice.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(ProgramControllerAdvice.class.getName());
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(LearningPlatformException.class)
-    public ResponseEntity handleEntityNotFoundException(LearningPlatformException exception) {
-        logger.log(Level.WARNING, exception.getMessage());
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity handleEntityNotFoundException(EntityNotFoundException exception) {
+        logger.warn(exception.getMessage());
         return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity handleIllegalArgumentException(IllegalArgumentException exception) {
-        logger.log(Level.WARNING, exception.getMessage());
-        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(LearningPlatformException.class)
+    public ResponseEntity handleLearningPlatformException(LearningPlatformException exception) {
+        logger.warn(exception.getMessage());
+        return new ResponseEntity(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
-        logger.log(Level.WARNING, exception.getMessage());
-        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity handleIllegalStateException(IllegalStateException exception) {
-        logger.log(Level.WARNING, exception.getMessage());
-        return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleException(Exception exception) {
+        logger.warn(exception.getMessage());
+        return new ResponseEntity(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

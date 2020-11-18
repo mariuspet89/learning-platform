@@ -1,7 +1,6 @@
 package eu.accesa.learningplatform.service;
 
 import eu.accesa.learningplatform.model.dto.ProgramDto;
-import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
 
 import java.util.List;
 

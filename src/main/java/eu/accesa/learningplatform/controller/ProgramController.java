@@ -2,7 +2,6 @@ package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.service.ProgramService;
-import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/program")
+@RequestMapping("/programs")
 @OpenAPIDefinition
 @CrossOrigin
 @Tag(name = "Program")
@@ -32,7 +31,7 @@ public class ProgramController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Program created successfully",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Invalid Program",
+            @ApiResponse(responseCode = "500", description = "Invalid Program",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
     public ResponseEntity<ProgramDto> createProgram(@RequestBody ProgramDto programDto) {
@@ -44,7 +43,7 @@ public class ProgramController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Programs retrieved successfully",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Programs cannot be retrieved",
+            @ApiResponse(responseCode = "500", description = "Programs cannot be retrieved",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
     public ResponseEntity<List<ProgramDto>> getAllPrograms() {
@@ -63,12 +62,11 @@ public class ProgramController {
         return new ResponseEntity<>(programDto, HttpStatus.OK);
     }
 
-
     @GetMapping("/user/{userId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Programs retrieved successfully by userId",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Programs for userId not found",
+            @ApiResponse(responseCode = "500", description = "Programs for userId not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
     public ResponseEntity<List<ProgramDto>> getAllEnrolledProgramsForUser(final @PathVariable Long userId) {
@@ -87,8 +85,7 @@ public class ProgramController {
         ProgramDto updatedProgramDto = programService.updateProgram(programDto, id);
         return new ResponseEntity<>(updatedProgramDto, HttpStatus.OK);
     }
-
-
+    
     @DeleteMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Program deleted successfully",
