@@ -22,7 +22,7 @@ import java.util.List;
 @Tag(name = "Program")
 public class ProgramController {
 
-    ProgramService programService;
+    private final ProgramService programService;
 
     public ProgramController(ProgramService programService) {
         this.programService = programService;

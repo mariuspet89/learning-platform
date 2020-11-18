@@ -9,12 +9,12 @@ import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.service.ProgramService;
 import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +26,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     private final CompetenceAreaRepository competenceAreaRepository;
 
-    private final Logger logger = Logger.getLogger(ProgramServiceImpl.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class.getName());
 
     public ProgramServiceImpl(ModelMapper modelMapper, ProgramRepository programRepository, CompetenceAreaRepository competenceAreaRepository) {
         this.modelMapper = modelMapper;
@@ -40,7 +40,7 @@ public class ProgramServiceImpl implements ProgramService {
         CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.getOne(programDto.getCompetenceAreaId());
         programEntity.setCompetenceAreaEntity(competenceAreaEntity);
         programRepository.save(programEntity);
-        logger.log(Level.INFO, "Created new program" + programEntity);
+        logger.info("Created new program" + programEntity);
         return programDto;
     }
 
@@ -50,7 +50,7 @@ public class ProgramServiceImpl implements ProgramService {
                 .stream()
                 .map(programEntity -> modelMapper.map(programEntity, ProgramDto.class))
                 .collect(Collectors.toList());
-        logger.log(Level.INFO, "Program entities found: " + programEntities.toString());
+        logger.info("Program entities found: " + programEntities.toString());
         return programEntities;
     }
 
@@ -60,7 +60,7 @@ public class ProgramServiceImpl implements ProgramService {
         if (programEntityOptional.isPresent()) {
             ProgramEntity programEntity = programEntityOptional.get();
             ProgramDto programDto = modelMapper.map(programEntity, ProgramDto.class);
-            logger.log(Level.INFO, "Found program in repo with id: " + id);
+            logger.info("Found program in repo with id: " + id);
             return programDto;
         } else {
             throw new EntityNotFoundException(ProgramDto.class.getSimpleName(), "id", id.toString());
@@ -73,7 +73,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<ProgramDto> programDtosForUser = programEntitiesForUser
                 .stream().map(e -> modelMapper.map(e, ProgramDto.class))
                 .collect(Collectors.toList());
-        logger.log(Level.INFO, "ProgramDtos for user with id=" + userId + ": " + programDtosForUser);
+        logger.info("ProgramDtos for user with id=" + userId + ": " + programDtosForUser);
         return programDtosForUser;
     }
 
@@ -95,7 +95,7 @@ public class ProgramServiceImpl implements ProgramService {
         }
 
         updatedProgramEntity.setCompetenceAreaEntity(competenceAreaEntityOptional.get());
-        logger.log(Level.INFO, "saving to repo the updated program with id= " + id);
+        logger.info("saving to repo the updated program with id= " + id);
         programRepository.save(updatedProgramEntity);
 
         ProgramDto updatedProgramDto = modelMapper.map(updatedProgramEntity, ProgramDto.class);
@@ -104,7 +104,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public void deleteProgram(Long id) throws EntityNotFoundException {
-        logger.log(Level.INFO, "Deleting program with id:" + id);
+        logger.info("Deleting program with id:" + id);
         Optional<ProgramEntity> programEntityOptional = programRepository.findById(id);
         if (programEntityOptional.isPresent()) {
             for (UserEntity userEntity : programEntityOptional.get().getUserEntities()) {
