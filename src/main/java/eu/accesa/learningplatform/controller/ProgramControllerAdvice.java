@@ -1,6 +1,6 @@
 package eu.accesa.learningplatform.controller;
 
-import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
+import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +18,10 @@ public class ProgramControllerAdvice {
     private final Logger logger = Logger.getLogger(ProgramControllerAdvice.class.getName());
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handleEntityNotFoundException(EntityNotFoundException exception) {
-        String entityName = exception.getEntityName();
-        String entityField = exception.getEntityField();
-        String entityFieldValue = exception.getEntityFieldValue();
-        String message = "Entity " + entityName  + " with field " + entityField + "=" + entityFieldValue + " not found!";
-        logger.log(Level.WARNING, message);
-        return new ResponseEntity(message, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(LearningPlatformException.class)
+    public ResponseEntity handleEntityNotFoundException(LearningPlatformException exception) {
+        logger.log(Level.WARNING, exception.getMessage());
+        return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

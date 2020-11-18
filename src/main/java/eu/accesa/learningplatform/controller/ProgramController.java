@@ -2,7 +2,7 @@ package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.service.ProgramService;
-import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
+import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,7 +58,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "404", description = "Program not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<ProgramDto> getProgramById(final @PathVariable Long id) {
         ProgramDto programDto = programService.findProgramById(id);
         return new ResponseEntity<>(programDto, HttpStatus.OK);
     }
@@ -83,7 +83,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "404", description = "Program not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) throws EntityNotFoundException {
+    public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) {
         ProgramDto updatedProgramDto = programService.updateProgram(programDto, id);
         return new ResponseEntity<>(updatedProgramDto, HttpStatus.OK);
     }
@@ -96,7 +96,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "404", description = "Program not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<Long> deleteProgram(final @PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<Long> deleteProgram(final @PathVariable Long id) {
         programService.deleteProgram(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }

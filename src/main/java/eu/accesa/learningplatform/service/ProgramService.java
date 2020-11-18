@@ -1,7 +1,7 @@
 package eu.accesa.learningplatform.service;
 
 import eu.accesa.learningplatform.model.dto.ProgramDto;
-import eu.accesa.learningplatform.service.custom_errors.EntityNotFoundException;
+import eu.accesa.learningplatform.service.custom_errors.LearningPlatformException;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ public interface ProgramService {
 
     List<ProgramDto> findAllPrograms();
 
-    ProgramDto findProgramById(Long id) throws EntityNotFoundException;
+    ProgramDto findProgramById(Long id);
 
     List<ProgramDto> findAllEnrolledProgramsForUser(Long userId);
 
-    ProgramDto updateProgram(ProgramDto programDto, Long id) throws EntityNotFoundException;
+    ProgramDto updateProgram(ProgramDto programDto, Long id);
 
-    void deleteProgram(Long id) throws EntityNotFoundException;
+    void deleteProgram(Long id);
 
 
 }
