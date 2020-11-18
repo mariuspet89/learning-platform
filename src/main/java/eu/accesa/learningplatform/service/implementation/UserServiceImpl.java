@@ -51,23 +51,26 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
-        CompetenceAreaEntity competenceAreaEntity =
-                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(() ->
-                        new EntityNotFoundException(CompetenceAreaEntity.class.getSimpleName(),
-                                "id",
-                                userDto.getCompetenceAreaId().toString()));
+        CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(userDto.getCompetenceAreaId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        CompetenceAreaEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getCompetenceAreaId().toString()
+                ));
 
-        JobTitleEntity jobTitleEntity =
-                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(() ->
-                        new EntityNotFoundException(JobTitleEntity.class.getSimpleName(),
-                                "id",
-                                userDto.getJobTitleId().toString()));
+        JobTitleEntity jobTitleEntity = jobTitleRepository.findById(userDto.getJobTitleId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        JobTitleEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getJobTitleId().toString()
+                ));
 
-        UserTypeEntity userTypeEntity =
-                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(() ->
-                        new EntityNotFoundException(UserTypeEntity.class.getSimpleName(),
-                                "id",
-                                userDto.getUserTypeId().toString()));
+        UserTypeEntity userTypeEntity = userTypeRepository.findById(userDto.getUserTypeId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserTypeEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getUserTypeId().toString()
+                ));
 
         userEntity.setCompetenceAreaEntity(competenceAreaEntity);
         userEntity.setJobTitleEntity(jobTitleEntity);
@@ -87,10 +90,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException(UserEntity.class.getSimpleName(),
-                "id",
-                id.toString()));
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        id.toString()
+                ));
         return mapper.map(userEntity, UserDto.class);
     }
 
@@ -113,30 +118,34 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto.toString());
 
         UserEntity userEntity = userRepository.findById(userDto.getId())
-                .orElseThrow(()
-                        -> new EntityNotFoundException(UserEntity.class.getSimpleName(),
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
                         "id",
-                        userDto.getId().toString()));
+                        userDto.getId().toString()
+                ));
 
         mapper.map(userDto, userEntity);
 
-        CompetenceAreaEntity competenceAreaEntity =
-                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(()
-                        -> new EntityNotFoundException(CompetenceAreaEntity.class.getSimpleName(),
+        CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(userDto.getCompetenceAreaId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        CompetenceAreaEntity.class.getSimpleName(),
                         "id",
-                        userDto.getCompetenceAreaId().toString()));
+                        userDto.getCompetenceAreaId().toString()
+                ));
 
-        JobTitleEntity jobTitleEntity =
-                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(()
-                        -> new EntityNotFoundException(JobTitleEntity.class.getSimpleName(),
+        JobTitleEntity jobTitleEntity = jobTitleRepository.findById(userDto.getJobTitleId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        JobTitleEntity.class.getSimpleName(),
                         "id",
-                        userDto.getJobTitleId().toString()));
+                        userDto.getJobTitleId().toString()
+                ));
 
-        UserTypeEntity userTypeEntity =
-                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(()
-                        -> new EntityNotFoundException(UserTypeEntity.class.getSimpleName(),
+        UserTypeEntity userTypeEntity = userTypeRepository.findById(userDto.getUserTypeId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserTypeEntity.class.getSimpleName(),
                         "id",
-                        userDto.getUserTypeId().toString()));
+                        userDto.getUserTypeId().toString()
+                ));
 
         userEntity.setCompetenceAreaEntity(competenceAreaEntity);
         userEntity.setJobTitleEntity(jobTitleEntity);
@@ -150,10 +159,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         LOGGER.info("Service: deleting the user with id: {} ", id);
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException(UserEntity.class.getSimpleName(),
-                "id",
-                id.toString()));
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        id.toString()
+                ));
         userRepository.delete(userEntity);
     }
 }
