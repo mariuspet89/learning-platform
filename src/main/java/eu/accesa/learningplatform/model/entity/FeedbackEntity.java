@@ -23,6 +23,18 @@ public class FeedbackEntity {
     @JoinColumn(name = "LESSON_ID")
     private LessonEntity lessonEntity;
 
+    @OneToOne
+    @JoinColumn(name = "FEEDBACK_ARCHIVED_ID")
+    private FeedbackArchivedEntity feedbackArchivedEntity;
+
+    public FeedbackArchivedEntity getFeedbackArchivedEntity() {
+        return feedbackArchivedEntity;
+    }
+
+    public void setFeedbackArchivedEntity(FeedbackArchivedEntity feedbackArchivedEntity) {
+        this.feedbackArchivedEntity = feedbackArchivedEntity;
+    }
+
     public Long getId() {
         return id;
     }
@@ -72,11 +84,12 @@ public class FeedbackEntity {
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(userEntity, that.userEntity) &&
-                Objects.equals(lessonEntity, that.lessonEntity);
+                Objects.equals(lessonEntity, that.lessonEntity) &&
+                Objects.equals(feedbackArchivedEntity, that.feedbackArchivedEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, userEntity, lessonEntity);
+        return Objects.hash(id, title, description, userEntity, lessonEntity, feedbackArchivedEntity);
     }
 }

@@ -1,10 +1,12 @@
 package eu.accesa.learningplatform.service.implementation;
 
-import eu.accesa.learningplatform.exceptionhandler.EmptyFieldsException;
 import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
+import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
+import eu.accesa.learningplatform.model.entity.FeedbackArchivedEntity;
 import eu.accesa.learningplatform.model.entity.FeedbackEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
+import eu.accesa.learningplatform.repository.FeedbackArchivedRepository;
 import eu.accesa.learningplatform.repository.FeedbackRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
 import eu.accesa.learningplatform.service.FeedbackService;
@@ -14,81 +16,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackServiceImpl.class);
 
     private final FeedbackRepository feedbackRepository;
+
+    private final FeedbackArchivedRepository feedbackArchivedRepository;
 
     private final ModelMapper modelMapper;
 
     private final LessonRepository lessonRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackServiceImpl.class);
-
-
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, ModelMapper modelMapper, LessonRepository lessonRepository) {
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository,
+                               FeedbackArchivedRepository feedbackArchivedRepository,
+                               ModelMapper modelMapper,
+                               LessonRepository lessonRepository) {
         this.feedbackRepository = feedbackRepository;
+        this.feedbackArchivedRepository = feedbackArchivedRepository;
         this.modelMapper = modelMapper;
         this.lessonRepository = lessonRepository;
     }
 
     @Override
-    public FeedbackDto createFeedback(FeedbackDto feedbackDto) throws LearningPlatformException, EmptyFieldsException {
+    public FeedbackDto createFeedback(FeedbackDto feedbackDto) {
 
         LOGGER.info("Creating Feedback " + feedbackDto.getId());
-
-        List<LessonEntity> lessonEntities = lessonRepository.findAll();
-        List<Long> lessonsIds = new ArrayList<>();
-
-        for (LessonEntity l : lessonEntities) {
-            lessonsIds.add(l.getId());
-        }
-
-        if (!lessonsIds.contains(feedbackDto.getLessonEntity().getId())) {
-            throw new LearningPlatformException(
-                    "Lesson Not Found with the following ID: " +
-                            feedbackDto.getLessonEntity().getId());
-        }
-
-        FeedbackEntity feedbackEntity = feedbackRepository
-                .save(modelMapper.map(feedbackDto, FeedbackEntity.class));
-
-        int a = 0;
-        if (feedbackEntity.getDescription().isEmpty() && feedbackEntity.getTitle().isEmpty()) {
-            a = 1;
-        }
-        if (feedbackEntity.getTitle().isEmpty() && !feedbackEntity.getDescription().isEmpty()) {
-            a = 2;
-        }
-        if (feedbackEntity.getDescription().isEmpty() && !feedbackEntity.getTitle().isEmpty()) {
-            a = 3;
-        }
-        switch (a) {
-            case 1:
-                throw new EmptyFieldsException("Empty Title and Description");
-            case 2:
-                throw new EmptyFieldsException("Empty Title Field");
-            case 3:
-                throw new EmptyFieldsException("Empty Description Field");
-        }
-
-
+        FeedbackEntity feedbackEntity =
+                feedbackRepository.save(modelMapper.map(feedbackDto, FeedbackEntity.class));
         return modelMapper.map(feedbackEntity, FeedbackDto.class);
+
     }
 
     @Override
-    public List<FeedbackDto> findFeedbackEntityByLesson_Id(Long id) throws LearningPlatformException {
-
+    public List<FeedbackDto> getFeedbackByLessonId(Long id) {
         LOGGER.info("Searching for the feedbacks related to the lesson with the ID " + id);
 
         LessonEntity lessonEntity = lessonRepository.findById(id).orElseThrow(()
                 -> new LearningPlatformException("Lesson Not Found with the following ID:" + id));
+
         List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByLessonEntity_Id(id);
 
         return feedbackEntities.stream()
@@ -97,8 +67,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackDto findFeedbackById(Long Id) throws LearningPlatformException {
+    public FeedbackDto findFeedbackById(Long Id) {
+
         LOGGER.info("Searching for the Feedback with the following ID: " + Id);
+
         FeedbackEntity feedbackEntity = feedbackRepository.findById(Id)
                 .orElseThrow(()
                         -> new LearningPlatformException("Feedback Not Found with the following ID:" + Id));
@@ -106,12 +78,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackDto updateFeedback(FeedbackDto feedbackDto)
-            throws LearningPlatformException {
-        LOGGER.info("Updating Feedback " + feedbackDto.getId());
-        ModelMapper mapperForCreateMethod = new ModelMapper();
+    public FeedbackDto updateFeedback(FeedbackDto feedbackDto) {
 
-        mapperForCreateMethod.addMappings(new PropertyMap<FeedbackEntity, FeedbackDto>() {
+        LOGGER.info("Updating Feedback " + feedbackDto.getId());
+
+        modelMapper.addMappings(new PropertyMap<FeedbackEntity, FeedbackDto>() {
             @Override
             protected void configure() {
 
@@ -119,24 +90,79 @@ public class FeedbackServiceImpl implements FeedbackService {
             }
         });
         FeedbackEntity feedbackEntity = feedbackRepository.findById(feedbackDto.getId())
-                .orElseThrow(() ->
-                        new LearningPlatformException("Feedback Not Found with the following ID:" + feedbackDto.getId()));
+                .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:"
+                                + feedbackDto.getId()));
 
-        mapperForCreateMethod.map(feedbackDto, feedbackEntity);
+        modelMapper.map(feedbackDto, feedbackEntity);
 
         feedbackRepository.save(feedbackEntity);
 
-        return mapperForCreateMethod.map(feedbackEntity, FeedbackDto.class);
-
+        return modelMapper.map(feedbackEntity, FeedbackDto.class);
     }
 
     @Override
-    public void deleteFeedback(Long Id) throws LearningPlatformException {
+    public void deleteFeedback(Long Id) {
+
         LOGGER.info("Deleting feedback with the following ID: " + Id);
+
         FeedbackEntity feedbackEntity = feedbackRepository.findById(Id).orElseThrow(()
                 -> new LearningPlatformException("Feedback Not Found with the following ID:" + Id));
+
         feedbackRepository.delete(feedbackEntity);
     }
 
+    @Override
+    public FeedbackArchivedDto archiveFeedback(Long id) {
 
+        LOGGER.info("Archiving  Feedback with ID " + id);
+
+        FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(() ->
+                new LearningPlatformException("Feedback Not Found with the following ID:" + id));
+
+        if (feedbackEntity.getFeedbackArchivedEntity() != null) {
+            throw new LearningPlatformException("Feedback Already Archived");
+        }
+
+        FeedbackArchivedEntity feedbackArchivedEntity = new FeedbackArchivedEntity();
+
+        feedbackArchivedEntity.setFeedbackEntityID(feedbackEntity.getId());
+
+        feedbackArchivedRepository.save(feedbackArchivedEntity);
+
+        FeedbackArchivedEntity byId = feedbackArchivedRepository.findById(feedbackArchivedEntity.getId())
+                .orElseThrow();
+
+        feedbackEntity.setFeedbackArchivedEntity(byId);
+
+        feedbackRepository.save(feedbackEntity);
+
+        return modelMapper.map(feedbackArchivedEntity, FeedbackArchivedDto.class);
+    }
+
+    @Override
+    public void undoArchive(Long id) throws LearningPlatformException {
+
+        LOGGER.info("Undo Archiving  Feedback with ID " + id);
+
+        FeedbackArchivedEntity feedbackArchivedEntity = feedbackArchivedRepository.findById(id)
+                .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
+        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntityID());
+        feedbackEntity.setFeedbackArchivedEntity(null);
+
+        feedbackArchivedRepository.delete(feedbackArchivedEntity);
+    }
+
+    @Override
+    public List<FeedbackArchivedDto> findAllArchivedFeedbacks() throws LearningPlatformException {
+        LOGGER.info("Getting all archived feedbacks");
+
+        List<FeedbackArchivedEntity> feedbackArchivedEntities = feedbackArchivedRepository.findAll();
+
+        if (feedbackArchivedEntities.isEmpty()) {
+            throw new LearningPlatformException("No Archived Feedbacks Found");
+        }
+        return feedbackArchivedEntities.stream()
+                .map(fe -> modelMapper.map(fe, FeedbackArchivedDto.class))
+                .collect(toList());
+    }
 }
