@@ -1,7 +1,6 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.LessonContentDto;
-import eu.accesa.learningplatform.model.dto.LessonDto;
 import eu.accesa.learningplatform.model.entity.LessonContentEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
 import eu.accesa.learningplatform.repository.LessonContentRepository;
@@ -26,7 +25,8 @@ public class LessonContentServiceImpl implements LessonContentService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LessonContentServiceImpl.class);
 
     @Autowired
-    public LessonContentServiceImpl(LessonContentRepository lessonContentRepository, LessonRepository lessonRepository, ModelMapper mapper) {
+    public LessonContentServiceImpl(LessonContentRepository lessonContentRepository,
+                                    LessonRepository lessonRepository, ModelMapper mapper) {
         this.lessonContentRepository = lessonContentRepository;
         this.lessonRepository = lessonRepository;
         this.mapper = mapper;
@@ -36,8 +36,9 @@ public class LessonContentServiceImpl implements LessonContentService {
     public LessonContentDto createLessonContent(LessonContentDto lessonContentDto) {
         LOGGER.info("Service: creating a new lesson content with values : {}", lessonContentDto);
         LessonContentEntity lessonContent = mapper.map(lessonContentDto, LessonContentEntity.class);
-        LessonEntity lessonEntity = lessonRepository.findById(lessonContentDto.getLessonId()).orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id", lessonContentDto.getLessonId().toString()));
-        ;
+        LessonEntity lessonEntity = lessonRepository.findById(lessonContentDto.getLessonId())
+                .orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id",
+                        lessonContentDto.getLessonId().toString()));
         lessonContent.setLessonEntity(lessonEntity);
         return mapper.map(lessonContentRepository.save(lessonContent), LessonContentDto.class);
     }
@@ -52,12 +53,15 @@ public class LessonContentServiceImpl implements LessonContentService {
 
     @Override
     public LessonContentDto updateLessonContent(LessonContentDto lessonContentDto) {
-        LOGGER.info("Lesson content: updating content with id: {}, with values: {},", lessonContentDto.getId(), lessonContentDto);
+        LOGGER.info("Lesson content: updating content with id: {}, with values: {},",
+                lessonContentDto.getId(), lessonContentDto);
         LessonContentEntity lessonContentEntity = lessonContentRepository.findById(lessonContentDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException(LessonContentEntity.class.getSimpleName(), "id", lessonContentDto.getId().toString()));
+                .orElseThrow(() -> new EntityNotFoundException(LessonContentEntity.class.getSimpleName(), "id",
+                        lessonContentDto.getId().toString()));
         mapper.map(lessonContentDto, lessonContentEntity);
         LessonEntity lessonEntity = lessonRepository.findById(lessonContentDto.getLessonId())
-                .orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id", lessonContentDto.getLessonId().toString()));
+                .orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id",
+                        lessonContentDto.getLessonId().toString()));
         lessonContentEntity.setLessonEntity(lessonEntity);
         return mapper.map(lessonContentRepository.save(lessonContentEntity), LessonContentDto.class);
     }
@@ -65,7 +69,8 @@ public class LessonContentServiceImpl implements LessonContentService {
     @Override
     public void deleteLessonContent(Long id) {
         LOGGER.info("Content: deleting the content with: {}", id);
-        lessonContentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(LessonContentEntity.class.getSimpleName(), "id", id.toString()));
+        lessonContentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(LessonContentEntity.class.getSimpleName(), "id", id.toString()));
         lessonContentRepository.deleteById(id);
     }
 }
