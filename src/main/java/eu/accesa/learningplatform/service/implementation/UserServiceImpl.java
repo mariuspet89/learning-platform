@@ -49,40 +49,15 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         LOGGER.info("Service: creating user with values: {}", userDto.toString());
 
-        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-
-        CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(userDto.getCompetenceAreaId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        CompetenceAreaEntity.class.getSimpleName(),
-                        "id",
-                        userDto.getCompetenceAreaId().toString()
-                ));
-
-        JobTitleEntity jobTitleEntity = jobTitleRepository.findById(userDto.getJobTitleId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        JobTitleEntity.class.getSimpleName(),
-                        "id",
-                        userDto.getJobTitleId().toString()
-                ));
-
-        UserTypeEntity userTypeEntity = userTypeRepository.findById(userDto.getUserTypeId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        UserTypeEntity.class.getSimpleName(),
-                        "id",
-                        userDto.getUserTypeId().toString()
-                ));
-
-        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
-        userEntity.setJobTitleEntity(jobTitleEntity);
-        userEntity.setUserTypeEntity(userTypeEntity);
+        UserEntity userEntity = createCompleteUserEntity(userDto);
 
         return mapper.map(userRepository.save(userEntity), UserDto.class);
-
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         LOGGER.info("Service: retrieving all users");
+
         return mapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
         }.getType());
     }
@@ -90,6 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
+
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         UserEntity.class.getSimpleName(),
@@ -117,14 +93,35 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UserDto userDto) {
         LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto.toString());
 
-        UserEntity userEntity = userRepository.findById(userDto.getId())
+        userRepository.findById(userDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         UserEntity.class.getSimpleName(),
                         "id",
                         userDto.getId().toString()
                 ));
 
-        mapper.map(userDto, userEntity);
+        UserEntity completeUser = createCompleteUserEntity(userDto);
+
+        userRepository.save(completeUser);
+
+        return mapper.map(completeUser, UserDto.class);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        LOGGER.info("Service: deleting the user with id: {} ", id);
+
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        id.toString()
+                ));
+        userRepository.delete(userEntity);
+    }
+
+    private UserEntity createCompleteUserEntity(UserDto userDto) {
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
         CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(userDto.getCompetenceAreaId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -151,20 +148,6 @@ public class UserServiceImpl implements UserService {
         userEntity.setJobTitleEntity(jobTitleEntity);
         userEntity.setUserTypeEntity(userTypeEntity);
 
-        userRepository.save(userEntity);
-
-        return mapper.map(userEntity, UserDto.class);
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        LOGGER.info("Service: deleting the user with id: {} ", id);
-        UserEntity userEntity = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        UserEntity.class.getSimpleName(),
-                        "id",
-                        id.toString()
-                ));
-        userRepository.delete(userEntity);
+        return userEntity;
     }
 }
