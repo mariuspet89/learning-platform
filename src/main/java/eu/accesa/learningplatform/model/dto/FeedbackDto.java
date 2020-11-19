@@ -11,8 +11,7 @@ public class FeedbackDto {
 
     @NotBlank(message = "Empty Description Field")
     private String description;
-
-
+    
     private Long lessonEntityId;
 
     public Long getLessonEntityId() {
