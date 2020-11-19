@@ -5,15 +5,15 @@ import javax.validation.constraints.NotNull;
 
 public class UserDto {
     private Long id;
-    @NotNull
+    @NotNull(message = "First name can't be null")
     private String firstName;
-    @NotNull
+    @NotNull(message = "Last name can't be null")
     private String lastName;
-    @NotNull
-    @Email
+    @Email(message = "Must be a valid email")
+    @NotNull(message = "Email can't be null")
     private String email;
     private String imageUrl;
-    @NotNull
+    @NotNull(message = "Password can't be null")
     private String password;
     @NotNull
     private Long competenceAreaId;

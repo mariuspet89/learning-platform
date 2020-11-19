@@ -11,14 +11,13 @@ import eu.accesa.learningplatform.repository.JobTitleRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.repository.UserTypeRepository;
 import eu.accesa.learningplatform.service.UserService;
+import eu.accesa.learningplatform.service.exception.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -50,31 +49,15 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
         LOGGER.info("Service: creating user with values: {}", userDto.toString());
 
-        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-
-        CompetenceAreaEntity competenceAreaEntity =
-                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Competence area doesn't exist."));
-
-        JobTitleEntity jobTitleEntity =
-                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Job title doesn't exist."));
-
-        UserTypeEntity userTypeEntity =
-                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User type doesn't exist."));
-
-        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
-        userEntity.setJobTitleEntity(jobTitleEntity);
-        userEntity.setUserTypeEntity(userTypeEntity);
+        UserEntity userEntity = createCompleteUserEntity(userDto);
 
         return mapper.map(userRepository.save(userEntity), UserDto.class);
-
     }
 
     @Override
     public List<UserDto> getAllUsers() {
         LOGGER.info("Service: retrieving all users");
+
         return mapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
         }.getType());
     }
@@ -82,8 +65,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        id.toString()
+                ));
         return mapper.map(userEntity, UserDto.class);
     }
 
@@ -92,46 +80,74 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Service: retrieving all users with user type: {}", userTypeId);
 
         List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Id(userTypeId);
+
+        if (userEntities.isEmpty()) {
+            throw new EntityNotFoundException(UserEntity.class.getSimpleName(), "UserTypeId", userTypeId.toString());
+        }
+
         return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
         }.getType());
     }
 
-    //TODO: find a way to map dto to entity without null-check on every field
     @Override
     public UserDto updateUser(UserDto userDto) {
         LOGGER.info("Service: updating user with id: {}, with values: {}", userDto.getId(), userDto.toString());
 
-        UserEntity userEntity = userRepository.findById(userDto.getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+        userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getId().toString()
+                ));
 
-        mapper.map(userDto, userEntity);
+        UserEntity completeUser = createCompleteUserEntity(userDto);
 
-        CompetenceAreaEntity competenceAreaEntity =
-                competenceAreaRepository.findById(userDto.getCompetenceAreaId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Competence area doesn't exist."));
+        userRepository.save(completeUser);
 
-        JobTitleEntity jobTitleEntity =
-                jobTitleRepository.findById(userDto.getJobTitleId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Job title doesn't exist."));
-
-        UserTypeEntity userTypeEntity =
-                userTypeRepository.findById(userDto.getUserTypeId()).orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND, "User type doesn't exist."));
-
-        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
-        userEntity.setJobTitleEntity(jobTitleEntity);
-        userEntity.setUserTypeEntity(userTypeEntity);
-
-        userRepository.save(userEntity);
-
-        return mapper.map(userEntity, UserDto.class);
+        return mapper.map(completeUser, UserDto.class);
     }
 
     @Override
     public void deleteUser(Long id) {
         LOGGER.info("Service: deleting the user with id: {} ", id);
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found"));
+
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        id.toString()
+                ));
         userRepository.delete(userEntity);
+    }
+
+    private UserEntity createCompleteUserEntity(UserDto userDto) {
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+
+        CompetenceAreaEntity competenceAreaEntity = competenceAreaRepository.findById(userDto.getCompetenceAreaId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        CompetenceAreaEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getCompetenceAreaId().toString()
+                ));
+
+        JobTitleEntity jobTitleEntity = jobTitleRepository.findById(userDto.getJobTitleId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        JobTitleEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getJobTitleId().toString()
+                ));
+
+        UserTypeEntity userTypeEntity = userTypeRepository.findById(userDto.getUserTypeId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserTypeEntity.class.getSimpleName(),
+                        "id",
+                        userDto.getUserTypeId().toString()
+                ));
+
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setUserTypeEntity(userTypeEntity);
+
+        return userEntity;
     }
 }
