@@ -1,9 +1,6 @@
 package eu.accesa.learningplatform.model.dto;
 
-import com.sun.istack.Nullable;
-
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 public class LessonDto {
     private Long id;
@@ -11,7 +8,7 @@ public class LessonDto {
     private String name;
     @NotNull
     private double duration;
-    @Nullable
+    @NotNull
     private Long courseId;
 
     public Long getId() {
@@ -47,18 +44,12 @@ public class LessonDto {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LessonDto lessonDto = (LessonDto) o;
-        return Double.compare(lessonDto.duration, duration) == 0 &&
-                Objects.equals(id, lessonDto.id) &&
-                Objects.equals(name, lessonDto.name) &&
-                Objects.equals(courseId, lessonDto.courseId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, duration, courseId);
+    public String toString() {
+        return "LessonDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", courseEntityId=" + courseId +
+                '}';
     }
 }
