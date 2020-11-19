@@ -16,17 +16,15 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(LearningPlatformException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public @ResponseBody
-    String entityNotFoundExceptionHandler
-            (LearningPlatformException learningPlatformException) {
+    public @ResponseBody String entityNotFoundExceptionHandler(LearningPlatformException learningPlatformException) {
 
         return learningPlatformException.getMessage();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public @ResponseBody
-    List<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public @ResponseBody List<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+
         List<ObjectError> allErrors = exception.getBindingResult().getAllErrors();
 
         List<String> body = new ArrayList<>();
@@ -38,5 +36,4 @@ public class ExceptionAdvice {
         }
         return body;
     }
-
 }

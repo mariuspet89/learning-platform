@@ -1,6 +1,5 @@
 package eu.accesa.learningplatform.controller;
 
-import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.service.FeedbackService;
@@ -54,20 +53,17 @@ public class FeedbackController {
 
     @PostMapping("/feedbacks/archived/{id}")
     public FeedbackArchivedDto archiveFeedback(@PathVariable Long id){
-
         return feedbackService.archiveFeedback(id);
     }
 
     @DeleteMapping("/feedbacks/archived/delete/{id}")
-    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id)
-            throws LearningPlatformException {
+    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id) {
         feedbackService.undoArchive(id);
         return ResponseEntity.status(HttpStatus.OK).body(" Undo Archive Feedback");
     }
 
     @GetMapping("/feedbacks/archived")
-    public ResponseEntity<List<FeedbackArchivedDto>> ArchivedFeedbacks() throws LearningPlatformException {
-
+    public ResponseEntity<List<FeedbackArchivedDto>> ArchivedFeedbacks() {
         return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllArchivedFeedbacks());
     }
 }

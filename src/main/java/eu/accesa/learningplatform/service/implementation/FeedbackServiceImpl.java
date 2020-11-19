@@ -11,12 +11,12 @@ import eu.accesa.learningplatform.repository.FeedbackRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
 import eu.accesa.learningplatform.service.FeedbackService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -49,7 +49,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         FeedbackEntity feedbackEntity =
                 feedbackRepository.save(modelMapper.map(feedbackDto, FeedbackEntity.class));
         return modelMapper.map(feedbackEntity, FeedbackDto.class);
-
     }
 
     @Override
@@ -82,16 +81,15 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         LOGGER.info("Updating Feedback " + feedbackDto.getId());
 
-        modelMapper.addMappings(new PropertyMap<FeedbackEntity, FeedbackDto>() {
-            @Override
-            protected void configure() {
-
-                skip().setLessonEntity(null);
-            }
-        });
         FeedbackEntity feedbackEntity = feedbackRepository.findById(feedbackDto.getId())
-                .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:"
+                .orElseThrow(() ->
+                        new LearningPlatformException("Feedback Not Found with the following ID:"
                                 + feedbackDto.getId()));
+
+        if (!feedbackEntity.getLessonEntity().getId().equals(feedbackDto.getLessonEntityId())) {
+
+            throw new LearningPlatformException("You can't update the lesson ID");
+        }
 
         modelMapper.map(feedbackDto, feedbackEntity);
 
@@ -140,7 +138,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public void undoArchive(Long id) throws LearningPlatformException {
+    public void undoArchive(Long id) {
 
         LOGGER.info("Undo Archiving  Feedback with ID " + id);
 
@@ -153,7 +151,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<FeedbackArchivedDto> findAllArchivedFeedbacks() throws LearningPlatformException {
+    public List<FeedbackArchivedDto> findAllArchivedFeedbacks() {
         LOGGER.info("Getting all archived feedbacks");
 
         List<FeedbackArchivedEntity> feedbackArchivedEntities = feedbackArchivedRepository.findAll();

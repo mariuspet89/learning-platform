@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "FEEDBACK_ARCHIVED")
 public class FeedbackArchivedEntity {
@@ -12,17 +13,17 @@ public class FeedbackArchivedEntity {
     private Long id;
 
     @Column(name = "FEEDBACK_ID")
-    private Long FeedbackEntityID;
-    @OneToOne(mappedBy = "feedbackArchivedEntity")
+    private Long FeedbackEntityId;
 
+    @OneToOne(mappedBy = "feedbackArchivedEntity")
     private FeedbackEntity feedbackEntity;
 
     public Long getFeedbackEntityID() {
-        return FeedbackEntityID;
+        return FeedbackEntityId;
     }
 
     public void setFeedbackEntityID(Long feedbackEntityID) {
-        FeedbackEntityID = feedbackEntityID;
+        FeedbackEntityId = feedbackEntityID;
     }
 
     public Long getId() {
@@ -39,12 +40,11 @@ public class FeedbackArchivedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         FeedbackArchivedEntity that = (FeedbackArchivedEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(FeedbackEntityID, that.FeedbackEntityID);
+                Objects.equals(FeedbackEntityId, that.FeedbackEntityId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, FeedbackEntityID);
+        return Objects.hash(id, FeedbackEntityId);
     }
-
 }

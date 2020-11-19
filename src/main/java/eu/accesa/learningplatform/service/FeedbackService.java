@@ -1,6 +1,5 @@
 package eu.accesa.learningplatform.service;
 
-import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 
@@ -23,6 +22,5 @@ public interface FeedbackService {
     void undoArchive(Long id);
 
     List<FeedbackArchivedDto>  findAllArchivedFeedbacks();
-
 
 }

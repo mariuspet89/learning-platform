@@ -1,25 +1,26 @@
 package eu.accesa.learningplatform.model.dto;
 
-import eu.accesa.learningplatform.model.entity.LessonEntity;
-
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class FeedbackDto {
 
     private Long id;
-    @NotNull
-    private String title;
-    @NotNull
-    private String description;
-    @NotNull
-    private LessonEntity lessonEntity;
 
-    public LessonEntity getLessonEntity() {
-        return lessonEntity;
+    @NotBlank(message = "Empty Title Field")
+    private String title;
+
+    @NotBlank(message = "Empty Description Field")
+    private String description;
+
+
+    private Long lessonEntityId;
+
+    public Long getLessonEntityId() {
+        return lessonEntityId;
     }
 
-    public void setLessonEntity(LessonEntity lessonEntity) {
-        this.lessonEntity = lessonEntity;
+    public void setLessonEntityId(Long lessonEntityId) {
+        this.lessonEntityId = lessonEntityId;
     }
 
     public Long getId() {

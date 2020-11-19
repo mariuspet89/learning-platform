@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {
+
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,6 +91,7 @@ public class FeedbackEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, userEntity, lessonEntity, feedbackArchivedEntity);
+        return Objects.hash(id, title, description,
+                userEntity, lessonEntity, feedbackArchivedEntity);
     }
 }
