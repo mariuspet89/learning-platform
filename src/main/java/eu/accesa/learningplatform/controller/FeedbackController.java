@@ -48,7 +48,7 @@ public class FeedbackController {
 
     @GetMapping("/byLesson/{id}")
     public ResponseEntity<List<FeedbackDto>> getFeedbackByLessonId(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.getFeedbackByLessonId(id));
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.getFeedbacksByLessonId(id));
     }
 
     @PostMapping("/feedbacks/archived/{id}")
@@ -56,14 +56,16 @@ public class FeedbackController {
         return feedbackService.archiveFeedback(id);
     }
 
+
+    @GetMapping("/feedbacks/archived")
+    public ResponseEntity<List<FeedbackArchivedDto>> findAllArchivedFeedbacks() {
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllArchivedFeedbacks());
+    }
+
     @DeleteMapping("/feedbacks/archived/delete/{id}")
-    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id) {
+    public ResponseEntity<String> undoArchive(@PathVariable Long id) {
         feedbackService.undoArchive(id);
         return ResponseEntity.status(HttpStatus.OK).body(" Undo Archive Feedback");
     }
 
-    @GetMapping("/feedbacks/archived")
-    public ResponseEntity<List<FeedbackArchivedDto>> ArchivedFeedbacks() {
-        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllArchivedFeedbacks());
-    }
 }

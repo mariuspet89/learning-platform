@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FeedbackService {
 
-    List<FeedbackDto> getFeedbackByLessonId(Long id);
+    List<FeedbackDto> getFeedbacksByLessonId(Long id);
 
     FeedbackDto findFeedbackById(Long Id);
 

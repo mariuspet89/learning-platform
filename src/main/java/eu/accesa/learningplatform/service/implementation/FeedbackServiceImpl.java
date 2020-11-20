@@ -52,7 +52,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<FeedbackDto> getFeedbackByLessonId(Long id) {
+    public List<FeedbackDto> getFeedbacksByLessonId(Long id) {
         LOGGER.info("Searching for the feedbacks related to the lesson with the ID " + id);
 
         LessonEntity lessonEntity = lessonRepository.findById(id).orElseThrow(()
@@ -123,12 +123,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         FeedbackArchivedEntity feedbackArchivedEntity = new FeedbackArchivedEntity();
 
-        feedbackArchivedEntity.setFeedbackEntityID(feedbackEntity.getId());
+        feedbackArchivedEntity.setFeedbackEntityId(feedbackEntity.getId());
 
         feedbackArchivedRepository.save(feedbackArchivedEntity);
 
         FeedbackArchivedEntity byId = feedbackArchivedRepository.findById(feedbackArchivedEntity.getId())
-                .orElseThrow();
+                .orElseThrow(() ->
+                        new LearningPlatformException("No archived Feedback with ID" + feedbackArchivedEntity.getId()));
 
         feedbackEntity.setFeedbackArchivedEntity(byId);
 
@@ -144,7 +145,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         FeedbackArchivedEntity feedbackArchivedEntity = feedbackArchivedRepository.findById(id)
                 .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
-        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntityID());
+        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntityId());
         feedbackEntity.setFeedbackArchivedEntity(null);
 
         feedbackArchivedRepository.delete(feedbackArchivedEntity);
@@ -156,9 +157,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         List<FeedbackArchivedEntity> feedbackArchivedEntities = feedbackArchivedRepository.findAll();
 
-        if (feedbackArchivedEntities.isEmpty()) {
-            throw new LearningPlatformException("No Archived Feedbacks Found");
-        }
         return feedbackArchivedEntities.stream()
                 .map(fe -> modelMapper.map(fe, FeedbackArchivedDto.class))
                 .collect(toList());

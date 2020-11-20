@@ -4,7 +4,7 @@ public class FeedbackArchivedDto {
 
     private Long id;
 
-    private Long FeedbackEntityId;
+    private Long feedbackEntityId;
 
     public Long getId() {
         return id;
@@ -15,10 +15,10 @@ public class FeedbackArchivedDto {
     }
 
     public Long getFeedbackEntityId() {
-        return FeedbackEntityId;
+        return feedbackEntityId;
     }
 
     public void setFeedbackEntityId(Long feedbackEntityId) {
-        FeedbackEntityId = feedbackEntityId;
+        this.feedbackEntityId = feedbackEntityId;
     }
 }

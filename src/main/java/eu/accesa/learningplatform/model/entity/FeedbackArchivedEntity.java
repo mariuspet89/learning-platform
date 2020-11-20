@@ -13,17 +13,25 @@ public class FeedbackArchivedEntity {
     private Long id;
 
     @Column(name = "FEEDBACK_ID")
-    private Long FeedbackEntityId;
+    private Long feedbackEntityId;
 
     @OneToOne(mappedBy = "feedbackArchivedEntity")
     private FeedbackEntity feedbackEntity;
 
-    public Long getFeedbackEntityID() {
-        return FeedbackEntityId;
+    public Long getFeedbackEntityId() {
+        return feedbackEntityId;
     }
 
-    public void setFeedbackEntityID(Long feedbackEntityID) {
-        FeedbackEntityId = feedbackEntityID;
+    public void setFeedbackEntityId(Long feedbackEntityId) {
+        this.feedbackEntityId = feedbackEntityId;
+    }
+
+    public FeedbackEntity getFeedbackEntity() {
+        return feedbackEntity;
+    }
+
+    public void setFeedbackEntity(FeedbackEntity feedbackEntity) {
+        this.feedbackEntity = feedbackEntity;
     }
 
     public Long getId() {
@@ -40,11 +48,12 @@ public class FeedbackArchivedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         FeedbackArchivedEntity that = (FeedbackArchivedEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(FeedbackEntityId, that.FeedbackEntityId);
+                Objects.equals(feedbackEntityId, that.feedbackEntityId) &&
+                Objects.equals(feedbackEntity, that.feedbackEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, FeedbackEntityId);
+        return Objects.hash(id, feedbackEntityId, feedbackEntity);
     }
 }
