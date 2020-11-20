@@ -123,7 +123,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         FeedbackArchivedEntity feedbackArchivedEntity = new FeedbackArchivedEntity();
 
-        feedbackArchivedEntity.setFeedbackEntityId(feedbackEntity.getId());
+        feedbackArchivedEntity.setFeedbackEntity(feedbackEntity);
 
         feedbackArchivedRepository.save(feedbackArchivedEntity);
 
@@ -145,7 +145,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         FeedbackArchivedEntity feedbackArchivedEntity = feedbackArchivedRepository.findById(id)
                 .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
-        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntityId());
+        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntity().getId());
         feedbackEntity.setFeedbackArchivedEntity(null);
 
         feedbackArchivedRepository.delete(feedbackArchivedEntity);

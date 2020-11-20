@@ -12,19 +12,9 @@ public class FeedbackArchivedEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "FEEDBACK_ID")
-    private Long feedbackEntityId;
-
-    @OneToOne(mappedBy = "feedbackArchivedEntity")
+    @OneToOne
+    @JoinColumn(name = "FEEDBACK_ID")
     private FeedbackEntity feedbackEntity;
-
-    public Long getFeedbackEntityId() {
-        return feedbackEntityId;
-    }
-
-    public void setFeedbackEntityId(Long feedbackEntityId) {
-        this.feedbackEntityId = feedbackEntityId;
-    }
 
     public FeedbackEntity getFeedbackEntity() {
         return feedbackEntity;
@@ -48,12 +38,11 @@ public class FeedbackArchivedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         FeedbackArchivedEntity that = (FeedbackArchivedEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(feedbackEntityId, that.feedbackEntityId) &&
                 Objects.equals(feedbackEntity, that.feedbackEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, feedbackEntityId, feedbackEntity);
+        return Objects.hash(id, feedbackEntity);
     }
 }

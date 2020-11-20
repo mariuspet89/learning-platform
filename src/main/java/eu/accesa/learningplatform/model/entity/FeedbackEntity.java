@@ -28,14 +28,6 @@ public class FeedbackEntity {
     @JoinColumn(name = "FEEDBACK_ARCHIVED_ID")
     private FeedbackArchivedEntity feedbackArchivedEntity;
 
-    public FeedbackArchivedEntity getFeedbackArchivedEntity() {
-        return feedbackArchivedEntity;
-    }
-
-    public void setFeedbackArchivedEntity(FeedbackArchivedEntity feedbackArchivedEntity) {
-        this.feedbackArchivedEntity = feedbackArchivedEntity;
-    }
-
     public Long getId() {
         return id;
     }
@@ -74,6 +66,14 @@ public class FeedbackEntity {
 
     public void setLessonEntity(LessonEntity lessonEntity) {
         this.lessonEntity = lessonEntity;
+    }
+
+    public FeedbackArchivedEntity getFeedbackArchivedEntity() {
+        return feedbackArchivedEntity;
+    }
+
+    public void setFeedbackArchivedEntity(FeedbackArchivedEntity feedbackArchivedEntity) {
+        this.feedbackArchivedEntity = feedbackArchivedEntity;
     }
 
     @Override
