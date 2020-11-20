@@ -7,12 +7,12 @@ import java.util.Objects;
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "TITLE")
+    @Column(name = "TITLE", nullable = false)
     private String title;
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
     @ManyToOne

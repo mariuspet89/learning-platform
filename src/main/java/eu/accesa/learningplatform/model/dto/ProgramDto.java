@@ -1,20 +1,19 @@
 package eu.accesa.learningplatform.model.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-
 public class ProgramDto {
-
     private Long id;
-
+    @NotBlank(message = "Program name can't be left empty.")
     private String programName;
-
+    @NotBlank(message = "Description can't be left empty.")
     private String description;
-
+    @NotNull(message = "Start Date can't be left empty.")
     private LocalDate startDate;
-
+    @NotNull(message = "End Date can't be left empty.")
     private LocalDate endDate;
-
     private Long competenceAreaId;
 
     public Long getId() {

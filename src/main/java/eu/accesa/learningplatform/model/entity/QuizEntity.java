@@ -10,10 +10,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "QUIZ")
 public class QuizEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "TITLE")
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

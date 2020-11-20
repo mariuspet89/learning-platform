@@ -1,20 +1,19 @@
 package eu.accesa.learningplatform.model.dto;
 
-
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class CourseDto {
-
     private Long id;
-    @NotNull
+    @NotBlank(message = "Name can't be left empty.")
     private String name;
-    @NotNull
+    @NotBlank(message = "Description can't be left empty.")
     private String description;
-    @NotNull
+    @NotNull(message = "Total duration can't be left empty.")
     private Double totalDuration;
-    @NotNull
+    @NotNull(message = "ProgramID can't be left empty.")
     private Long programId;
-    @NotNull
+    @NotNull(message = "UserID can't be left empty.")
     private Long userId;
 
     public Long getId() {

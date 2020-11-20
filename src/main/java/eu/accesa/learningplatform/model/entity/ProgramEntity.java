@@ -12,19 +12,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "PROGRAM")
 public class ProgramEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @NotNull
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String programName;
     @Column(name = "DESCRIPTION")
     private String description;
-    @NotNull
-    @Column(name = "START_DATE")
+    @Column(name = "START_DATE", nullable = false)
     private LocalDate startDate;
-    @NotNull
-    @Column(name = "END_DATE")
+    @Column(name = "END_DATE", nullable = false)
     private LocalDate endDate;
 
     @ManyToOne

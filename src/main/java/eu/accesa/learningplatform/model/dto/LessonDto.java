@@ -1,14 +1,16 @@
 package eu.accesa.learningplatform.model.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class LessonDto {
     private Long id;
-    @NotNull
+    @NotBlank(message = "Name can't be left empty.")
     private String name;
-    @NotNull
+    @NotBlank(message = "Duration can't be left empty.")
     private double duration;
-    @NotNull
+    @NotNull(message = "CourseID can't be left empty.")
     private Long courseId;
 
     public Long getId() {
@@ -44,12 +46,18 @@ public class LessonDto {
     }
 
     @Override
-    public String toString() {
-        return "LessonDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", duration=" + duration +
-                ", courseEntityId=" + courseId +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LessonDto lessonDto = (LessonDto) o;
+        return Double.compare(lessonDto.duration, duration) == 0 &&
+                Objects.equals(id, lessonDto.id) &&
+                Objects.equals(name, lessonDto.name) &&
+                Objects.equals(courseId, lessonDto.courseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, duration, courseId);
     }
 }

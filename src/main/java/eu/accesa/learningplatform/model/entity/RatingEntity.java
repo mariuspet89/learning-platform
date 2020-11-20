@@ -7,10 +7,10 @@ import java.util.Objects;
 @Table(name = "RATING")
 public class RatingEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "NO_OF_STARS")
+    @Column(name = "NO_OF_STARS", nullable = false)
     private Integer noOfStars;
     @Column(name = "DESCRIPTION")
     private String description;

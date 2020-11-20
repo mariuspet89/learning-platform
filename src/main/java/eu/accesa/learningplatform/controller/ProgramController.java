@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,7 +35,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "500", description = "Invalid Program",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<ProgramDto> createProgram(@RequestBody ProgramDto programDto) {
+    public ResponseEntity<ProgramDto> createProgram(@Valid @RequestBody ProgramDto programDto) {
         ProgramDto program = programService.createProgram(programDto);
         return new ResponseEntity<>(program, HttpStatus.CREATED);
     }
@@ -81,7 +82,7 @@ public class ProgramController {
             @ApiResponse(responseCode = "404", description = "Program not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @RequestBody ProgramDto programDto) {
+    public ResponseEntity<ProgramDto> updateProgram(final @PathVariable Long id, @Valid @RequestBody ProgramDto programDto) {
         ProgramDto updatedProgramDto = programService.updateProgram(programDto, id);
         return new ResponseEntity<>(updatedProgramDto, HttpStatus.OK);
     }

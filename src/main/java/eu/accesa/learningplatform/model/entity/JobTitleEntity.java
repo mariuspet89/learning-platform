@@ -7,10 +7,10 @@ import java.util.Objects;
 @Table(name = "JOB_TITLE")
 public class JobTitleEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private JobTitleEnum name;
 
     public Long getId() {
