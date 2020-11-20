@@ -14,6 +14,16 @@ public class FeedbackDto {
     
     private Long lessonEntityId;
 
+    private Long userEntityId;
+
+    public Long getUserEntityId() {
+        return userEntityId;
+    }
+
+    public void setUserEntityId(Long userEntityId) {
+        this.userEntityId = userEntityId;
+    }
+
     public Long getLessonEntityId() {
         return lessonEntityId;
     }
