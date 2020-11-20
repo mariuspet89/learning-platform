@@ -9,10 +9,10 @@ import java.util.Set;
 @Table(name = "LESSON")
 public class LessonEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
     @Column(name = "DURATION")
     private double duration;

@@ -9,12 +9,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "APPLICATION")
 public class ApplicationEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "STATUS")
+    @Column(name = "STATUS", nullable = false)
     private ApplicationStatusEnum status;
-    @Column(name = "COURSE_IDEA")
+    @Column(name = "COURSE_IDEA", nullable = false)
     private String courseIdea;
 
     @ManyToOne()

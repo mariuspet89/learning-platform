@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "LESSON_CONTENT")
 public class LessonContentEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "CONTENT")

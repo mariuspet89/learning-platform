@@ -10,12 +10,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "ANSWER")
 public class AnswerEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "ANSWER_TEXT")
+    @Column(name = "ANSWER_TEXT", nullable = false)
     private String answerText;
-    @Column(name = "CORRECT_ANSWER")
+    @Column(name = "CORRECT_ANSWER", nullable = false)
     private boolean isCorrect;
 
     @ManyToOne()

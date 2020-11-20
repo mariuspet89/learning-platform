@@ -1,25 +1,26 @@
 package eu.accesa.learningplatform.model.dto;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class UserDto {
     private Long id;
-    @NotNull(message = "First name can't be null")
+    @NotBlank(message = "First name can't be left empty.")
     private String firstName;
-    @NotNull(message = "Last name can't be null")
+    @NotBlank(message = "Last name can't be left empty.")
     private String lastName;
-    @Email(message = "Must be a valid email")
-    @NotNull(message = "Email can't be null")
+    @Email(message = "Must be a valid email.")
+    @NotBlank(message = "Email can't be left empty.")
     private String email;
     private String imageUrl;
-    @NotNull(message = "Password can't be null")
+    @NotBlank(message = "Password can't be left empty.")
     private String password;
-    @NotNull
+    @NotNull(message = "CompetenceAreaID can't be left empty.")
     private Long competenceAreaId;
-    @NotNull
+    @NotNull(message = "JobTitleID can't be left empty.")
     private Long jobTitleId;
-    @NotNull
+    @NotNull(message = "UserTypeID can't be left empty.")
     private Long userTypeId;
 
     public Long getId() {

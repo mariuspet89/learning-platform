@@ -10,11 +10,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "COMPETENCE_AREA")
 public class CompetenceAreaEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @NotNull
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private CompetenceAreaEnum name;
 
     public Long getId() {

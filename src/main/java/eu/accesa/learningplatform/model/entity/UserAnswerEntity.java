@@ -10,10 +10,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "USER_ANSWER")
 public class UserAnswerEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "USER_ANSWER_TEXT")
+    @Column(name = "USER_ANSWER_TEXT", nullable = false)
     private String userAnswerText;
 
     @ManyToOne()

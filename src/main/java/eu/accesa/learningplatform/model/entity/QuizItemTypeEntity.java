@@ -10,10 +10,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "QUIZ_ITEM_TYPE")
 public class QuizItemTypeEntity {
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "TYPE")
+    @Column(name = "TYPE", nullable = false)
     private QuizItemTypeEnum type;
 
     @OneToMany(mappedBy = "quizItemTypeEntity")
