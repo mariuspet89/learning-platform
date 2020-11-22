@@ -35,6 +35,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/security")
+    public String securityMethod() {
+        return "O INTRATTTTTTTTTT IN ENDPOINT!!!";
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     private UserDto getUserById(@PathVariable final Long id) {
