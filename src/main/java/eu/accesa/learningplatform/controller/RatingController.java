@@ -26,14 +26,13 @@ public class RatingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<RatingDto>> getRatingsByLessonId(@PathVariable Long id)
-    {
+    public ResponseEntity<List<RatingDto>> getRatingsByLessonId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAllRatingsByCourseId(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RatingDto save(@Valid @RequestBody RatingDto ratingDto){
+    public RatingDto save(@Valid @RequestBody RatingDto ratingDto) {
         return ratingService.updateRating(ratingDto);
     }
 

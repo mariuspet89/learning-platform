@@ -2,7 +2,6 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.RatingDto;
 import eu.accesa.learningplatform.model.entity.CourseEntity;
-import eu.accesa.learningplatform.model.entity.LessonEntity;
 import eu.accesa.learningplatform.model.entity.RatingEntity;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.RatingRepository;
@@ -64,7 +63,7 @@ public class RatingServiceImpl implements RatingService {
                 .orElseThrow(()
                         -> new LearningPlatformException("Rating not found with the following id: " + ratingDto.getId()));
 
-        if(ratingEntity.getCourseEntity().getId().equals(ratingDto.getCourseId())){
+        if (ratingEntity.getCourseEntity().getId().equals(ratingDto.getCourseId())) {
             throw new LearningPlatformException("You can't update Course id.");
         }
 
