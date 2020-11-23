@@ -8,14 +8,10 @@ public interface RatingService {
 
     RatingDto createRating(RatingDto ratingDto);
 
-    List<RatingDto> getAllRatings();
+    List<RatingDto> getAllRatingsByCourseId(Long id);
 
     RatingDto updateRating(RatingDto ratingDto);
 
     void deleteRating(Long id);
-
-    /*int createAverageRatingByCourse(Long id);
-    int getAverageRatingByCourse(Long id);
-    int updateAverageRatingByCourse(Long id);*/
 
 }
