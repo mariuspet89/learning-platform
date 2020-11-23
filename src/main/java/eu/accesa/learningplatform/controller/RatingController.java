@@ -32,7 +32,7 @@ public class RatingController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RatingDto save(@Valid @RequestBody RatingDto ratingDto) {
+    public RatingDto updateRating(@Valid @RequestBody RatingDto ratingDto) {
         return ratingService.updateRating(ratingDto);
     }
 
