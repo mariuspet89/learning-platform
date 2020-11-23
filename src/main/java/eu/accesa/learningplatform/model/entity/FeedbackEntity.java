@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "FEEDBACK")
 public class FeedbackEntity {
+
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,10 @@ public class FeedbackEntity {
     @ManyToOne
     @JoinColumn(name = "LESSON_ID")
     private LessonEntity lessonEntity;
+
+    @OneToOne
+    @JoinColumn(name = "FEEDBACK_ARCHIVED_ID")
+    private FeedbackArchivedEntity feedbackArchivedEntity;
 
     public Long getId() {
         return id;
@@ -63,6 +68,14 @@ public class FeedbackEntity {
         this.lessonEntity = lessonEntity;
     }
 
+    public FeedbackArchivedEntity getFeedbackArchivedEntity() {
+        return feedbackArchivedEntity;
+    }
+
+    public void setFeedbackArchivedEntity(FeedbackArchivedEntity feedbackArchivedEntity) {
+        this.feedbackArchivedEntity = feedbackArchivedEntity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,11 +83,15 @@ public class FeedbackEntity {
         FeedbackEntity that = (FeedbackEntity) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description);
+                Objects.equals(description, that.description) &&
+                Objects.equals(userEntity, that.userEntity) &&
+                Objects.equals(lessonEntity, that.lessonEntity) &&
+                Objects.equals(feedbackArchivedEntity, that.feedbackArchivedEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description);
+        return Objects.hash(id, title, description,
+                userEntity, lessonEntity, feedbackArchivedEntity);
     }
 }
