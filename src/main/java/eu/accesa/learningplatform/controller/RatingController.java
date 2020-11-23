@@ -30,7 +30,7 @@ public class RatingController {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAllRatingsByCourseId(id));
     }
 
-    @PostMapping
+    @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RatingDto save(@Valid @RequestBody RatingDto ratingDto) {
         return ratingService.updateRating(ratingDto);
