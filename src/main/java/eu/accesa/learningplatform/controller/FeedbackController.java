@@ -1,6 +1,6 @@
 package eu.accesa.learningplatform.controller;
 
-import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
+import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.service.FeedbackService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -51,21 +51,30 @@ public class FeedbackController {
         return ResponseEntity.status(HttpStatus.OK).body(feedbackService.getFeedbacksByLessonId(id));
     }
 
-    @PostMapping("/feedbacks/archived/{id}")
-    public FeedbackArchivedDto archiveFeedback(@PathVariable Long id){
-        return feedbackService.archiveFeedback(id);
+    @GetMapping("/feedbacks/active")
+    public ResponseEntity<List<FeedbackDto>> findAllActiveFeedbacks(){
+
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllActiveFeedbacks());
     }
 
-
     @GetMapping("/feedbacks/archived")
-    public ResponseEntity<List<FeedbackArchivedDto>> findAllArchivedFeedbacks() {
+    public ResponseEntity<List<FeedbackDto>> findAllArchivedFeedbacks(){
+
         return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllArchivedFeedbacks());
     }
 
+    @PutMapping("/archiveFeedback/{id}")
+    public ResponseEntity <String> archiveFeedback(@PathVariable Long id) throws LearningPlatformException {
+
+        feedbackService.archiveFeedback(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Feedback Archived");
+    }
+
     @DeleteMapping("/feedbacks/archived/delete/{id}")
-    public ResponseEntity<String> undoArchive(@PathVariable Long id) {
+    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id)
+            throws LearningPlatformException {
         feedbackService.undoArchive(id);
         return ResponseEntity.status(HttpStatus.OK).body(" Undo Archive Feedback");
     }
-
 }

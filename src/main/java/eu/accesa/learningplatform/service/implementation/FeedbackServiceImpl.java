@@ -1,12 +1,9 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
-import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
-import eu.accesa.learningplatform.model.entity.FeedbackArchivedEntity;
 import eu.accesa.learningplatform.model.entity.FeedbackEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
-import eu.accesa.learningplatform.repository.FeedbackArchivedRepository;
 import eu.accesa.learningplatform.repository.FeedbackRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
 import eu.accesa.learningplatform.service.FeedbackService;
@@ -26,18 +23,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
-    private final FeedbackArchivedRepository feedbackArchivedRepository;
-
     private final ModelMapper modelMapper;
 
     private final LessonRepository lessonRepository;
 
     public FeedbackServiceImpl(FeedbackRepository feedbackRepository,
-                               FeedbackArchivedRepository feedbackArchivedRepository,
                                ModelMapper modelMapper,
                                LessonRepository lessonRepository) {
         this.feedbackRepository = feedbackRepository;
-        this.feedbackArchivedRepository = feedbackArchivedRepository;
         this.modelMapper = modelMapper;
         this.lessonRepository = lessonRepository;
     }
@@ -110,55 +103,52 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public FeedbackArchivedDto archiveFeedback(Long id) {
+    public void archiveFeedback(Long id) {
 
-        LOGGER.info("Archiving  Feedback with ID " + id);
+        FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(()
+                -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
 
-        FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(() ->
-                new LearningPlatformException("Feedback Not Found with the following ID:" + id));
+        if (feedbackEntity.isArchived()){
 
-        if (feedbackEntity.getFeedbackArchivedEntity() != null) {
             throw new LearningPlatformException("Feedback Already Archived");
         }
 
-        FeedbackArchivedEntity feedbackArchivedEntity = new FeedbackArchivedEntity();
-
-        feedbackArchivedEntity.setFeedbackEntity(feedbackEntity);
-
-        feedbackArchivedRepository.save(feedbackArchivedEntity);
-
-        FeedbackArchivedEntity byId = feedbackArchivedRepository.findById(feedbackArchivedEntity.getId())
-                .orElseThrow(() ->
-                        new LearningPlatformException("No archived Feedback with ID" + feedbackArchivedEntity.getId()));
-
-        feedbackEntity.setFeedbackArchivedEntity(byId);
+        feedbackEntity.setArchived(true);
 
         feedbackRepository.save(feedbackEntity);
-
-        return modelMapper.map(feedbackArchivedEntity, FeedbackArchivedDto.class);
     }
 
     @Override
-    public void undoArchive(Long id) {
+    public void undoArchive(Long id) throws LearningPlatformException {
+        FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(()
+                -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
 
-        LOGGER.info("Undo Archiving  Feedback with ID " + id);
+        feedbackEntity.setArchived(false);
 
-        FeedbackArchivedEntity feedbackArchivedEntity = feedbackArchivedRepository.findById(id)
-                .orElseThrow(() -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
-        FeedbackEntity feedbackEntity = feedbackRepository.getOne(feedbackArchivedEntity.getFeedbackEntity().getId());
-        feedbackEntity.setFeedbackArchivedEntity(null);
-
-        feedbackArchivedRepository.delete(feedbackArchivedEntity);
+        feedbackRepository.save(feedbackEntity);
     }
 
     @Override
-    public List<FeedbackArchivedDto> findAllArchivedFeedbacks() {
-        LOGGER.info("Getting all archived feedbacks");
+    public List<FeedbackDto> findAllActiveFeedbacks() {
 
-        List<FeedbackArchivedEntity> feedbackArchivedEntities = feedbackArchivedRepository.findAll();
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAll();
 
-        return feedbackArchivedEntities.stream()
-                .map(fe -> modelMapper.map(fe, FeedbackArchivedDto.class))
+        feedbackEntities.removeIf(FeedbackEntity::isArchived);
+
+        return feedbackEntities.stream()
+                .map(fe -> modelMapper.map(fe, FeedbackDto.class))
+                .collect(toList());
+    }
+
+    @Override
+    public List<FeedbackDto> findAllArchivedFeedbacks() {
+
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAll();
+
+        feedbackEntities.removeIf(fee -> !fee.isArchived());
+
+        return feedbackEntities.stream()
+                .map(fe -> modelMapper.map(fe, FeedbackDto.class))
                 .collect(toList());
     }
 }

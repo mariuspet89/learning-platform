@@ -16,6 +16,8 @@ public class FeedbackDto {
 
     private Long userEntityId;
 
+    private boolean archived;
+
     public Long getUserEntityId() {
         return userEntityId;
     }
@@ -56,4 +58,11 @@ public class FeedbackDto {
         this.description = description;
     }
 
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 }

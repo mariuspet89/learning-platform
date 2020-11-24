@@ -24,9 +24,8 @@ public class FeedbackEntity {
     @JoinColumn(name = "LESSON_ID")
     private LessonEntity lessonEntity;
 
-    @OneToOne
-    @JoinColumn(name = "FEEDBACK_ARCHIVED_ID")
-    private FeedbackArchivedEntity feedbackArchivedEntity;
+    @Column(name = "ARCHIVED")
+    private boolean archived = false;
 
     public Long getId() {
         return id;
@@ -68,12 +67,12 @@ public class FeedbackEntity {
         this.lessonEntity = lessonEntity;
     }
 
-    public FeedbackArchivedEntity getFeedbackArchivedEntity() {
-        return feedbackArchivedEntity;
+    public boolean isArchived() {
+        return archived;
     }
 
-    public void setFeedbackArchivedEntity(FeedbackArchivedEntity feedbackArchivedEntity) {
-        this.feedbackArchivedEntity = feedbackArchivedEntity;
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     @Override
@@ -81,17 +80,16 @@ public class FeedbackEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FeedbackEntity that = (FeedbackEntity) o;
-        return Objects.equals(id, that.id) &&
+        return archived == that.archived &&
+                Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(userEntity, that.userEntity) &&
-                Objects.equals(lessonEntity, that.lessonEntity) &&
-                Objects.equals(feedbackArchivedEntity, that.feedbackArchivedEntity);
+                Objects.equals(lessonEntity, that.lessonEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description,
-                userEntity, lessonEntity, feedbackArchivedEntity);
+        return Objects.hash(id, title, description, userEntity, lessonEntity, archived);
     }
 }
