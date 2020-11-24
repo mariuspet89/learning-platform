@@ -38,8 +38,7 @@ public class RatingController {
         return ResponseEntity.status(HttpStatus.OK).body("Rating Deleted");
     }
 
-
-    @GetMapping("/ratingsByCourseId/{id}")
+    @GetMapping("/ByCourseId/{id}")
     public ResponseEntity<List<RatingDto>> getRatingsByCourseId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAllRatingsByCourseId(id));
     }

@@ -15,5 +15,4 @@ public interface RatingService {
     void deleteRating(Long id);
 
     Double getAverageRatingByCourseId(Long id);
-
 }
