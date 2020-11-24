@@ -49,10 +49,12 @@ public class RatingServiceImpl implements RatingService {
         RatingEntity ratingEntity = modelMapper.map(ratingDto, RatingEntity.class);
 
         UserEntity userEntity = userRepository.findById(ratingDto.getUserId())
-                .orElseThrow();//arunca o exceptie;
+                .orElseThrow(()
+                        ->new LearningPlatformException("User not found with the following id: " + ratingDto.getUserId()));
 
         CourseEntity courseEntity = courseRepository.findById(ratingDto.getCourseId())
-                .orElseThrow();//arunca o exceptie;
+                .orElseThrow(()
+                -> new LearningPlatformException("Course not found with the following id: " + ratingDto.getCourseId()));
 
         ratingEntity.setUserEntity(userEntity);
 
@@ -103,5 +105,16 @@ public class RatingServiceImpl implements RatingService {
                 -> new LearningPlatformException("Rating Not Found with the following ID:" + id));
         ratingRepository.delete(ratingEntity);
 
+    }
+
+    @Override
+    public Double averageRatingByCourseId(Long id) {
+        Double sum = 0.0;
+        List<RatingEntity> ratingEntity = ratingRepository.findAllByCourseEntity_Id(id);
+        for (RatingEntity rating : ratingEntity) {
+            sum += rating.getNoOfStars();
+        }
+
+        return sum / ratingEntity.size();
     }
 }
