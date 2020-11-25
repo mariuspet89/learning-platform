@@ -20,8 +20,7 @@ public interface FeedbackService {
 
     void undoArchive(Long id);
 
-    List <FeedbackDto> findAllActiveFeedbacks();
+    List <FeedbackDto> findAllFeedbacksByLessonId(Long id, boolean state);
 
-    List <FeedbackDto> findAllArchivedFeedbacks();
 
 }

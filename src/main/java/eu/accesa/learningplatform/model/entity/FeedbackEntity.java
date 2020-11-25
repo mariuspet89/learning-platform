@@ -25,7 +25,7 @@ public class FeedbackEntity {
     private LessonEntity lessonEntity;
 
     @Column(name = "ARCHIVED")
-    private boolean archived = false;
+    private boolean archived;
 
     public Long getId() {
         return id;

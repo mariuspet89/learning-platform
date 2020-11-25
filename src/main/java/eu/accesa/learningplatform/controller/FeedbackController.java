@@ -51,29 +51,22 @@ public class FeedbackController {
         return ResponseEntity.status(HttpStatus.OK).body(feedbackService.getFeedbacksByLessonId(id));
     }
 
-    @GetMapping("/feedbacks/active")
-    public ResponseEntity<List<FeedbackDto>> findAllActiveFeedbacks(){
+    @GetMapping("/byLessonAndArchivedState/{id}")
+    public ResponseEntity<List<FeedbackDto>> findAllFeedbacksByLessonId(@PathVariable Long id, boolean state){
 
-        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllActiveFeedbacks());
-    }
-
-    @GetMapping("/feedbacks/archived")
-    public ResponseEntity<List<FeedbackDto>> findAllArchivedFeedbacks(){
-
-        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllArchivedFeedbacks());
+        return ResponseEntity.status(HttpStatus.OK).body(feedbackService.findAllFeedbacksByLessonId(id, state));
     }
 
     @PutMapping("/archiveFeedback/{id}")
-    public ResponseEntity <String> archiveFeedback(@PathVariable Long id) throws LearningPlatformException {
+    public ResponseEntity <String> archiveFeedback(@PathVariable Long id) {
 
         feedbackService.archiveFeedback(id);
 
         return ResponseEntity.status(HttpStatus.OK).body("Feedback Archived");
     }
 
-    @DeleteMapping("/feedbacks/archived/delete/{id}")
-    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id)
-            throws LearningPlatformException {
+    @DeleteMapping("/archived/delete/{id}")
+    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id) {
         feedbackService.undoArchive(id);
         return ResponseEntity.status(HttpStatus.OK).body(" Undo Archive Feedback");
     }

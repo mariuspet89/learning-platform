@@ -129,23 +129,15 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<FeedbackDto> findAllActiveFeedbacks() {
+    public List<FeedbackDto> findAllFeedbacksByLessonId(Long id, boolean state) {
 
-        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAll();
+        List<FeedbackEntity> feedbackEntities;
 
-        feedbackEntities.removeIf(FeedbackEntity::isArchived);
-
-        return feedbackEntities.stream()
-                .map(fe -> modelMapper.map(fe, FeedbackDto.class))
-                .collect(toList());
-    }
-
-    @Override
-    public List<FeedbackDto> findAllArchivedFeedbacks() {
-
-        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAll();
-
-        feedbackEntities.removeIf(fee -> !fee.isArchived());
+        if(state) {
+            feedbackEntities = feedbackRepository.findAllByArchivedTrueAndLessonEntity_Id(id);
+        }
+        else
+            feedbackEntities = feedbackRepository.findAllByArchivedFalseAndLessonEntity_Id(id);
 
         return feedbackEntities.stream()
                 .map(fe -> modelMapper.map(fe, FeedbackDto.class))
