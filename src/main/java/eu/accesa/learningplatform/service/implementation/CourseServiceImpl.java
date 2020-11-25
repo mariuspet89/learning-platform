@@ -10,6 +10,7 @@ import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.CourseService;
 import eu.accesa.learningplatform.service.exception.EntityNotFoundException;
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -75,9 +76,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<CourseDto> getCoursesByTrainer(Long id) {
         LOGGER.info("Searching for course by trainer with id: {}", id);
-        CourseEntity courseEntity = courseRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("CourseEntity", "id", id.toString()));
-        if (!UserTypeEnum.TRAINER.equals(courseEntity.getUserEntity().getUserTypeEntity().getName()))
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("UserEntity", "id", id.toString()));
+        if (!UserTypeEnum.TRAINER.equals(userEntity.getUserTypeEntity().getName()))
             return new LinkedList<>();
         List<CourseEntity> courseEntities = courseRepository.findByUserEntity_Id(id);
         return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
