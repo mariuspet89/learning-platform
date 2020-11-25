@@ -108,7 +108,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(()
                 -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
 
-        if (feedbackEntity.isArchived()){
+        if (feedbackEntity.isArchived()) {
 
             throw new LearningPlatformException("Feedback Already Archived");
         }
@@ -132,13 +132,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<FeedbackDto> findAllFeedbacksByLessonId(Long id, boolean state) {
 
-        List<FeedbackEntity> feedbackEntities;
-
-        if(state) {
-            feedbackEntities = feedbackRepository.findAllByArchivedTrueAndLessonEntity_Id(id);
-        }
-        else
-            feedbackEntities = feedbackRepository.findAllByArchivedFalseAndLessonEntity_Id(id);
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByArchivedAndLessonEntity_Id(state, id);
 
         return feedbackEntities.stream()
                 .map(fe -> modelMapper.map(fe, FeedbackDto.class))
