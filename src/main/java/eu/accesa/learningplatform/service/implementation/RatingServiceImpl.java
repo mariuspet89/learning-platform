@@ -10,6 +10,7 @@ import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.RatingService;
 import eu.accesa.learningplatform.service.exception.LearningPlatformException;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public RatingDto createRating(RatingDto ratingDto) {
 
-        LOGGER.info("Creating Rating " + ratingDto.getId());
+        LOGGER.info("Creating Rating ");
 
         RatingEntity ratingEntity = modelMapper.map(ratingDto, RatingEntity.class);
 
@@ -74,9 +75,8 @@ public class RatingServiceImpl implements RatingService {
 
         List<RatingEntity> ratingEntities = ratingRepository.findAllByCourseEntity_Id(id);
 
-        return ratingEntities.stream()
-                .map(rating -> modelMapper.map(rating, RatingDto.class))
-                .collect(toList());
+        return modelMapper.map(ratingEntities, new TypeToken<List<RatingDto>>() {
+        }.getType());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class RatingServiceImpl implements RatingService {
                 .orElseThrow(()
                         -> new LearningPlatformException("Rating not found with the following id: " + ratingDto.getId()));
 
-        if (ratingEntity.getCourseEntity().getId().equals(ratingDto.getCourseId())) {
+        if (!ratingEntity.getCourseEntity().getId().equals(ratingDto.getCourseId())) {
             throw new LearningPlatformException("You can't update Course id.");
         }
 
@@ -111,7 +111,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public Double averageRatingByCourseId(Long id) {
+    public Double getAverageRatingByCourseId(Long id) {
 
         LOGGER.info("Get the average rating for the course");
 
@@ -120,10 +120,11 @@ public class RatingServiceImpl implements RatingService {
                         -> new LearningPlatformException("Course not found with the following id: " + id));
 
         Double sum = 0.0;
-        List<RatingEntity> ratingEntity = ratingRepository.findAllByCourseEntity_Id(id);
-        for (RatingEntity rating : ratingEntity) {
+        List<RatingEntity> ratings = ratingRepository.findAllByCourseEntity_Id(id);
+
+        for (RatingEntity rating : ratings) {
             sum += rating.getNoOfStars();
         }
-        return sum / ratingEntity.size();
+        return sum / ratings.size();
     }
 }

@@ -33,7 +33,7 @@ public class RatingController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> deleteById(@Valid @PathVariable Long id) {
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
         ratingService.deleteRating(id);
         return ResponseEntity.status(HttpStatus.OK).body("Rating Deleted");
     }
@@ -51,7 +51,7 @@ public class RatingController {
     }
 
     @GetMapping("/averageByCourseId/{id}")
-    public ResponseEntity< Double> getAverageRatingByCourseId(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(ratingService.averageRatingByCourseId(id));
+    public ResponseEntity<Double> getAverageRatingByCourseId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAverageRatingByCourseId(id));
     }
 }
