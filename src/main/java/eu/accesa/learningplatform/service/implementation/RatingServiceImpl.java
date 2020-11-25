@@ -55,7 +55,7 @@ public class RatingServiceImpl implements RatingService {
 
         CourseEntity courseEntity = courseRepository.findById(ratingDto.getCourseId())
                 .orElseThrow(()
-                -> new LearningPlatformException("Course not found with the following id: " + ratingDto.getCourseId()));
+                        -> new LearningPlatformException("Course not found with the following id: " + ratingDto.getCourseId()));
 
         ratingEntity.setUserEntity(userEntity);
 
