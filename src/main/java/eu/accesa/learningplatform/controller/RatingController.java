@@ -25,15 +25,17 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<RatingDto>> getRatingsByLessonId(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAllRatingsByCourseId(id));
-    }
-
-    @PutMapping
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RatingDto updateRating(@Valid @RequestBody RatingDto ratingDto) {
-        return ratingService.updateRating(ratingDto);
+    public ResponseEntity<RatingDto> save(@Valid @RequestBody RatingDto ratingDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingService.createRating(ratingDto));
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> deleteById(@Valid @PathVariable Long id) {
+        ratingService.deleteRating(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Rating Deleted");
+    }
+// ne trebe user id pt orice ,adica tabela user
 }

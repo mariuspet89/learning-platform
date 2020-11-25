@@ -5,6 +5,13 @@ import eu.accesa.learningplatform.model.entity.CourseEntity;
 import eu.accesa.learningplatform.model.entity.RatingEntity;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.RatingRepository;
+import eu.accesa.learningplatform.model.entity.CourseEntity;
+import eu.accesa.learningplatform.model.entity.FeedbackEntity;
+import eu.accesa.learningplatform.model.entity.RatingEntity;
+import eu.accesa.learningplatform.model.entity.UserEntity;
+import eu.accesa.learningplatform.repository.CourseRepository;
+import eu.accesa.learningplatform.repository.RatingRepository;
+import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.RatingService;
 import eu.accesa.learningplatform.service.exception.LearningPlatformException;
 import org.modelmapper.ModelMapper;
@@ -23,21 +30,40 @@ public class RatingServiceImpl implements RatingService {
 
     private final RatingRepository ratingRepository;
 
+    private final UserRepository userRepository;
+
     private final CourseRepository courseRepository;
 
     private final ModelMapper modelMapper;
 
     public RatingServiceImpl(RatingRepository ratingRepository,
+                             UserRepository userRepository,
                              CourseRepository courseRepository,
                              ModelMapper modelMapper) {
         this.ratingRepository = ratingRepository;
+        this.userRepository = userRepository;
         this.courseRepository = courseRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public RatingDto createRating(RatingDto ratingDto) {
-        return null;
+
+        LOGGER.info("Creating Rating " + ratingDto.getId());
+
+        RatingEntity ratingEntity = modelMapper.map(ratingDto, RatingEntity.class);
+
+        UserEntity userEntity = userRepository.findById(ratingDto.getUserId())
+                .orElseThrow();//arunca o exceptie;
+
+        CourseEntity courseEntity = courseRepository.findById(ratingDto.getCourseId())
+                .orElseThrow();//arunca o exceptie;
+
+        ratingEntity.setUserEntity(userEntity);
+
+        ratingEntity.setCourseEntity(courseEntity);
+
+        return modelMapper.map(ratingRepository.save(ratingEntity),RatingDto.class);
     }
 
     @Override
@@ -76,6 +102,11 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void deleteRating(Long id) {
+        LOGGER.info("Deleting rating with the following ID: " + id);
+
+        RatingEntity ratingEntity = ratingRepository.findById(id).orElseThrow(()
+                -> new LearningPlatformException("Rating Not Found with the following ID:" + id));
+        ratingRepository.delete(ratingEntity);
 
     }
 }

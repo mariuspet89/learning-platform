@@ -67,14 +67,16 @@ public class RatingEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RatingEntity rating = (RatingEntity) o;
-        return id.equals(rating.id) &&
-                noOfStars.equals(rating.noOfStars) &&
-                description.equals(rating.description);
+        RatingEntity that = (RatingEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(noOfStars, that.noOfStars) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(userEntity, that.userEntity) &&
+                Objects.equals(courseEntity, that.courseEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, noOfStars, description);
+        return Objects.hash(id, noOfStars, description, userEntity, courseEntity);
     }
 }
