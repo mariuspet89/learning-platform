@@ -6,13 +6,13 @@ import java.util.Objects;
 public class RatingDto {
 
     private Long id;
-    @NotNull(message = "Number of stars can't be left empty.")
 
+    @NotNull(message = "Number of stars can't be left empty.")
     private Integer noOfStars;
 
     private String description;
 
-    private Long userId;//UserEntityId
+    private Long userId;
 
     private Long courseId;
 
