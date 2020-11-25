@@ -39,4 +39,15 @@ public class RatingController {
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<RatingDto>> getRatingsByLessonId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAllRatingsByCourseId(id));
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public RatingDto updateRating(@Valid @RequestBody RatingDto ratingDto) {
+        return ratingService.updateRating(ratingDto);
+    }
+
 }

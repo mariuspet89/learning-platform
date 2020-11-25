@@ -3,11 +3,6 @@ package eu.accesa.learningplatform.service.implementation;
 import eu.accesa.learningplatform.model.dto.RatingDto;
 import eu.accesa.learningplatform.model.entity.CourseEntity;
 import eu.accesa.learningplatform.model.entity.RatingEntity;
-import eu.accesa.learningplatform.repository.CourseRepository;
-import eu.accesa.learningplatform.repository.RatingRepository;
-import eu.accesa.learningplatform.model.entity.CourseEntity;
-import eu.accesa.learningplatform.model.entity.FeedbackEntity;
-import eu.accesa.learningplatform.model.entity.RatingEntity;
 import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.RatingRepository;
@@ -63,7 +58,7 @@ public class RatingServiceImpl implements RatingService {
 
         ratingEntity.setCourseEntity(courseEntity);
 
-        return modelMapper.map(ratingRepository.save(ratingEntity),RatingDto.class);
+        return modelMapper.map(ratingRepository.save(ratingEntity), RatingDto.class);
     }
 
     @Override

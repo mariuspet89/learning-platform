@@ -1,14 +1,13 @@
 package eu.accesa.learningplatform.model.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class RatingDto {
 
     private Long id;
-    //@NotBlank(message = "Number of stars can't be left empty.")
-    //@NotEmpty
+    @NotNull(message = "Number of stars can't be left empty.")
+
     private Integer noOfStars;
 
     private String description;

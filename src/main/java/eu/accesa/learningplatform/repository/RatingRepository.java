@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RatingRepository  extends JpaRepository<RatingEntity, Long> {
+public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
 
     List<RatingEntity> findAllByCourseEntity_Id(Long id);
 
