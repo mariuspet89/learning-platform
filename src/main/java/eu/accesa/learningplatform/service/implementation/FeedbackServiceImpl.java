@@ -119,7 +119,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public void undoArchive(Long id) throws LearningPlatformException {
+    public void undoArchive(Long id) {
+
         FeedbackEntity feedbackEntity = feedbackRepository.findById(id).orElseThrow(()
                 -> new LearningPlatformException("Feedback Not Found with the following ID:" + id));
 
