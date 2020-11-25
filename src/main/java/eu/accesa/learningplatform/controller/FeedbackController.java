@@ -66,7 +66,7 @@ public class FeedbackController {
     }
 
     @DeleteMapping("/archived/delete/{id}")
-    public ResponseEntity<String> undoArchive(@Valid @PathVariable Long id) {
+    public ResponseEntity<String> undoArchive(@PathVariable Long id) {
         feedbackService.undoArchive(id);
         return ResponseEntity.status(HttpStatus.OK).body(" Undo Archive Feedback");
     }
