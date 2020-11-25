@@ -9,4 +9,5 @@ public interface RatingRepository extends JpaRepository<RatingEntity, Long> {
 
     List<RatingEntity> findAllByCourseEntity_Id(Long id);
 
+
 }
