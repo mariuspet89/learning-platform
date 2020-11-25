@@ -37,5 +37,6 @@ public class RatingController {
         ratingService.deleteRating(id);
         return ResponseEntity.status(HttpStatus.OK).body("Rating Deleted");
     }
-// ne trebe user id pt orice ,adica tabela user
+
+
 }
