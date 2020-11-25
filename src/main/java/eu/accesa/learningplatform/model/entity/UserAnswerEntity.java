@@ -20,7 +20,7 @@ public class UserAnswerEntity {
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private AnswerEntity answer;
 

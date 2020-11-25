@@ -49,12 +49,11 @@ public class QuizItemTypeEntity {
         if (o == null || getClass() != o.getClass()) return false;
         QuizItemTypeEntity that = (QuizItemTypeEntity) o;
         return Objects.equals(id, that.id) &&
-                type == that.type &&
-                Objects.equals(quizItemEntities, that.quizItemEntities);
+                type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, quizItemEntities);
+        return Objects.hash(id, type);
     }
 }

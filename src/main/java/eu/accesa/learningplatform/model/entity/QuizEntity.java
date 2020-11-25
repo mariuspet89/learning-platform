@@ -16,11 +16,11 @@ public class QuizEntity {
     @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COURSE_ID")
     private CourseEntity courseEntity;
 
-    @OneToMany(mappedBy = "quizEntity")
+    @OneToMany(mappedBy = "quizEntity", cascade = CascadeType.REMOVE)
     private Set<QuizItemEntity> quizItems;
 
     public Long getId() {
