@@ -8,7 +8,7 @@ public class LessonDto {
     private Long id;
     @NotBlank(message = "Name can't be left empty.")
     private String name;
-    @NotBlank(message = "Duration can't be left empty.")
+    @NotNull(message = "Duration can't be left empty.")
     private double duration;
     @NotNull(message = "CourseID can't be left empty.")
     private Long courseId;

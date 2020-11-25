@@ -16,14 +16,14 @@ public class QuizItemEntity {
     @Column(name = "QUESTION", nullable = false)
     private String question;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "QUIZ_ITEM_TYPE_ID")
     private QuizItemTypeEntity quizItemTypeEntity;
 
-    @OneToMany(mappedBy = "quizItemEntity")
-    Set<AnswerEntity> answerSet;
+    @OneToMany(mappedBy = "quizItemEntity", cascade = CascadeType.REMOVE)
+    private Set<AnswerEntity> answerSet;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "QUIZ_ID")
     private QuizEntity quizEntity;
 
@@ -59,6 +59,22 @@ public class QuizItemEntity {
         this.answerSet = answerSet;
     }
 
+    public QuizItemTypeEntity getQuizItemTypeEntity() {
+        return quizItemTypeEntity;
+    }
+
+    public void setQuizItemTypeEntity(QuizItemTypeEntity quizItemTypeEntity) {
+        this.quizItemTypeEntity = quizItemTypeEntity;
+    }
+
+    public QuizEntity getQuizEntity() {
+        return quizEntity;
+    }
+
+    public void setQuizEntity(QuizEntity quizEntity) {
+        this.quizEntity = quizEntity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,6 +89,6 @@ public class QuizItemEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, quizItemTypeEntity, answerSet, quizEntity);
+        return Objects.hash(id, question, quizItemTypeEntity, quizEntity);
     }
 }
