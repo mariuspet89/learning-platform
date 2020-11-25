@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 import static java.util.stream.Collectors.toList;
 
@@ -111,7 +113,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public Double getAverageRatingByCourseId(Long id) {
+    public OptionalDouble getAverageRatingByCourseId(Long id) {
 
         LOGGER.info("Get the average rating for the course");
 
@@ -119,12 +121,11 @@ public class RatingServiceImpl implements RatingService {
                 .orElseThrow(()
                         -> new LearningPlatformException("Course not found with the following id: " + id));
 
-        Double sum = 0.0;
         List<RatingEntity> ratings = ratingRepository.findAllByCourseEntity_Id(id);
 
-        for (RatingEntity rating : ratings) {
-            sum += rating.getNoOfStars();
-        }
-        return sum / ratings.size();
+        return ratings
+                .stream()
+                .mapToDouble(RatingEntity::getNoOfStars)
+                .average();
     }
 }

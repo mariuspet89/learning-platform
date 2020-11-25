@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping("/ratings")
@@ -50,7 +52,7 @@ public class RatingController {
     }
 
     @GetMapping("/averageByCourseId/{id}")
-    public ResponseEntity<Double> getAverageRatingByCourseId(@PathVariable Long id) {
+    public ResponseEntity<OptionalDouble> getAverageRatingByCourseId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAverageRatingByCourseId(id));
     }
 }
