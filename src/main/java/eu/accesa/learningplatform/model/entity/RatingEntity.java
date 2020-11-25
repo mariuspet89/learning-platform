@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "RATING")
 public class RatingEntity {
+
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

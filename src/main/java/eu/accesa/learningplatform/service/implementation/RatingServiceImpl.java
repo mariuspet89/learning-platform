@@ -65,6 +65,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public List<RatingDto> getAllRatingsByCourseId(Long id) {
+
         LOGGER.info("Getting all ratings having course id: " + id);
 
         CourseEntity courseEntity = courseRepository.findById(id)
@@ -80,6 +81,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public RatingDto updateRating(RatingDto ratingDto) {
+
         LOGGER.info("Updating rating " + ratingDto.getId());
 
         RatingEntity ratingEntity = ratingRepository.findById(ratingDto.getId())
@@ -99,6 +101,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public void deleteRating(Long id) {
+
         LOGGER.info("Deleting rating with the following ID: " + id);
 
         RatingEntity ratingEntity = ratingRepository.findById(id).orElseThrow(()
@@ -109,12 +112,18 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Double averageRatingByCourseId(Long id) {
+
+        LOGGER.info("Get the average rating for the course");
+
+        CourseEntity courseEntity = courseRepository.findById(id)
+                .orElseThrow(()
+                        -> new LearningPlatformException("Course not found with the following id: " + id));
+
         Double sum = 0.0;
         List<RatingEntity> ratingEntity = ratingRepository.findAllByCourseEntity_Id(id);
         for (RatingEntity rating : ratingEntity) {
             sum += rating.getNoOfStars();
         }
-
         return sum / ratingEntity.size();
     }
 }
