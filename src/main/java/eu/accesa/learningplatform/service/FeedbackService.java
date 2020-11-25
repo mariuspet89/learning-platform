@@ -1,6 +1,5 @@
 package eu.accesa.learningplatform.service;
 
-import eu.accesa.learningplatform.model.dto.FeedbackArchivedDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 
 import java.util.List;
@@ -17,10 +16,11 @@ public interface FeedbackService {
 
     void deleteFeedback(Long Id);
 
-    FeedbackArchivedDto archiveFeedback(Long id);
+    void archiveFeedback(Long id) ;
 
     void undoArchive(Long id);
 
-    List<FeedbackArchivedDto>  findAllArchivedFeedbacks();
+    List <FeedbackDto> findAllFeedbacksByLessonId(Long id, boolean state);
+
 
 }
