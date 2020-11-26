@@ -31,6 +31,8 @@ public class ProgramEntity {
     @ManyToMany(mappedBy = "programEntities")
     private Set<UserEntity> userEntities;
 
+    @OneToMany(mappedBy = "programEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Set<CourseEntity> courseEntities;
 
     public Long getId() {
         return id;
@@ -86,6 +88,14 @@ public class ProgramEntity {
 
     public void setUserEntities(Set<UserEntity> userEntities) {
         this.userEntities = userEntities;
+    }
+
+    public Set<CourseEntity> getCourseEntities() {
+        return courseEntities;
+    }
+
+    public void setCourseEntities(Set<CourseEntity> courseEntities) {
+        this.courseEntities = courseEntities;
     }
 
     @Override

@@ -43,8 +43,6 @@ public class QuizServiceImpl implements QuizService {
         this.quizItemService = quizItemService;
         this.courseRepository = courseRepository;
         this.modelMapper = modelMapper;
-        this.modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
     @Override

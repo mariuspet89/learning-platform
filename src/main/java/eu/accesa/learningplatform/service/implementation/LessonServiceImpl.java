@@ -24,7 +24,6 @@ public class LessonServiceImpl implements LessonService {
     private final ModelMapper mapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(LessonServiceImpl.class);
 
-    @Autowired
     public LessonServiceImpl(LessonRepository lessonRepository,
                              CourseRepository courseRepository, ModelMapper mapper) {
         this.lessonRepository = lessonRepository;

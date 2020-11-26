@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     private final ModelMapper mapper;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository, CompetenceAreaRepository competenceAreaRepository, JobTitleRepository jobTitleRepository, UserTypeRepository userTypeRepository, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.competenceAreaRepository = competenceAreaRepository;
