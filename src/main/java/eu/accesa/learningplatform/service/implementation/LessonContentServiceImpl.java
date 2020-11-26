@@ -24,7 +24,6 @@ public class LessonContentServiceImpl implements LessonContentService {
     private final ModelMapper mapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(LessonContentServiceImpl.class);
 
-    @Autowired
     public LessonContentServiceImpl(LessonContentRepository lessonContentRepository,
                                     LessonRepository lessonRepository, ModelMapper mapper) {
         this.lessonContentRepository = lessonContentRepository;

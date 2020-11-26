@@ -31,7 +31,6 @@ public class CourseServiceImpl implements CourseService {
     private final ProgramRepository programRepository;
     private final ModelMapper modelMapper;
 
-    @Autowired
     public CourseServiceImpl(CourseRepository courseRepository,
                              UserRepository userRepository,
                              ProgramRepository programRepository,

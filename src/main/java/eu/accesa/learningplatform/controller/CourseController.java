@@ -20,7 +20,6 @@ import java.util.List;
 public class CourseController {
     private final CourseService courseService;
 
-    @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }

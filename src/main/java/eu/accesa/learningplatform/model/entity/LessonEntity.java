@@ -24,7 +24,7 @@ public class LessonEntity {
     @JoinColumn(name = "course_id")
     private CourseEntity courseEntity;
 
-    @OneToMany(mappedBy = "lessonEntity")
+    @OneToMany(mappedBy = "lessonEntity", cascade = CascadeType.REMOVE)
     private Set<FeedbackEntity> feedbackEntities;
 
     public Long getId() {
