@@ -30,7 +30,7 @@ public class CourseEntity {
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LessonEntity> lessonEntities;
 
-    @OneToOne(mappedBy = "courseEntity")
+    @OneToOne(mappedBy = "courseEntity", cascade = CascadeType.REMOVE)
     private QuizEntity quizEntity;
 
     @OneToMany(mappedBy = "courseEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
