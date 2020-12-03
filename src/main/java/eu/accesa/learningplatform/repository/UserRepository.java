@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findAllByUserTypeEntity_Id(Long userType);
 
+    List<UserEntity> findAllByProgramEntities_Id(Long programId);
+
 }
