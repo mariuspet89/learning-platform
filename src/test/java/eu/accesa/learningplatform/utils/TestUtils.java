@@ -1,9 +1,10 @@
 package eu.accesa.learningplatform.utils;
 
 import eu.accesa.learningplatform.model.dto.LessonDto;
-import eu.accesa.learningplatform.model.entity.CourseEntity;
-import eu.accesa.learningplatform.model.entity.LessonEntity;
+import eu.accesa.learningplatform.model.dto.ProgramDto;
+import eu.accesa.learningplatform.model.entity.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,5 +59,52 @@ public class TestUtils {
         return Arrays.asList(
                 testUtilsLessonEntity(1l, "java", 1l, testUtilsCourseEntity(1l)),
                 testUtilsLessonEntity(2l, "java basic", 2l, testUtilsCourseEntity(1l)));
+    }
+
+    public static ProgramEntity initializeProgram(String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity){
+        ProgramEntity programEntity = new ProgramEntity();
+        programEntity.setProgramName(name);
+        programEntity.setDescription(desc);
+        programEntity.setStartDate(startDate);
+        programEntity.setEndDate(endDate);
+        programEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        return programEntity;
+    }
+
+    public static ProgramEntity initializeProgram(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity){
+        ProgramEntity programEntity = new ProgramEntity();
+        programEntity.setId(id);
+        programEntity.setProgramName(name);
+        programEntity.setDescription(desc);
+        programEntity.setStartDate(startDate);
+        programEntity.setEndDate(endDate);
+        programEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        return programEntity;
+    }
+
+    public static ProgramDto initializeProgramDto(String name, String desc, LocalDate startDate, LocalDate endDate, Long cmpAreaId){
+        ProgramDto programDto = new ProgramDto();
+        programDto.setProgramName(name);
+        programDto.setDescription(desc);
+        programDto.setStartDate(startDate);
+        programDto.setEndDate(endDate);
+        programDto.setCompetenceAreaId(cmpAreaId);
+        return programDto;
+    }
+
+    public static CompetenceAreaEntity createCompetenceArea(Long id){
+        CompetenceAreaEntity competenceAreaEntity = new CompetenceAreaEntity();
+        competenceAreaEntity.setId(id);
+        return competenceAreaEntity;
+    }
+
+    public static UserEntity createUserEntity(String a, String b, String c, String d, String e){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setImageUrl(a);
+        userEntity.setEmail(b);
+        userEntity.setFirstName(c);
+        userEntity.setLastName(d);
+        userEntity.setPassword(e);
+        return userEntity;
     }
 }

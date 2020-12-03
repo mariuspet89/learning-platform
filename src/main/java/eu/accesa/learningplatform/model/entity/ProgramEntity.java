@@ -102,16 +102,17 @@ public class ProgramEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProgramEntity program = (ProgramEntity) o;
-        return id.equals(program.id) &&
-                programName.equals(program.programName) &&
-                Objects.equals(description, program.description) &&
-                startDate.equals(program.startDate) &&
-                endDate.equals(program.endDate);
+        ProgramEntity that = (ProgramEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(programName, that.programName) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(startDate, that.startDate) &&
+                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(competenceAreaEntity, that.competenceAreaEntity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, programName, description, startDate, endDate);
+        return Objects.hash(id, programName, description, startDate, endDate, competenceAreaEntity);
     }
 }
