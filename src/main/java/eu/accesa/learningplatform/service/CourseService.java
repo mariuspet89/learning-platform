@@ -10,6 +10,10 @@ public interface CourseService {
 
     CourseDto getCourseById(Long id);
 
+    List<CourseDto> getAllCourses();
+
+    List<CourseDto> getAllCoursesByProgramId(Long id);
+
     List<CourseDto> getCoursesByNameContainingKeyword(String name);
 
     List<CourseDto> getCoursesByTrainer(Long id);
