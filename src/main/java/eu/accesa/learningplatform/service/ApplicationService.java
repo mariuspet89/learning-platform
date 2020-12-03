@@ -8,16 +8,17 @@ public interface ApplicationService {
 
     ApplicationDto createApplication(ApplicationDto applicationDto);
 
-//    List<ApplicationDto> getApplications();
-//
-//    List<ApplicationDto> getApplicationById(Long Id);
-//
+    List<ApplicationDto> getAllApplications();
+
+    ApplicationDto getApplicationById(Long Id);
+
+
 //    List<ApplicationDto> getApplicationByStatusId(Long Id);
 //
 //    List<ApplicationDto> getApplicationByUserId(Long Id);
 //
 //    ApplicationDto updateStatus(ApplicationDto applicationDto);
 //
-       void deleteApplication(Long Id);
+    void deleteApplication(Long Id);
 
 }

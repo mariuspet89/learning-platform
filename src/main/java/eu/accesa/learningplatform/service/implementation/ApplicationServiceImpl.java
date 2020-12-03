@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
@@ -44,17 +46,31 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     }
 
-//    @Override
-//    public List<ApplicationDto> getApplications() {
-//
-//        return null;
-//    }
+    @Override
+    public List<ApplicationDto> getAllApplications() {
 
-//    @Override
-//    public List<ApplicationDto> getApplicationById(Long Id) {
-//        return null;
-//    }
-//
+        LOGGER.info("Searching for all Applications");
+
+        List<ApplicationEntity> applicationEntities = applicationRepository.findAll();
+
+        return applicationEntities.stream()
+                .map(app -> modelMapper.map(app, ApplicationDto.class))
+                .collect(toList());
+    }
+
+    @Override
+    public ApplicationDto getApplicationById(Long Id) {
+
+        LOGGER.info("Searching for the Application with the " + Id);
+
+        ApplicationEntity applicationEntity = applicationRepository.findById(Id)
+                .orElseThrow(()
+                        -> new LearningPlatformException("Application Not Found with the following ID:" + Id));
+        return modelMapper.map(applicationEntity, ApplicationDto.class);
+
+    }
+
+    //
 //    @Override
 //    public List<ApplicationDto> getApplicationByStatusId(Long Id) {
 //        return null;
