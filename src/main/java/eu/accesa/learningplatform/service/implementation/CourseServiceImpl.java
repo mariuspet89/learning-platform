@@ -85,6 +85,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<CourseDto> getAllCourses(){
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+    }
+
+    @Override
+    public List<CourseDto> getAllCoursesByProgramId(Long id){
+        List<CourseEntity> courseEntities = courseRepository.findAllByProgramEntity_Id(id);
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+    }
+
+    @Override
     public CourseDto updateCourse(CourseDto courseDto) {
         LOGGER.info("Updating course with id: {}", courseDto.getId());
         CourseEntity courseEntity = courseRepository.findById(courseDto.getId()).orElseThrow(() ->

@@ -30,10 +30,22 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addNewCourse(courseDto));
     }
 
+    @GetMapping
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved all courses")
+    public ResponseEntity<List<CourseDto>> getAllCourses(){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCourses());
+    }
+
     @GetMapping("/{id}")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved a course by ID")
     public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourseById(id));
+    }
+
+    @GetMapping("/program/{id}")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved all courses by programId")
+    public ResponseEntity<List<CourseDto>> getAllCoursesByProgramId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCoursesByProgramId(id));
     }
 
     @GetMapping("/name/{name}")
