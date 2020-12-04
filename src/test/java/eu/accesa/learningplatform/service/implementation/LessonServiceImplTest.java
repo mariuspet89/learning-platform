@@ -6,13 +6,15 @@ import eu.accesa.learningplatform.model.entity.CourseEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import static eu.accesa.learningplatform.utils.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
+
 
 @RunWith(SpringRunner.class)
 public class LessonServiceImplTest {
@@ -46,10 +49,10 @@ public class LessonServiceImplTest {
     @Test
     public void createLesson() {
         //given
-        CourseEntity courseEntity = testUtilsCourseEntity(2l);
-        LessonEntity lessonEntity = testUtilsLessonEntityNoId("java", 1.0, courseEntity);
-        LessonEntity createdLesson = testUtilsLessonEntity(111l, "java", 1.0, courseEntity);
-        LessonDto lessonDto = testUtilsLessonDtoNoId("java", 1.0, 2l);
+        CourseEntity courseEntity = testCourseEntity(2l, null, null, null, null, null);
+        LessonEntity lessonEntity = testLessonEntity(null, "java", 1.0, courseEntity);
+        LessonEntity createdLesson = testLessonEntity(111l, "java", 1.0, courseEntity);
+        LessonDto lessonDto = testLessonDto(null, "java", 1.0, 2l);
         when(courseRepository.findById(lessonEntity.getCourseEntity().getId())).thenReturn(Optional.of(courseEntity));
         when(lessonRepository.save(lessonEntity)).thenReturn(createdLesson);
         //when
@@ -70,8 +73,8 @@ public class LessonServiceImplTest {
 
     @Test
     public void getLessonById() {
-        CourseEntity courseEntity = testUtilsCourseEntity(2l);
-        LessonEntity foundLessonEntity = testUtilsLessonEntity(1l, "java", 1.0, courseEntity);
+        CourseEntity courseEntity = testCourseEntity(2l, null, null, null, null, null);
+        LessonEntity foundLessonEntity = testLessonEntity(1l, "java", 1.0, courseEntity);
         Long id = 1l;
         when(lessonRepository.findById(id)).thenReturn(Optional.of(foundLessonEntity));
         LessonDto foundLessonDto = lessonServiceImpl.getLessonById(id);
@@ -83,7 +86,7 @@ public class LessonServiceImplTest {
     @Test
     public void getLessonsByCourse() {
         Long courseId = 1l;
-        when(lessonRepository.findByCourseEntity_Id(courseId)).thenReturn(testUtilsLessonList());
+        when(lessonRepository.findByCourseEntity_Id(courseId)).thenReturn(testLessonList());
         final List<LessonDto> lessonDtoListFound = lessonServiceImpl.getLessonsByCourse(courseId);
         assertNotNull(lessonDtoListFound, "List is empty");
         assertEquals(lessonDtoListFound.size(), 2, "List size doesn't match actual size");
@@ -98,14 +101,14 @@ public class LessonServiceImplTest {
 
     @Test
     public void updateLesson() {
-        CourseEntity courseEntity = testUtilsCourseEntity(2l);
-        LessonEntity lessonEntityFromDB = testUtilsLessonEntity(100l, "java", 1.0, courseEntity);
-        CourseEntity updatedCourse = testUtilsCourseEntity(2l);
-        LessonEntity updatedLesson = testUtilsLessonEntity(lessonEntityFromDB.getId(), "java updated", 11l, updatedCourse);
+        CourseEntity courseEntity = testCourseEntity(2l, null, null, null, null, null);
+        LessonEntity lessonEntityFromDB = testLessonEntity(100l, "java", 1.0, courseEntity);
+        CourseEntity updatedCourse = testCourseEntity(2l, null, null, null, null, null);
+        LessonEntity updatedLesson = testLessonEntity(lessonEntityFromDB.getId(), "java updated", 11l, updatedCourse);
         when(lessonRepository.findById(lessonEntityFromDB.getId())).thenReturn(Optional.of(lessonEntityFromDB));
         when(courseRepository.findById(lessonEntityFromDB.getCourseEntity().getId())).thenReturn(Optional.of(courseEntity));
         when(lessonRepository.save(lessonEntityFromDB)).thenReturn(updatedLesson);
-        LessonDto lessonDto = testUtilsLessonDto(updatedLesson.getId(), updatedLesson.getName(), updatedLesson.getDuration(), updatedCourse.getId());
+        LessonDto lessonDto = testLessonDto(updatedLesson.getId(), updatedLesson.getName(), updatedLesson.getDuration(), updatedCourse.getId());
         LessonDto updatedLessonDto = lessonServiceImpl.updateLesson(lessonDto);
         assertNotNull(updatedLessonDto);
         assertEquals(updatedLessonDto.getId(), 100l, "field id doesn't match");
@@ -122,8 +125,8 @@ public class LessonServiceImplTest {
     @Test
     public void deleteLesson() {
         Long id = 3l;
-        CourseEntity courseEntity = testUtilsCourseEntity(2l);
-        LessonEntity foundLessonEntity = testUtilsLessonEntity(1l, "java", 1.0, courseEntity);
+        CourseEntity courseEntity = testCourseEntity(2l, null, null, null, null, null);
+        LessonEntity foundLessonEntity = testLessonEntity(1l, "java", 1.0, courseEntity);
         when(lessonRepository.findById(id)).thenReturn(Optional.of(foundLessonEntity));
         Long idToDelete = 3l;
         lessonServiceImpl.deleteLesson(idToDelete);
