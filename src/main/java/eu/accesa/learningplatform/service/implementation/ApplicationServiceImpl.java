@@ -4,6 +4,7 @@ import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.ApplicationDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.model.entity.ApplicationEntity;
+import eu.accesa.learningplatform.model.entity.ApplicationStatusEnum;
 import eu.accesa.learningplatform.model.entity.FeedbackEntity;
 import eu.accesa.learningplatform.repository.ApplicationRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
@@ -11,8 +12,10 @@ import eu.accesa.learningplatform.service.ApplicationService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -28,7 +31,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     private final ModelMapper modelMapper;
 
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository,
+                                  UserRepository userRepository, ModelMapper modelMapper) {
         this.applicationRepository = applicationRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
@@ -70,22 +74,19 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     }
 
-    //
-//    @Override
-//    public List<ApplicationDto> getApplicationByStatusId(Long Id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<ApplicationDto> getApplicationByUserId(Long Id) {
-//        return null;
-//    }
-//
-//    @Override
-//    public ApplicationDto updateStatus(ApplicationDto applicationDto) {
-//        return null;
-//    }
-//
+    @Override
+    public List<ApplicationDto> getApplicationByStatus(ApplicationStatusEnum status) {
+
+        List<ApplicationEntity> applicationEntities = applicationRepository.getApplicationByStatus(status);
+
+        List<ApplicationDto> applicationDtoList = applicationEntities.stream()
+                .map(app -> modelMapper.map(app, ApplicationDto.class))
+                .collect(toList());
+
+        return applicationDtoList;
+    }
+
+
     @Override
     public void deleteApplication(Long Id) {
 

@@ -3,6 +3,7 @@ package eu.accesa.learningplatform.controller;
 import eu.accesa.learningplatform.model.dto.ApplicationDto;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
+import eu.accesa.learningplatform.model.entity.ApplicationStatusEnum;
 import eu.accesa.learningplatform.service.ApplicationService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,22 +28,29 @@ public class ApplicationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApplicationDto save(@Valid @RequestBody ApplicationDto applicationDto) {
+    public ApplicationDto createApplication(@Valid @RequestBody ApplicationDto applicationDto) {
 
         return applicationService.createApplication(applicationDto);
     }
 
     @GetMapping
-    @ResponseStatus
     public ResponseEntity<List<ApplicationDto>> getAllApplications() {
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getAllApplications());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationDto> getById(@PathVariable Long id){
+    public ResponseEntity<ApplicationDto> getApplicationById(@PathVariable Long id){
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationById(id));
+    }
+
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<ApplicationDto>>getApplicationByStatus(@PathVariable ApplicationStatusEnum status){
+
+        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByStatus(status));
+
     }
 
     @DeleteMapping("/{id}")
