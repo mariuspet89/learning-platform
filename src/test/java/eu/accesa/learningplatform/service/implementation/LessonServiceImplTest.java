@@ -6,7 +6,7 @@ import eu.accesa.learningplatform.model.entity.CourseEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.*;
