@@ -13,9 +13,9 @@ public interface ApplicationService {
 
     ApplicationDto getApplicationById(Long Id);
 
-    List<ApplicationDto> getApplicationByStatus(ApplicationStatusEnum status);
+    List<ApplicationDto> getApplicationsByStatus(ApplicationStatusEnum status);
 
-    List<ApplicationDto> getApplicationByUserId(Long Id);
+    List<ApplicationDto> getApplicationsByUserId(Long Id);
 
     ApplicationDto updateStatus(Long Id, ApplicationStatusEnum applicationStatusEnum);
 

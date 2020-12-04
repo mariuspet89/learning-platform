@@ -46,13 +46,13 @@ public class ApplicationController {
     @GetMapping("/status/{status}")
     public ResponseEntity<List<ApplicationDto>> getApplicationByStatus(@PathVariable ApplicationStatusEnum status) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByStatus(status));
+        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationsByStatus(status));
     }
 
     @GetMapping("/UserId/{id}")
     public ResponseEntity<List<ApplicationDto>> getApplicationsByUserId(@PathVariable Long id) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByUserId(id));
+        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationsByUserId(id));
     }
 
     @PutMapping("/{id}/{status}")

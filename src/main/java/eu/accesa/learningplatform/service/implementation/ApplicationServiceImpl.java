@@ -65,31 +65,34 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationDto> getApplicationByStatus(ApplicationStatusEnum status) {
+    public List<ApplicationDto> getApplicationsByStatus(ApplicationStatusEnum status) {
 
+        LOGGER.info("Getting all the Applications with the following " + status);
         List<ApplicationEntity> applicationEntities = applicationRepository.getApplicationByStatus(status);
-        List<ApplicationDto> applicationDtoList = applicationEntities.stream()
+
+        return applicationEntities.stream()
                 .map(app -> modelMapper.map(app, ApplicationDto.class))
                 .collect(toList());
-        return applicationDtoList;
     }
 
     @Override
-    public List<ApplicationDto> getApplicationByUserId(Long Id) {
+    public List<ApplicationDto> getApplicationsByUserId(Long Id) {
 
+        LOGGER.info("Getting all the Applications for the user with the  " + Id);
         UserEntity UserEntity = userRepository.findById(Id)
                 .orElseThrow(()
                         -> new LearningPlatformException("User Not Found with the following ID:" + Id));
         List<ApplicationEntity> applicationEntities = applicationRepository.getApplicationByUserEntity_Id(Id);
-        List<ApplicationDto> applicationDtos = applicationEntities.stream()
+
+        return applicationEntities.stream()
                 .map(app -> modelMapper.map(app, ApplicationDto.class))
                 .collect(toList());
-        return applicationDtos;
     }
 
     @Override
     public ApplicationDto updateStatus(Long Id, ApplicationStatusEnum applicationStatusEnum) {
 
+        LOGGER.info("Updating the status of the Application with ID " + Id);
         ApplicationEntity applicationEntity = applicationRepository.findById(Id).orElseThrow(()
                 -> new LearningPlatformException("Application Not Found with the following ID: " + Id));
         if (applicationEntity.getStatus().equals(applicationStatusEnum)) {
