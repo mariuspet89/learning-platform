@@ -28,9 +28,7 @@ public class LdapWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapt
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+                .anyRequest().permitAll();
 
         http
                 .logout()
