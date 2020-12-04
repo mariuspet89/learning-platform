@@ -1,8 +1,6 @@
 package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.ApplicationDto;
-import eu.accesa.learningplatform.model.dto.FeedbackDto;
-import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.model.entity.ApplicationStatusEnum;
 import eu.accesa.learningplatform.service.ApplicationService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -40,26 +38,32 @@ public class ApplicationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApplicationDto> getApplicationById(@PathVariable Long id){
+    public ResponseEntity<ApplicationDto> getApplicationById(@PathVariable Long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationById(id));
     }
 
-
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<ApplicationDto>>getApplicationByStatus(@PathVariable ApplicationStatusEnum status){
+    public ResponseEntity<List<ApplicationDto>> getApplicationByStatus(@PathVariable ApplicationStatusEnum status) {
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByStatus(status));
     }
 
-    @GetMapping("/byUserId/{id}")
-    public ResponseEntity<List<ApplicationDto>>getApplicationsByUserId(@PathVariable Long id){
+    @GetMapping("/UserId/{id}")
+    public ResponseEntity<List<ApplicationDto>> getApplicationsByUserId(@PathVariable Long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByUserId(id));
     }
 
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<ApplicationDto> updateStatus(@PathVariable Long id, @PathVariable ApplicationStatusEnum status) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(applicationService.updateStatus(id, status));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
+
         applicationService.deleteApplication(id);
         return ResponseEntity.status(HttpStatus.OK).body("Application Deleted");
     }

@@ -17,7 +17,7 @@ public interface ApplicationService {
 
     List<ApplicationDto> getApplicationByUserId(Long Id);
 
-//   ApplicationDto updateStatus(ApplicationDto applicationDto);
+    ApplicationDto updateStatus(Long Id, ApplicationStatusEnum applicationStatusEnum);
 
     void deleteApplication(Long Id);
 
