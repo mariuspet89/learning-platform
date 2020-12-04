@@ -2,10 +2,7 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.LearningPlatformApplication;
 import eu.accesa.learningplatform.model.dto.UserDto;
-import eu.accesa.learningplatform.model.entity.CompetenceAreaEntity;
-import eu.accesa.learningplatform.model.entity.JobTitleEntity;
-import eu.accesa.learningplatform.model.entity.UserEntity;
-import eu.accesa.learningplatform.model.entity.UserTypeEntity;
+import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.JobTitleRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
@@ -16,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,6 +54,13 @@ public class UserServiceImpl implements UserService {
         LOGGER.info("Service: retrieving all users");
 
         return mapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
+        }.getType());
+    }
+
+    @Override
+    public List<UserDto> getAllUsersByProgram(Long programId) {
+        List<UserEntity> userEntities = userRepository.findAllByProgramEntities_Id(programId);
+        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
         }.getType());
     }
 
@@ -116,6 +119,10 @@ public class UserServiceImpl implements UserService {
                         "id",
                         id.toString()
                 ));
+        for (ProgramEntity programEntity : userEntity.getProgramEntities()) {
+            programEntity.getUserEntities().remove(userEntity);
+        }
+        userEntity.getProgramEntities().clear();
         userRepository.delete(userEntity);
     }
 
