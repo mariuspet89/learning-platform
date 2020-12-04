@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long> {
 
-    //List<ApplicationDto> getApplicationByUserEntity_Id(Long Id);
+    List<ApplicationEntity> getApplicationByUserEntity_Id(Long Id);
     List<ApplicationEntity> getApplicationByStatus(ApplicationStatusEnum status);
 
 

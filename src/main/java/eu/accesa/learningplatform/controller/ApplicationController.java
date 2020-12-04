@@ -50,7 +50,12 @@ public class ApplicationController {
     public ResponseEntity<List<ApplicationDto>>getApplicationByStatus(@PathVariable ApplicationStatusEnum status){
 
         return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByStatus(status));
+    }
 
+    @GetMapping("/byUserId/{id}")
+    public ResponseEntity<List<ApplicationDto>>getApplicationsByUserId(@PathVariable Long id){
+
+        return ResponseEntity.status(HttpStatus.OK).body(applicationService.getApplicationByUserId(id));
     }
 
     @DeleteMapping("/{id}")

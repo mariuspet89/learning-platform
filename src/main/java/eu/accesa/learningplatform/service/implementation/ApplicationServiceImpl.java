@@ -6,6 +6,7 @@ import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.model.entity.ApplicationEntity;
 import eu.accesa.learningplatform.model.entity.ApplicationStatusEnum;
 import eu.accesa.learningplatform.model.entity.FeedbackEntity;
+import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.ApplicationRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.ApplicationService;
@@ -84,6 +85,20 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .collect(toList());
 
         return applicationDtoList;
+    }
+
+    @Override
+    public List<ApplicationDto> getApplicationByUserId(Long Id) {
+        UserEntity UserEntity = userRepository.findById(Id)
+                .orElseThrow(()
+                        -> new LearningPlatformException("User Not Found with the following ID:" + Id));
+
+        List<ApplicationEntity> applicationEntities = applicationRepository.getApplicationByUserEntity_Id(Id);
+
+        List<ApplicationDto> applicationDtos = applicationEntities.stream()
+                .map(app -> modelMapper.map(app, ApplicationDto.class))
+                .collect(toList());
+        return applicationDtos;
     }
 
 
