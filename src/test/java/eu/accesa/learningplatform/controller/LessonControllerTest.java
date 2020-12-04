@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.accesa.learningplatform.model.dto.LessonDto;
 import eu.accesa.learningplatform.security.LdapAuthenticationProvider;
 import eu.accesa.learningplatform.service.LessonService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
