@@ -60,13 +60,13 @@ public class TestUtils {
                 testCourseEntity(1l, "Spring Security", "Spring Security is a powerful..",
                         2.0, testProgramEntity(3l, null, null, null, null,
                                 testCompetenceAreaEntity(1l, null)), testUserEntity(1l, null, null,
-                                null, null, null, null, null,
-                                testCompetenceAreaEntity(1l, null))),
+                                null, null, null, testCompetenceAreaEntity(1l, null) ,
+                                testJobTitleEntity(1L, null), testUserTypeEntity(1L, null))),
                 testCourseEntity(2l, "Spring Web", "Spring Web is ..", 3.0,
                         testProgramEntity(2l, null, null, null, null,
                                 testCompetenceAreaEntity(2l, null)), testUserEntity(1l, null,
-                                null, null, null, null, null,
-                                null, testCompetenceAreaEntity(2l, null))));
+                                null, null, null, null, testCompetenceAreaEntity(1L, null),
+                                testJobTitleEntity(1L, null), testUserTypeEntity(2l, null))));
 
     }
 
@@ -91,8 +91,8 @@ public class TestUtils {
     }
 
     public static UserEntity testUserEntity(Long id, String firstName, String lastName, String email,
-                                            String imageUrl, String password, UserTypeEntity userTypeEntity,
-                                            JobTitleEntity jobTitleEntity, CompetenceAreaEntity competenceAreaEntity) {
+                                            String imageUrl, String password, CompetenceAreaEntity competenceAreaEntity,
+                                            JobTitleEntity jobTitleEntity, UserTypeEntity userTypeEntity) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(id);
         userEntity.setFirstName(firstName);
@@ -151,5 +151,12 @@ public class TestUtils {
         programDto.setEndDate(endDate);
         programDto.setCompetenceAreaId(competenceAreaId);
         return programDto;
+    }
+
+    public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
+        JobTitleEntity jobTitleEntity = new JobTitleEntity();
+        jobTitleEntity.setId(id);
+        jobTitleEntity.setName(jobTitleEnum);
+        return jobTitleEntity;
     }
 }
