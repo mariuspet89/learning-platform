@@ -1,7 +1,9 @@
 package eu.accesa.learningplatform.utils;
 
+import eu.accesa.learningplatform.model.dto.CourseDto;
 import eu.accesa.learningplatform.model.dto.LessonDto;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
+import eu.accesa.learningplatform.model.dto.UserDto;
 import eu.accesa.learningplatform.model.entity.*;
 
 import java.time.LocalDate;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TestUtils {
-    public static LessonDto testUtilsLessonDto(Long id, String name, double duration, Long courseId) {
+    public static LessonDto testLessonDto(Long id, String name, double duration, Long courseId) {
         LessonDto lessonDto = new LessonDto();
         lessonDto.setId(id);
         lessonDto.setName(name);
@@ -20,21 +22,13 @@ public class TestUtils {
         return lessonDto;
     }
 
-    public static LessonDto testUtilsLessonDtoNoId(String name, double duration, Long courseId) {
-        LessonDto lessonDto = new LessonDto();
-        lessonDto.setName(name);
-        lessonDto.setDuration(duration);
-        lessonDto.setCourseId(courseId);
-        return lessonDto;
-    }
-
-    public static List<LessonDto> testUtilsLessonDtoList() {
+    public static List<LessonDto> testLessonDtoList() {
         return Arrays.asList(
-                testUtilsLessonDto(1l, "java", 1.0, 1l),
-                testUtilsLessonDto(2l, "java basic", 2.0, 1l));
+                testLessonDto(1l, "java", 1.0, 1l),
+                testLessonDto(2l, "java basic", 2.0, 1l));
     }
 
-    public static LessonEntity testUtilsLessonEntity(Long id, String name, double duration, CourseEntity course) {
+    public static LessonEntity testLessonEntity(Long id, String name, double duration, CourseEntity course) {
         LessonEntity lessonEntity = new LessonEntity();
         lessonEntity.setId(id);
         lessonEntity.setName(name);
@@ -43,48 +37,162 @@ public class TestUtils {
         return lessonEntity;
     }
 
-    public static LessonEntity testUtilsLessonEntityNoId(String name, double duration, CourseEntity course) {
-        LessonEntity lessonEntity = new LessonEntity();
-        lessonEntity.setName(name);
-        lessonEntity.setDuration(duration);
-        lessonEntity.setCourseEntity(course);
-        return lessonEntity;
+    public static List<LessonEntity> testLessonList() {
+        return Arrays.asList(
+                testLessonEntity(1l, "java", 1l, testCourseEntity(1l, null, null,
+                        null, null, null)),
+                testLessonEntity(2l, "java basic", 2l, testCourseEntity(1l, null, null,
+                        null, null, null)));
     }
 
-    public static CourseEntity testUtilsCourseEntity(Long id) {
+    public static CourseEntity testCourseEntity(Long id, String name, String description, Double duration,
+                                                ProgramEntity program, UserEntity user) {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setId(id);
+        courseEntity.setName(name);
+        courseEntity.setDescription(description);
+        courseEntity.setTotalDuration(duration);
+        courseEntity.setProgramEntity(program);
+        courseEntity.setUserEntity(user);
         return courseEntity;
     }
 
-    public static List<LessonEntity> testUtilsLessonList() {
+    public static List<CourseEntity> testCourseList() {
         return Arrays.asList(
-                testUtilsLessonEntity(1l, "java", 1l, testUtilsCourseEntity(1l)),
-                testUtilsLessonEntity(2l, "java basic", 2l, testUtilsCourseEntity(1l)));
+                testCourseEntity(1l, "Spring Security", "Spring Security is a powerful..",
+                        2.0, testProgramEntity(3l, null, null, null, null,
+                                testCompetenceAreaEntity(1l, null)), testUserEntity(1l, null, null,
+                                null, null, null, null, null,
+                                testCompetenceAreaEntity(1l, null))),
+                testCourseEntity(2l, "Spring Web", "Spring Web is ..", 3.0,
+                        testProgramEntity(2l, null, null, null, null,
+                                testCompetenceAreaEntity(2l, null)), testUserEntity(1l, null,
+                                null, null, null, null, null,
+                                null, testCompetenceAreaEntity(2l, null))));
+
     }
 
-    public static ProgramEntity initializeProgram(String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity){
-        ProgramEntity programEntity = new ProgramEntity();
-        programEntity.setProgramName(name);
-        programEntity.setDescription(desc);
-        programEntity.setStartDate(startDate);
-        programEntity.setEndDate(endDate);
-        programEntity.setCompetenceAreaEntity(competenceAreaEntity);
-        return programEntity;
+    public static List<ProgramEntity> testProgramList() {
+        return Arrays.asList(
+                testProgramEntity(1L,
+                        "Java Internship",
+                        "aa",
+                        LocalDate.parse("2020-01-08"),
+                        LocalDate.parse("2020-01-15"),
+                        testCompetenceAreaEntity(1L, CompetenceAreaEnum.JAVA_TECHNOLOGY)),
+                testProgramEntity(2L,
+                        "AI Internship",
+                        "bb",
+                        LocalDate.parse("2020-01-10"),
+                        LocalDate.parse("2020-05-15"),
+                        testCompetenceAreaEntity(2L, CompetenceAreaEnum.PRODUCT_DESIGN))
+        );
     }
 
-    public static ProgramEntity initializeProgram(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity){
+    public static ProgramEntity testProgramEntity(Long id, String programName, String description,
+                                                  LocalDate startDate, LocalDate endDate,
+                                                  CompetenceAreaEntity competenceAreaEntity) {
         ProgramEntity programEntity = new ProgramEntity();
         programEntity.setId(id);
-        programEntity.setProgramName(name);
-        programEntity.setDescription(desc);
+        programEntity.setProgramName(programName);
+        programEntity.setDescription(description);
         programEntity.setStartDate(startDate);
         programEntity.setEndDate(endDate);
         programEntity.setCompetenceAreaEntity(competenceAreaEntity);
         return programEntity;
     }
 
-    public static ProgramEntity initializeProgramWithUser(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity, Set<UserEntity> userEntities){
+    public static CompetenceAreaEntity testCompetenceAreaEntity(Long id, CompetenceAreaEnum name) {
+        CompetenceAreaEntity competenceAreaEntity = new CompetenceAreaEntity();
+        competenceAreaEntity.setId(id);
+        competenceAreaEntity.setName(name);
+        return competenceAreaEntity;
+    }
+
+    public static UserEntity testUserEntity(Long id, String firstName, String lastName, String email,
+                                            String imageUrl, String password, UserTypeEntity userTypeEntity,
+                                            JobTitleEntity jobTitleEntity, CompetenceAreaEntity competenceAreaEntity) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(id);
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(lastName);
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+        userEntity.setImageUrl(imageUrl);
+        userEntity.setPassword(password);
+        userEntity.setUserTypeEntity(userTypeEntity);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        return userEntity;
+    }
+
+    public static UserEntity testUserEntity(String firstName, String lastName, String email,
+                                            String imageUrl, String password){
+        ProgramEntity programEntity = testProgramEntity(3L,"Java Internship",
+                "aa",
+                LocalDate.parse("2020-01-08"),
+                LocalDate.parse("2020-01-15"),
+                testCompetenceAreaEntity(1L, CompetenceAreaEnum.JAVA_TECHNOLOGY));
+
+        Set<ProgramEntity> programEntities = new HashSet<>();
+        programEntities.add(programEntity);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setImageUrl(imageUrl);
+        userEntity.setEmail(email);
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(lastName);
+        userEntity.setPassword(password);
+        userEntity.setProgramEntities(programEntities);
+        return userEntity;
+    }
+
+    public static UserTypeEntity testUserTypeEntity(Long id, UserTypeEnum name) {
+        UserTypeEntity userTypeEntity = new UserTypeEntity();
+        userTypeEntity.setId(id);
+        userTypeEntity.setName(name);
+        return userTypeEntity;
+    }
+
+    public static UserDto testUserDto(Long id, String firstName, String lastName, String email, String imageUrl,
+                                      String password, Long competenceAreaId, Long jobTitleId, Long userTypeID) {
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setFirstName(firstName);
+        userDto.setLastName(lastName);
+        userDto.setEmail(email);
+        userDto.setImageUrl(imageUrl);
+        userDto.setPassword(password);
+        userDto.setCompetenceAreaId(competenceAreaId);
+        userDto.setJobTitleId(jobTitleId);
+        userDto.setUserTypeId(userTypeID);
+        return userDto;
+    }
+
+    public static CourseDto testCourseDto(Long id, String name, String description, Double duration,
+                                          Long programId, Long userId) {
+        CourseDto courseDto = new CourseDto();
+        courseDto.setId(id);
+        courseDto.setName(name);
+        courseDto.setDescription(description);
+        courseDto.setTotalDuration(duration);
+        courseDto.setProgramId(programId);
+        courseDto.setUserId(userId);
+        return courseDto;
+    }
+
+    public static ProgramDto testProgramDto(Long id, String programName, String description, LocalDate startDate,
+                                            LocalDate endDate, Long competenceAreaId) {
+        ProgramDto programDto = new ProgramDto();
+        programDto.setId(id);
+        programDto.setProgramName(programName);
+        programDto.setDescription(description);
+        programDto.setStartDate(startDate);
+        programDto.setEndDate(endDate);
+        programDto.setCompetenceAreaId(competenceAreaId);
+        return programDto;
+    }
+
+    public static ProgramEntity testProgramWithUser(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity, Set<UserEntity> userEntities){
         ProgramEntity programEntity = new ProgramEntity();
         programEntity.setId(id);
         programEntity.setProgramName(name);
@@ -94,68 +202,5 @@ public class TestUtils {
         programEntity.setCompetenceAreaEntity(competenceAreaEntity);
         programEntity.setUserEntities(userEntities);
         return programEntity;
-    }
-
-    public static ProgramDto initializeProgramDto(String name, String desc, LocalDate startDate, LocalDate endDate, Long cmpAreaId){
-        ProgramDto programDto = new ProgramDto();
-        programDto.setProgramName(name);
-        programDto.setDescription(desc);
-        programDto.setStartDate(startDate);
-        programDto.setEndDate(endDate);
-        programDto.setCompetenceAreaId(cmpAreaId);
-        return programDto;
-    }
-
-    public static ProgramDto initializeProgramDto(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, Long cmpAreaId){
-        ProgramDto programDto = new ProgramDto();
-        programDto.setId(id);
-        programDto.setProgramName(name);
-        programDto.setDescription(desc);
-        programDto.setStartDate(startDate);
-        programDto.setEndDate(endDate);
-        programDto.setCompetenceAreaId(cmpAreaId);
-        return programDto;
-    }
-
-    public static CompetenceAreaEntity createCompetenceArea(Long id){
-        CompetenceAreaEntity competenceAreaEntity = new CompetenceAreaEntity();
-        competenceAreaEntity.setId(id);
-        return competenceAreaEntity;
-    }
-
-    public static UserEntity createUserEntity(String a, String b, String c, String d, String e){
-        ProgramEntity programEntity = initializeProgram(3L,"Java Internship",
-                "aa",
-                LocalDate.parse("2020-01-08"),
-                LocalDate.parse("2020-01-15"),
-                createCompetenceArea(1L));
-        Set<ProgramEntity> programEntities = new HashSet<>();
-        programEntities.add(programEntity);
-        UserEntity userEntity = new UserEntity();
-        userEntity.setImageUrl(a);
-        userEntity.setEmail(b);
-        userEntity.setFirstName(c);
-        userEntity.setLastName(d);
-        userEntity.setPassword(e);
-        userEntity.setProgramEntities(programEntities);
-        return userEntity;
-    }
-
-    public static List<ProgramEntity> programList() {
-        return Arrays.asList(
-                initializeProgram(1L,
-                        "Java Internship",
-                        "aa",
-                        LocalDate.parse("2020-01-08"),
-                        LocalDate.parse("2020-01-15"),
-                        createCompetenceArea(1L)),
-                initializeProgram(2L,
-                        "AI Internship",
-                        "bb",
-                        LocalDate.parse("2020-01-10"),
-                        LocalDate.parse("2020-05-15"),
-                        createCompetenceArea(1L))
-                );
-
     }
 }

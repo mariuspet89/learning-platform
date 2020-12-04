@@ -4,7 +4,6 @@ import eu.accesa.learningplatform.model.dto.UserDto;
 import eu.accesa.learningplatform.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +44,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     private List<UserDto> getUsersByUserType(@PathVariable final Long userTypeId) {
         return userService.getUsersByUserType(userTypeId);
+    }
+
+    @GetMapping("/program/{programId}")
+    @ResponseStatus(HttpStatus.OK)
+    private List<UserDto> getUsersByProgramId(@PathVariable final Long programId) {
+        return userService.getAllUsersByProgram(programId);
     }
 
     @PutMapping

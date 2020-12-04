@@ -9,4 +9,6 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     List<CourseEntity> findByNameContaining(String name);
 
     List<CourseEntity> findByUserEntity_Id(Long id);
+
+    List<CourseEntity> findAllByProgramEntity_Id(Long id);
 }
