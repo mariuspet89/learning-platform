@@ -42,7 +42,7 @@ public class LessonControllerTest {
     @Test
     @WithMockUser
     public void save() throws Exception {
-        LessonDto lessonToBeSaved = testUtilsLessonDtoNoId("java", 1.0, 1l);
+        LessonDto lessonToBeSaved = testLessonDto(null,"java", 1.0, 1l);
         when(lessonService.createLesson(any())).thenReturn(lessonToBeSaved);
         final ObjectMapper objectMapper = new ObjectMapper();
         final String lessonJson = objectMapper.writeValueAsString(lessonToBeSaved);
@@ -65,7 +65,7 @@ public class LessonControllerTest {
     @Test
     @WithMockUser
     public void getLessonById() throws Exception {
-        LessonDto foundLesson = testUtilsLessonDto(1l, "java", 2.0, 1l);
+        LessonDto foundLesson = testLessonDto(1l, "java", 2.0, 1l);
         when(lessonService.getLessonById(1l)).thenReturn(foundLesson);
         mockMvc.perform(get("http://localhost:8080/lessons/{id}", 1l))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ public class LessonControllerTest {
     @WithMockUser
     public void getLessonsByCourseId() throws Exception {
         Long courseId = 1l;
-        when(lessonService.getLessonsByCourse(courseId)).thenReturn(testUtilsLessonDtoList());
+        when(lessonService.getLessonsByCourse(courseId)).thenReturn(testLessonDtoList());
         final List<LessonDto> lessonDtoListFound = lessonService.getLessonsByCourse(courseId);
         mockMvc.perform(get("http://localhost:8080/lessons/course/{id}", courseId))
                 .andExpect(status().isOk())
@@ -100,8 +100,8 @@ public class LessonControllerTest {
     @Test
     @WithMockUser
     public void updateLesson() throws Exception {
-        LessonDto lessonFound = testUtilsLessonDto(1l, "java", 2.0, 1l);
-        LessonDto lessonToPut = testUtilsLessonDto(2l, "java to put", 3.0, 2l);
+        LessonDto lessonFound = testLessonDto(1l, "java", 2.0, 1l);
+        LessonDto lessonToPut = testLessonDto(2l, "java to put", 3.0, 2l);
         Long id = 1l;
         when(lessonService.getLessonById(id)).thenReturn(lessonFound);
         when(lessonService.updateLesson(lessonFound)).thenReturn(lessonToPut);
@@ -122,7 +122,7 @@ public class LessonControllerTest {
     @Test
     @WithMockUser
     public void deleteById() throws Exception {
-        LessonDto lessonToDelete = testUtilsLessonDto(1l, "java", 1.0, 1l);
+        LessonDto lessonToDelete = testLessonDto(1l, "java", 1.0, 1l);
         Long id = 1l;
         when(lessonService.getLessonById(id)).thenReturn(lessonToDelete);
         doNothing().when(lessonService).deleteLesson(id);
