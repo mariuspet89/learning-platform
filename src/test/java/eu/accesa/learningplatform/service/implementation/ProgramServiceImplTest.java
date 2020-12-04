@@ -1,7 +1,6 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import ch.qos.logback.classic.spi.LoggingEvent;
-import eu.accesa.learningplatform.model.dto.LessonDto;
 import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
@@ -92,7 +91,7 @@ class ProgramServiceImplTest {
         verify(programRepository).findAll();
     }
 
-/*    @Test
+    @Test
     public void updateProgram() {
         CompetenceAreaEntity competenceAreaEntity = createCompetenceArea(2L);
         ProgramEntity programEntity = initializeProgram(1L,
@@ -109,7 +108,7 @@ class ProgramServiceImplTest {
                 LocalDate.parse("2020-09-15"),
                 updatedCompetenceArea);
         when(programRepository.findById(programEntity.getId())).thenReturn(Optional.of(programEntity));
-        when(competenceAreaRepository.findById(programEntity.getCompetenceAreaEntity().getId())).thenReturn(Optional.of(competenceAreaEntity));
+        when(competenceAreaRepository.findById(updatedProgram.getCompetenceAreaEntity().getId())).thenReturn(Optional.of(updatedCompetenceArea));
         when(programRepository.save(programEntity)).thenReturn(updatedProgram);
         ProgramDto programDto = initializeProgramDto(updatedProgram.getId(),
                 updatedProgram.getProgramName(),
@@ -120,7 +119,7 @@ class ProgramServiceImplTest {
         ProgramDto updatedProgramDto = programServiceImpl.updateProgram(programDto, programDto.getId());
         assertNotNull(updatedProgramDto);
         assertEquals(updatedProgramDto.getProgramName(), "Java Summer Internship", "field name doesn't match");
-    }*/
+    }
 
     @Test
     public void deleteProgram(){
