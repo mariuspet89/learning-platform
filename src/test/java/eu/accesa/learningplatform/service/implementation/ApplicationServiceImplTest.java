@@ -1,8 +1,9 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.ApplicationDto;
-import eu.accesa.learningplatform.model.dto.CourseDto;
-import eu.accesa.learningplatform.model.entity.*;
+import eu.accesa.learningplatform.model.entity.ApplicationEntity;
+import eu.accesa.learningplatform.model.entity.ApplicationStatusEnum;
+import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.ApplicationRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,14 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.event.LoggingEvent;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static eu.accesa.learningplatform.utils.TestUtils.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(SpringRunner.class)
 class ApplicationServiceImplTest {
