@@ -87,7 +87,9 @@ public class CourseServiceImpl implements CourseService {
         List<CourseEntity> courseEntities = courseRepository.findAll();
         Map<Long, Double> ratingAvg = new HashMap<>();
         for (CourseEntity course : courseEntities) {
-            ratingAvg.put(course.getId(), ratingService.getAverageRatingByCourseId(course.getId()).orElseThrow());
+            ratingAvg.put(course.getId(), ratingService
+                    .getAverageRatingByCourseId(course.getId())
+                    .orElse(0.0));
         }
         Long courseId = Collections.max(ratingAvg.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
         CourseRatingDto courseRatingDto = new CourseRatingDto();
