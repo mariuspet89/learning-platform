@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDtoForGetCalls> getAllUsers() {
         LOGGER.info("Service: retrieving all users");
 
         return mapper.map(userRepository.findAll(), new TypeToken<List<UserDtoForGetCalls>>() {
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsersByProgram(Long programId) {
+    public List<UserDtoForGetCalls> getAllUsersByProgram(Long programId) {
         List<UserEntity> userEntities = userRepository.findAllByProgramEntities_Id(programId);
         return mapper.map(userEntities, new TypeToken<List<UserDtoForGetCalls>>() {
         }.getType());
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getUsersByUserType(Long userTypeId) {
+    public List<UserDtoForGetCalls> getUsersByUserType(Long userTypeId) {
         LOGGER.info("Service: retrieving all users with user type: {}", userTypeId);
 
         List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Id(userTypeId);

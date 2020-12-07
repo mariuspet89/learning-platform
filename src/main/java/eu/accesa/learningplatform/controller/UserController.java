@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsers() {
+    private List<UserDtoForGetCalls> getUsers() {
         return userService.getAllUsers();
     }
 
@@ -43,13 +43,13 @@ public class UserController {
 
     @GetMapping("/userType/{userTypeId}")
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsersByUserType(@PathVariable final Long userTypeId) {
+    private List<UserDtoForGetCalls> getUsersByUserType(@PathVariable final Long userTypeId) {
         return userService.getUsersByUserType(userTypeId);
     }
 
     @GetMapping("/program/{programId}")
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsersByProgramId(@PathVariable final Long programId) {
+    private List<UserDtoForGetCalls> getUsersByProgramId(@PathVariable final Long programId) {
         return userService.getAllUsersByProgram(programId);
     }
 
