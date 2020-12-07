@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public UserDtoForGetCalls getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
 
         UserEntity userEntity = userRepository.findById(id)
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
                         "id",
                         id.toString()
                 ));
-        return mapper.map(userEntity, (Type) UserDtoForGetCalls.class);
+        return mapper.map(userEntity, UserDtoForGetCalls.class);
     }
 
     @Override

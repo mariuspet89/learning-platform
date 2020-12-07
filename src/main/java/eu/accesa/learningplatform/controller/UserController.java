@@ -1,6 +1,7 @@
 package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +37,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private UserDto getUserById(@PathVariable final Long id) {
+    private UserDtoForGetCalls getUserById(@PathVariable final Long id) {
         return userService.getUserById(id);
     }
 
