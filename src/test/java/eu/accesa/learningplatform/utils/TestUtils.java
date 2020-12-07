@@ -5,7 +5,9 @@ import eu.accesa.learningplatform.model.entity.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TestUtils {
     public static LessonDto testLessonDto(Long id, String name, double duration, Long courseId) {
@@ -67,6 +69,23 @@ public class TestUtils {
 
     }
 
+    public static List<ProgramEntity> testProgramList() {
+        return Arrays.asList(
+                testProgramEntity(1L,
+                        "Java Internship",
+                        "aa",
+                        LocalDate.parse("2020-01-08"),
+                        LocalDate.parse("2020-01-15"),
+                        testCompetenceAreaEntity(1L, CompetenceAreaEnum.JAVA_TECHNOLOGY)),
+                testProgramEntity(2L,
+                        "AI Internship",
+                        "bb",
+                        LocalDate.parse("2020-01-10"),
+                        LocalDate.parse("2020-05-15"),
+                        testCompetenceAreaEntity(2L, CompetenceAreaEnum.PRODUCT_DESIGN))
+        );
+    }
+
     public static ProgramEntity testProgramEntity(Long id, String programName, String description,
                                                   LocalDate startDate, LocalDate endDate,
                                                   CompetenceAreaEntity competenceAreaEntity) {
@@ -101,6 +120,26 @@ public class TestUtils {
         userEntity.setUserTypeEntity(userTypeEntity);
         userEntity.setJobTitleEntity(jobTitleEntity);
         userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        return userEntity;
+    }
+
+    public static UserEntity testUserEntity(String firstName, String lastName, String email,
+                                            String imageUrl, String password){
+        ProgramEntity programEntity = testProgramEntity(3L,"Java Internship",
+                "aa",
+                LocalDate.parse("2020-01-08"),
+                LocalDate.parse("2020-01-15"),
+                testCompetenceAreaEntity(1L, CompetenceAreaEnum.JAVA_TECHNOLOGY));
+
+        Set<ProgramEntity> programEntities = new HashSet<>();
+        programEntities.add(programEntity);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setImageUrl(imageUrl);
+        userEntity.setEmail(email);
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(lastName);
+        userEntity.setPassword(password);
+        userEntity.setProgramEntities(programEntities);
         return userEntity;
     }
 
@@ -187,6 +226,16 @@ public class TestUtils {
                                 null, null, null)));
     }
 
-
+    public static ProgramEntity testProgramWithUser(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity, Set<UserEntity> userEntities){
+        ProgramEntity programEntity = new ProgramEntity();
+        programEntity.setId(id);
+        programEntity.setProgramName(name);
+        programEntity.setDescription(desc);
+        programEntity.setStartDate(startDate);
+        programEntity.setEndDate(endDate);
+        programEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        programEntity.setUserEntities(userEntities);
+        return programEntity;
+    }
 
 }
