@@ -1,25 +1,21 @@
 package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
-import eu.accesa.learningplatform.model.entity.CourseEntity;
-import eu.accesa.learningplatform.model.entity.ProgramEntity;
-import eu.accesa.learningplatform.model.entity.UserEntity;
-import eu.accesa.learningplatform.model.entity.UserTypeEnum;
+import eu.accesa.learningplatform.model.dto.CourseRatingDto;
+import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.CourseService;
+import eu.accesa.learningplatform.service.RatingService;
 import eu.accesa.learningplatform.service.exception.EntityNotFoundException;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -29,15 +25,17 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final ProgramRepository programRepository;
+    private final RatingService ratingService;
     private final ModelMapper modelMapper;
 
     public CourseServiceImpl(CourseRepository courseRepository,
                              UserRepository userRepository,
                              ProgramRepository programRepository,
-                             ModelMapper modelMapper) {
+                             RatingService ratingService, ModelMapper modelMapper) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.programRepository = programRepository;
+        this.ratingService = ratingService;
         this.modelMapper = modelMapper;
     }
 
@@ -82,6 +80,20 @@ public class CourseServiceImpl implements CourseService {
         List<CourseEntity> courseEntities = courseRepository.findByUserEntity_Id(id);
         return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
         }.getType());
+    }
+
+    @Override
+    public CourseRatingDto getMostPopularCourse() {
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        Map<Long, Double> ratingAvg = new HashMap<>();
+        for (CourseEntity course : courseEntities) {
+            ratingAvg.put(course.getId(), ratingService.getAverageRatingByCourseId(course.getId()).orElseThrow());
+        }
+        Long courseId = Collections.max(ratingAvg.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        CourseRatingDto courseRatingDto = new CourseRatingDto();
+        courseRatingDto.setCourseId(courseId);
+        courseRatingDto.setRating(ratingAvg.get(courseId));
+        return courseRatingDto;
     }
 
     @Override
