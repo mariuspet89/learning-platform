@@ -1,6 +1,7 @@
 package eu.accesa.learningplatform.service;
 
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 
 import java.util.List;
 
