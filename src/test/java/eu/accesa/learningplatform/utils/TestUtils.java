@@ -1,10 +1,8 @@
 package eu.accesa.learningplatform.utils;
 
-import eu.accesa.learningplatform.model.dto.CourseDto;
-import eu.accesa.learningplatform.model.dto.LessonDto;
-import eu.accesa.learningplatform.model.dto.ProgramDto;
-import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.*;
 import eu.accesa.learningplatform.model.entity.*;
+import org.apache.catalina.User;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -202,5 +200,25 @@ public class TestUtils {
         programEntity.setCompetenceAreaEntity(competenceAreaEntity);
         programEntity.setUserEntities(userEntities);
         return programEntity;
+    }
+
+    public static RatingEntity testRatingEntity(Long id, Integer noOfStars, String description, UserEntity userEntity, CourseEntity courseEntity) {
+        RatingEntity ratingEntity = new RatingEntity();
+        ratingEntity.setId(id);
+        ratingEntity.setDescription(description);
+        ratingEntity.setNoOfStars(noOfStars);
+        ratingEntity.setUserEntity(userEntity);
+        ratingEntity.setCourseEntity(courseEntity);
+        return ratingEntity;
+    }
+
+    public static RatingDto testRatingDto(Long id, Integer noOfStars, String description, Long userId, Long courseId) {
+        RatingDto ratingDto = new RatingDto();
+        ratingDto.setId(id);
+        ratingDto.setNoOfStars(noOfStars);
+        ratingDto.setDescription(description);
+        ratingDto.setUserId(userId);
+        ratingDto.setCourseId(courseId);
+        return ratingDto;
     }
 }

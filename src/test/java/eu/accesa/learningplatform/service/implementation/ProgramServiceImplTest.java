@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-class ProgramServiceImplTest {
+public class ProgramServiceImplTest {
     @Mock
     private ProgramRepository programRepository;
 
@@ -65,7 +65,7 @@ class ProgramServiceImplTest {
                 LocalDate.parse("2020-01-08"),
                 LocalDate.parse("2020-01-15"),
                 competenceAreaEntity);
-        ProgramDto programDto = TestUtils.testProgramDto(null,
+        ProgramDto programDto = testProgramDto(null,
                 "Java Internship",
                 "aa",
                 LocalDate.parse("2020-01-08"),
