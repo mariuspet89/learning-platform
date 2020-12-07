@@ -5,6 +5,7 @@ import eu.accesa.learningplatform.model.dto.CourseRatingDto;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
+import eu.accesa.learningplatform.repository.RatingRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.CourseService;
 import eu.accesa.learningplatform.service.RatingService;
@@ -25,16 +26,20 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final ProgramRepository programRepository;
+    private final RatingRepository ratingRepository;
     private final RatingService ratingService;
     private final ModelMapper modelMapper;
 
     public CourseServiceImpl(CourseRepository courseRepository,
                              UserRepository userRepository,
                              ProgramRepository programRepository,
-                             RatingService ratingService, ModelMapper modelMapper) {
+                             RatingRepository ratingRepository,
+                             RatingService ratingService,
+                             ModelMapper modelMapper) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.programRepository = programRepository;
+        this.ratingRepository = ratingRepository;
         this.ratingService = ratingService;
         this.modelMapper = modelMapper;
     }
@@ -89,7 +94,7 @@ public class CourseServiceImpl implements CourseService {
         for (CourseEntity course : courseEntities) {
             ratingAvg.put(course.getId(), ratingService.getAverageRatingByCourseId(course.getId()).orElseThrow());
         }
-        Long courseId = Collections.max(ratingAvg.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        Long courseId = Collections.max(ratingAvg.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
         CourseRatingDto courseRatingDto = new CourseRatingDto();
         courseRatingDto.setCourseId(courseId);
         courseRatingDto.setRating(ratingAvg.get(courseId));
@@ -97,15 +102,35 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> getAllCourses(){
+    public List<CourseRatingDto> getAllCoursesWithRating() {
         List<CourseEntity> courseEntities = courseRepository.findAll();
-        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+        List<CourseRatingDto> coursesWithRatings = new ArrayList<>();
+
+        for (CourseEntity course : courseEntities) {
+            CourseRatingDto courseRatingDto = new CourseRatingDto();
+            courseRatingDto.setCourseId(course.getId());
+            Optional<RatingEntity> ratingEntity = ratingRepository.findById(course.getId());
+            if (ratingEntity.isPresent()) {
+                courseRatingDto.setRating(ratingEntity.get().getNoOfStars().doubleValue());
+            } else
+                courseRatingDto.setRating(0.0);
+            coursesWithRatings.add(courseRatingDto);
+        }
+        return coursesWithRatings;
     }
 
     @Override
-    public List<CourseDto> getAllCoursesByProgramId(Long id){
+    public List<CourseDto> getAllCourses() {
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
+        }.getType());
+    }
+
+    @Override
+    public List<CourseDto> getAllCoursesByProgramId(Long id) {
         List<CourseEntity> courseEntities = courseRepository.findAllByProgramEntity_Id(id);
-        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
+        }.getType());
     }
 
     @Override

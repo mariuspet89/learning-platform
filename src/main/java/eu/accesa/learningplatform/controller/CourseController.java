@@ -54,6 +54,11 @@ public class CourseController {
     public ResponseEntity<CourseRatingDto> getMostPopularCourse(){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getMostPopularCourse());
     }
+    @GetMapping("/course/ratings")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved courses with ratings ")
+    public ResponseEntity<List<CourseRatingDto>> getCoursesWithRatings(){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCoursesWithRating());
+    }
 
     @GetMapping("/name/{name}")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved a course containing by name")

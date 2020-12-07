@@ -21,6 +21,8 @@ public interface CourseService {
 
     CourseRatingDto getMostPopularCourse();
 
+    List<CourseRatingDto> getAllCoursesWithRating();
+
     CourseDto updateCourse(CourseDto courseDto);
 
     void deleteCourseById(Long id);
