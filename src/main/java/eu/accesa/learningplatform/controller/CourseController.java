@@ -1,6 +1,7 @@
 package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
+import eu.accesa.learningplatform.model.dto.CourseRatingDto;
 import eu.accesa.learningplatform.service.CourseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -46,6 +47,12 @@ public class CourseController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all courses by programId")
     public ResponseEntity<List<CourseDto>> getAllCoursesByProgramId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCoursesByProgramId(id));
+    }
+
+    @GetMapping("/mostPopular")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved most popular course")
+    public ResponseEntity<CourseRatingDto> getMostPopularCourse(){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getMostPopularCourse());
     }
 
     @GetMapping("/name/{name}")
