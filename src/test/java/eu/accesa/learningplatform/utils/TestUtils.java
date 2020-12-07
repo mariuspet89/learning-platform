@@ -1,9 +1,6 @@
 package eu.accesa.learningplatform.utils;
 
-import eu.accesa.learningplatform.model.dto.CourseDto;
-import eu.accesa.learningplatform.model.dto.LessonDto;
-import eu.accesa.learningplatform.model.dto.ProgramDto;
-import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.*;
 import eu.accesa.learningplatform.model.entity.*;
 
 import java.time.LocalDate;
@@ -192,6 +189,43 @@ public class TestUtils {
         return programDto;
     }
 
+    public static ApplicationEntity testApplicationEntity(Long id, ApplicationStatusEnum statusEnum, String courseIdea, UserEntity userEntity){
+        ApplicationEntity applicationEntity = new ApplicationEntity();
+        applicationEntity.setId(id);
+        applicationEntity.setStatus(statusEnum);
+        applicationEntity.setCourseIdea(courseIdea);
+        applicationEntity.setUserEntity(userEntity);
+        return applicationEntity;
+    }
+    public static ApplicationDto testApplicationDto(Long id, ApplicationStatusEnum statusEnum, String courseIdea, Long userEntityId){
+        ApplicationDto applicationDto = new ApplicationDto();
+        applicationDto.setId(id);
+        applicationDto.setStatus(statusEnum);
+        applicationDto.setCourseIdea(courseIdea);
+        applicationDto.setUserEntityId(userEntityId);
+        return applicationDto;
+    }
+
+    public static List<ApplicationEntity> testApplicationList() {
+        return Arrays.asList(
+                testApplicationEntity(null, ApplicationStatusEnum.PENDING, "gitTraining",
+                        testUserEntity(1L, null, null, null, null, null,
+                                null, null, null)),
+                testApplicationEntity(null, ApplicationStatusEnum.PENDING, "javaTraining",
+                        testUserEntity(2L, null, null, null, null, null,
+                                null, null, null)));
+    }
+
+    public static List<ApplicationEntity> testApplicationListSameUser() {
+        return Arrays.asList(
+                testApplicationEntity(null, ApplicationStatusEnum.PENDING, "gitTraining",
+                        testUserEntity(1L, null, null, null, null, null,
+                                null, null, null)),
+                testApplicationEntity(null, ApplicationStatusEnum.PENDING, "javaTraining",
+                        testUserEntity(1L, null, null, null, null, null,
+                                null, null, null)));
+    }
+
     public static ProgramEntity testProgramWithUser(Long id, String name, String desc, LocalDate startDate, LocalDate endDate, CompetenceAreaEntity competenceAreaEntity, Set<UserEntity> userEntities){
         ProgramEntity programEntity = new ProgramEntity();
         programEntity.setId(id);
@@ -203,4 +237,5 @@ public class TestUtils {
         programEntity.setUserEntities(userEntities);
         return programEntity;
     }
+
 }
