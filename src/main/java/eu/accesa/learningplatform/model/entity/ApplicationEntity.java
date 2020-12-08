@@ -56,15 +56,15 @@ public class ApplicationEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ApplicationEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         ApplicationEntity that = (ApplicationEntity) o;
-        return getId().equals(that.getId()) &&
-                Objects.equals(getStatus(), that.getStatus()) &&
-                Objects.equals(getCourseIdea(), that.getCourseIdea());
+        return Objects.equals(id, that.id) &&
+                status == that.status &&
+                Objects.equals(courseIdea, that.courseIdea);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStatus(), getCourseIdea());
+        return Objects.hash(id, status, courseIdea, userEntity);
     }
 }
