@@ -2,9 +2,12 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
 import eu.accesa.learningplatform.model.dto.CourseRatingDto;
+import eu.accesa.learningplatform.model.dto.CourseWithAllRatingsDto;
+import eu.accesa.learningplatform.model.dto.RatingDto;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
+import eu.accesa.learningplatform.repository.RatingRepository;
 import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.CourseService;
 import eu.accesa.learningplatform.service.RatingService;
@@ -25,16 +28,20 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final ProgramRepository programRepository;
+    private final RatingRepository ratingRepository;
     private final RatingService ratingService;
     private final ModelMapper modelMapper;
 
     public CourseServiceImpl(CourseRepository courseRepository,
                              UserRepository userRepository,
                              ProgramRepository programRepository,
-                             RatingService ratingService, ModelMapper modelMapper) {
+                             RatingRepository ratingRepository,
+                             RatingService ratingService,
+                             ModelMapper modelMapper) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.programRepository = programRepository;
+        this.ratingRepository = ratingRepository;
         this.ratingService = ratingService;
         this.modelMapper = modelMapper;
     }
@@ -91,7 +98,7 @@ public class CourseServiceImpl implements CourseService {
                     .getAverageRatingByCourseId(course.getId())
                     .orElse(0.0));
         }
-        Long courseId = Collections.max(ratingAvg.entrySet(),Comparator.comparingDouble(Map.Entry::getValue)).getKey();
+        Long courseId = Collections.max(ratingAvg.entrySet(), Comparator.comparingDouble(Map.Entry::getValue)).getKey();
         CourseRatingDto courseRatingDto = new CourseRatingDto();
         courseRatingDto.setCourseId(courseId);
         courseRatingDto.setRating(ratingAvg.get(courseId));
@@ -99,15 +106,31 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseDto> getAllCourses(){
+    public List<CourseWithAllRatingsDto> getAllCoursesWithRating() {
         List<CourseEntity> courseEntities = courseRepository.findAll();
-        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+        List<CourseWithAllRatingsDto>listWithCourses=new ArrayList<>();
+
+        for(CourseEntity courseEntity:courseEntities){
+            List <RatingEntity>ratingEntities=ratingRepository.findAllByCourseEntity_Id(courseEntity.getId());
+            CourseWithAllRatingsDto course= modelMapper.map(courseEntity,CourseWithAllRatingsDto.class);
+            course.setRatingsList(modelMapper.map(ratingEntities, new TypeToken<List<RatingDto>>() {
+            }.getType()));
+            listWithCourses.add(course);
+        }
+        return listWithCourses;
+    }
+    @Override
+    public List<CourseDto> getAllCourses() {
+        List<CourseEntity> courseEntities = courseRepository.findAll();
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
+        }.getType());
     }
 
     @Override
-    public List<CourseDto> getAllCoursesByProgramId(Long id){
+    public List<CourseDto> getAllCoursesByProgramId(Long id) {
         List<CourseEntity> courseEntities = courseRepository.findAllByProgramEntity_Id(id);
-        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>(){}.getType());
+        return modelMapper.map(courseEntities, new TypeToken<List<CourseDto>>() {
+        }.getType());
     }
 
     @Override

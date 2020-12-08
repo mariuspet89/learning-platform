@@ -1,13 +1,7 @@
 package eu.accesa.learningplatform.configuration;
 
-import eu.accesa.learningplatform.model.dto.AnswerDto;
-import eu.accesa.learningplatform.model.dto.QuizDto;
-import eu.accesa.learningplatform.model.dto.QuizItemDto;
-import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
-import eu.accesa.learningplatform.model.entity.AnswerEntity;
-import eu.accesa.learningplatform.model.entity.QuizEntity;
-import eu.accesa.learningplatform.model.entity.QuizItemEntity;
-import eu.accesa.learningplatform.model.entity.UserEntity;
+import eu.accesa.learningplatform.model.dto.*;
+import eu.accesa.learningplatform.model.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +23,11 @@ public class ModelMapperConfig {
                 .addMapping(userEntity -> userEntity.getJobTitleEntity().getName(), UserDtoForGetCalls::setJobTitleEnum)
                 .addMapping(userEntity -> userEntity.getCompetenceAreaEntity().getName(), UserDtoForGetCalls::setCompetenceAreaEnum)
                 .addMapping(userEntity -> userEntity.getUserTypeEntity().getName(), UserDtoForGetCalls::setUserTypeEnum);
+        modelMapper.createTypeMap(CourseEntity.class,CourseWithAllRatingsDto.class)
+                .addMapping(courseEntity -> courseEntity.getId(),CourseWithAllRatingsDto::setId)
+                .addMapping(courseEntity -> courseEntity.getName(),CourseWithAllRatingsDto::setName)
+                .addMapping(courseEntity -> courseEntity.getDescription(),CourseWithAllRatingsDto::setDescription)
+                .addMapping(courseEntity -> courseEntity.getTotalDuration(),CourseWithAllRatingsDto::setTotalDuration);
         return modelMapper;
     }
 }
