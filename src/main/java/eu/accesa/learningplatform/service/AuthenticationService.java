@@ -7,4 +7,6 @@ public interface AuthenticationService {
 
 	public AccessToken authenticate(AuthRequest authRequest);
 	
+	public boolean verifyToken(String token);
+	
 }

@@ -68,5 +68,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return privateClaimMap;
     }
 
+	@Override
+	public boolean verifyToken(String token) {
+		return tokenService.verifyToken(token);
+	}
+
     
 }

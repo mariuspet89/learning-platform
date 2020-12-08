@@ -9,4 +9,6 @@ public interface TokenService {
 
 	public String getRefreshToken(String email);
 	
+	public boolean verifyToken(String encryptedJwe);
+	
 }

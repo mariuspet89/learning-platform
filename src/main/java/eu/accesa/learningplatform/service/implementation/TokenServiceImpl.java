@@ -3,6 +3,7 @@ package eu.accesa.learningplatform.service.implementation;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.SignedJWT;
+import com.sun.el.parser.ParseException;
 
 import eu.accesa.learningplatform.authentication.Configuration;
 import eu.accesa.learningplatform.authentication.ConfigurationManager;
@@ -15,12 +16,14 @@ import eu.accesa.learningplatform.util.PemUtils;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.AESEncrypter;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.security.PrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -141,32 +144,6 @@ public class TokenServiceImpl implements TokenService{
         return jwsObject.serialize();
     }
 
-    private String encryptToken(String nestedJwt,
-                                byte[] encodedKey)
-            throws Exception {
-        // create JWE header
-        JWEHeader header = new JWEHeader.Builder(JWEAlgorithm.A256KW, EncryptionMethod.A256CBC_HS512).contentType("JWT")
-                .build();
-
-        // create payload
-        Payload payload = new Payload(nestedJwt);
-
-        // encrypt
-        JWEObject jweObject = new JWEObject(header, payload);
-
-        try {
-            jweObject.encrypt(new AESEncrypter(encodedKey));
-        } catch (JOSEException e) {
-            LOG.error("UNABLE_TO_ENCRYPT_TOKEN");
-            throw new Exception("UNABLE_TO_ENCRYPT_TOKEN", e);
-        } catch (IllegalArgumentException e) {
-            LOG.error("SYMMETRIC_KEY_IS_NULL");
-            throw new Exception("SYMMETRIC_KEY_IS_NULL", e);
-        }
-
-        return jweObject.serialize();
-    }
-
     /**
      * Validates a token (SSO token to authenticate the user)
      * There are several steps in validation:
@@ -178,19 +155,19 @@ public class TokenServiceImpl implements TokenService{
      * @param encryptedJwe token (encrypted JWE)
      * @throws ServiceException the authentication fails when the token is not valid
      */
-    public void verifyToken(String encryptedJwe)
-            throws Exception {
+    public boolean verifyToken(String encryptedJwe) {
 
+        SignedJWT signedJWT;
+        try {
+            signedJWT = SignedJWT.parse(encryptedJwe);
+            JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey) keyStoreService.getPublicKey());
+            return signedJWT.verify(verifier);
+        } catch (JOSEException | java.text.ParseException e) {
+            return false;
+        }
         // Decrypt the JWE token and parse it
         // Retrieve signed JWS Token
         // Verify the signature of the nested JWS token and parse it
-    }
-
-    protected JWSSigner getJwsSigner() throws Exception {
-        String signingKey = configuration.getPropertyAsString("signingKey");
-        String pemEncodedRSAPrivateKey = PemUtils.readKeyAsString(signingKey);
-        RSAKey rsaKey = (RSAKey) JWK.parseFromPEMEncodedObjects(pemEncodedRSAPrivateKey);
-        return new RSASSASigner(rsaKey.toRSAPrivateKey());
     }
 
     public String getRefreshToken(String email) {
