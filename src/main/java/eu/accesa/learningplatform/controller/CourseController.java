@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
 import eu.accesa.learningplatform.model.dto.CourseRatingDto;
+import eu.accesa.learningplatform.model.dto.CourseWithAllRatingsDto;
 import eu.accesa.learningplatform.service.CourseService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -56,7 +57,7 @@ public class CourseController {
     }
     @GetMapping("/course/ratings")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved courses with ratings ")
-    public ResponseEntity<List<CourseRatingDto>> getCoursesWithRatings(){
+    public ResponseEntity<List<CourseWithAllRatingsDto>> getCoursesWithRatings(){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAllCoursesWithRating());
     }
 

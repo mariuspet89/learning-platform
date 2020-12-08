@@ -2,6 +2,8 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
 import eu.accesa.learningplatform.model.dto.CourseRatingDto;
+import eu.accesa.learningplatform.model.dto.CourseWithAllRatingsDto;
+import eu.accesa.learningplatform.model.dto.RatingDto;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CourseRepository;
 import eu.accesa.learningplatform.repository.ProgramRepository;
@@ -102,23 +104,19 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseRatingDto> getAllCoursesWithRating() {
+    public List<CourseWithAllRatingsDto> getAllCoursesWithRating() {
         List<CourseEntity> courseEntities = courseRepository.findAll();
-        List<CourseRatingDto> coursesWithRatings = new ArrayList<>();
+        List<CourseWithAllRatingsDto>listWithCourses=new ArrayList<>();
 
-        for (CourseEntity course : courseEntities) {
-            CourseRatingDto courseRatingDto = new CourseRatingDto();
-            courseRatingDto.setCourseId(course.getId());
-            Optional<RatingEntity> ratingEntity = ratingRepository.findById(course.getId());
-            if (ratingEntity.isPresent()) {
-                courseRatingDto.setRating(ratingEntity.get().getNoOfStars().doubleValue());
-            } else
-                courseRatingDto.setRating(0.0);
-            coursesWithRatings.add(courseRatingDto);
+        for(CourseEntity courseEntity:courseEntities){
+            List <RatingEntity>ratingEntities=ratingRepository.findAllByCourseEntity_Id(courseEntity.getId());
+            CourseWithAllRatingsDto course= modelMapper.map(courseEntity,CourseWithAllRatingsDto.class);
+            course.setRatingsList(modelMapper.map(ratingEntities, new TypeToken<List<RatingDto>>() {
+            }.getType()));
+            listWithCourses.add(course);
         }
-        return coursesWithRatings;
+        return listWithCourses;
     }
-
     @Override
     public List<CourseDto> getAllCourses() {
         List<CourseEntity> courseEntities = courseRepository.findAll();

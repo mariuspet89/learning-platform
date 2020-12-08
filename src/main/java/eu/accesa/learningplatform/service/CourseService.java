@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.service;
 
 import eu.accesa.learningplatform.model.dto.CourseDto;
 import eu.accesa.learningplatform.model.dto.CourseRatingDto;
+import eu.accesa.learningplatform.model.dto.CourseWithAllRatingsDto;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface CourseService {
 
     CourseRatingDto getMostPopularCourse();
 
-    List<CourseRatingDto> getAllCoursesWithRating();
+    List<CourseWithAllRatingsDto> getAllCoursesWithRating();
 
     CourseDto updateCourse(CourseDto courseDto);
 
