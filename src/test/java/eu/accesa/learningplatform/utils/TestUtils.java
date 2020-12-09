@@ -10,9 +10,33 @@ import java.util.List;
 import java.util.Set;
 
 public class TestUtils {
-    public static LessonDto testLessonDto(Long id, String name, double duration, Long courseId) {
+    public static LessonContentEntity testLessonContentEntity(Long Id, String content, LessonEntity lesson){
+        LessonContentEntity lessonContentEntity = new LessonContentEntity();
+        lessonContentEntity.setId(Id);
+        lessonContentEntity.setContent(content);
+        lessonContentEntity.setLessonEntity(lesson);
+        return lessonContentEntity;
+    }
+
+    public static LessonContentDto testLessonContentDto(Long Id, String content, Long lessonId){
+        LessonContentDto lessonContentDto = new LessonContentDto();
+        lessonContentDto.setId(Id);
+        lessonContentDto.setContent(content);
+        lessonContentDto.setLessonId(lessonId);
+        return lessonContentDto;
+    }
+
+    public static List<LessonContentEntity>testLessonContentList(){
+        LessonEntity lessonEntity =  testLessonEntity(1L, null, 2.5, null);
+        return Arrays.asList(
+                testLessonContentEntity(1L, "The best content", lessonEntity),
+                testLessonContentEntity(2L, "The best Java content", lessonEntity));
+    }
+
+
+    public static LessonDto testLessonDto(Long Id, String name, double duration, Long courseId) {
         LessonDto lessonDto = new LessonDto();
-        lessonDto.setId(id);
+        lessonDto.setId(Id);
         lessonDto.setName(name);
         lessonDto.setDuration(duration);
         lessonDto.setCourseId(courseId);
