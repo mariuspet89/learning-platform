@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-class AnswerServiceImplTest {
+public class AnswerServiceImplTest {
     @Mock
     private AnswerRepository answerRepository;
 
