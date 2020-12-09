@@ -25,6 +25,7 @@ public class LdapWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
+                .authenticationProvider(ldapAuthenticationProvider)
                 .csrf()
                 .disable()
                 .authorizeRequests()
