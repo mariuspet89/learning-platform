@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
-class RatingServiceImplTest {
+public class RatingServiceImplTest {
     @Mock
     private RatingRepository ratingRepository;
 

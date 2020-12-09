@@ -2,7 +2,6 @@ package eu.accesa.learningplatform.utils;
 
 import eu.accesa.learningplatform.model.dto.*;
 import eu.accesa.learningplatform.model.entity.*;
-import org.apache.catalina.User;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -264,8 +263,8 @@ public class TestUtils {
     public static List<RatingEntity> testRatingEntityList() {
         return Arrays.asList(
                 testRatingEntity(null, 5,
-                                "good", null, testCourseEntity(1L, "course", "good", 3.0, null, null)),
+                        "good", null, testCourseEntity(1L, "course", "good", 3.0, null, null)),
                 testRatingEntity(null, 4,
-                                "bad", null, testCourseEntity(1L, "course", "good", 3.0, null, null)));
+                        "bad", null, testCourseEntity(1L, "course", "good", 3.0, null, null)));
     }
 }
