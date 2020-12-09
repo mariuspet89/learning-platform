@@ -28,6 +28,8 @@ public class ModelMapperConfig {
                 .addMapping(courseEntity -> courseEntity.getName(),CourseWithAllRatingsDto::setName)
                 .addMapping(courseEntity -> courseEntity.getDescription(),CourseWithAllRatingsDto::setDescription)
                 .addMapping(courseEntity -> courseEntity.getTotalDuration(),CourseWithAllRatingsDto::setTotalDuration);
+        modelMapper.createTypeMap(UserEntity.class,UserDtoForApplication.class).
+                addMapping(userEntity -> userEntity.getUserTypeEntity().getId(),UserDtoForApplication::setUserTypeId);
         return modelMapper;
     }
 }
