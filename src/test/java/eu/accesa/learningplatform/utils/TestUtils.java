@@ -239,4 +239,32 @@ public class TestUtils {
         return programEntity;
     }
 
+
+    public static RatingEntity testRatingEntity(Long id, Integer noOfStars, String description, UserEntity userEntity, CourseEntity courseEntity) {
+        RatingEntity ratingEntity = new RatingEntity();
+        ratingEntity.setId(id);
+        ratingEntity.setDescription(description);
+        ratingEntity.setNoOfStars(noOfStars);
+        ratingEntity.setUserEntity(userEntity);
+        ratingEntity.setCourseEntity(courseEntity);
+        return ratingEntity;
+    }
+
+    public static RatingDto testRatingDto(Long id, Integer noOfStars, String description, Long userId, Long courseId) {
+        RatingDto ratingDto = new RatingDto();
+        ratingDto.setId(id);
+        ratingDto.setNoOfStars(noOfStars);
+        ratingDto.setDescription(description);
+        ratingDto.setUserId(userId);
+        ratingDto.setCourseId(courseId);
+        return ratingDto;
+    }
+
+    public static List<RatingEntity> testRatingEntityList() {
+        return Arrays.asList(
+                testRatingEntity(null, 5,
+                        "good", null, testCourseEntity(1L, "course", "good", 3.0, null, null)),
+                testRatingEntity(null, 4,
+                        "bad", null, testCourseEntity(1L, "course", "good", 3.0, null, null)));
+    }
 }
