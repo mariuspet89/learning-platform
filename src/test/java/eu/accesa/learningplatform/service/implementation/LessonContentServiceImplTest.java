@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 
 @RunWith(SpringRunner.class)
-class LessonContentServiceImplTest {
+public class LessonContentServiceImplTest {
 
     @Mock
     private LessonRepository lessonRepository;
@@ -48,7 +48,7 @@ class LessonContentServiceImplTest {
     }
 
     @Test
-    void createLessonContent() {
+    public void createLessonContent() {
 
         LessonEntity lessonEntity = testLessonEntity(1L,"Java", 0, null);
         LessonContentEntity lessonContentEntity = testLessonContentEntity(null, "The best content", lessonEntity);
@@ -62,7 +62,7 @@ class LessonContentServiceImplTest {
 
 
     @Test
-    void getLessonContentByLessonId() {
+    public void getLessonContentByLessonId() {
 
         LessonEntity lessonEntity =
                 testLessonEntity(1L, null, 2.5, null);
@@ -73,7 +73,7 @@ class LessonContentServiceImplTest {
         assertNotNull(lessonContentDtoList, "List is empty");
         assertEquals(lessonContentDtoList.size(), 2, "List size doesn't match actual size");
         LessonContentDto lessonContentDto = lessonContentDtoList.get(0);
-        assertEquals(lessonContentDto.getId(), 2L);
+        assertEquals(lessonContentDto.getId(), 1L);
         verify(lessonContentRepository).findAllByLessonEntityId(lessonId);
         verifyNoMoreInteractions(lessonContentRepository);
     }
@@ -98,7 +98,7 @@ class LessonContentServiceImplTest {
     }
 
     @Test
-    void deleteLessonContent() {
+    public void deleteLessonContent() {
         Long idForDelete = 1L;
         LessonEntity lessonEntity =
                 testLessonEntity(2L, null, 2.5, null);
