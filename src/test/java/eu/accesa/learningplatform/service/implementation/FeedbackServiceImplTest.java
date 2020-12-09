@@ -193,9 +193,6 @@ public class FeedbackServiceImplTest {
     @Test
     void deleteFeedback() {
 
-        Long id = 1L;
-        Long idForDelete = 1L;
-
         UserEntity userEntityFromDb =
                 testUserEntity(2L, null, null, null, null, null,
                         null, null, null);
@@ -206,9 +203,9 @@ public class FeedbackServiceImplTest {
         FeedbackEntity feedbackEntity = testFeedbackEntity(1L, "Test Title",
                 "Test Description", userEntityFromDb, lessonEntityFromDb, false);
 
-        when(feedbackRepository.findById(id)).thenReturn(Optional.of(feedbackEntity));
+        when(feedbackRepository.findById(feedbackEntity.getId())).thenReturn(Optional.of(feedbackEntity));
 
-        feedbackService.deleteFeedback(idForDelete);
+        feedbackService.deleteFeedback(feedbackEntity.getId());
 
         verify(feedbackRepository, times(1)).delete(feedbackEntity);
     }
