@@ -58,7 +58,6 @@ class LessonContentServiceImplTest {
         when(lessonContentRepository.save(lessonContentEntity)).thenReturn(createdLessonContentEntity);
         LessonContentDto createdDto = lessonContentServiceImpl.createLessonContent(lessonContentDto);
         assertNotNull(createdDto, "It cannot be null. ");
-
     }
 
 
@@ -107,5 +106,5 @@ class LessonContentServiceImplTest {
         when(lessonContentRepository.findById(lessonContentEntity.getId())).thenReturn(Optional.of(lessonContentEntity));
         lessonContentServiceImpl.deleteLessonContent(idForDelete);
         verify(lessonContentRepository, times(1)).deleteById(idForDelete);
-         }
+    }
 }
