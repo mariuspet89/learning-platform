@@ -273,15 +273,14 @@ public class TestUtils {
         quizEntity.setId(id);
         quizEntity.setTitle(title);
         quizEntity.setCourseEntity(courseEntity);
-        quizEntity.setQuizItems(quizItemEntities);
         return quizEntity;
     }
 
-    public static QuizItemDto testQuizItemDto(Long id, Long quizId, Long quizItemId, String question, List<AnswerDto> listAnswers) {
+    public static QuizItemDto testQuizItemDto(Long id, Long quizId, Long quizItemTypeId, String question, List<AnswerDto> listAnswers) {
         QuizItemDto quizItemDto = new QuizItemDto();
         quizItemDto.setId(id);
         quizItemDto.setQuizId(quizId);
-        quizItemDto.setQuizItemTypeId(quizItemId);
+        quizItemDto.setQuizItemTypeId(quizItemTypeId);
         quizItemDto.setQuestion(question);
         quizItemDto.setAnswers(listAnswers);
         return quizItemDto;
@@ -292,7 +291,6 @@ public class TestUtils {
         quizDto.setId(id);
         quizDto.setTitle(title);
         quizDto.setCourseId(courseId);
-        quizDto.setQuizItems(quizItemDtoList);
         return quizDto;
     }
 
@@ -301,7 +299,6 @@ public class TestUtils {
         quizItemEntity.setId(id);
         quizItemEntity.setQuestion(question);
         quizItemEntity.setQuizItemType(quizItemTypeEntity);
-        quizItemEntity.setAnswerSet(answerSet);
         quizItemEntity.setQuizEntity(quizEntity);
         return quizItemEntity;
     }
@@ -318,7 +315,6 @@ public class TestUtils {
         QuizItemTypeEntity quizItemTypeEntity = new QuizItemTypeEntity();
         quizItemTypeEntity.setId(id);
         quizItemTypeEntity.setType(quizItemTypeEnum);
-        quizItemTypeEntity.setQuizItemEntities(quizItemEntities);
         return quizItemTypeEntity;
     }
 
