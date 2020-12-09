@@ -267,4 +267,77 @@ public class TestUtils {
                 testRatingEntity(null, 4,
                         "bad", null, testCourseEntity(1L, "course", "good", 3.0, null, null)));
     }
+
+    public static QuizEntity testQuizEntity(Long id,String title,CourseEntity courseEntity,Set<QuizItemEntity>quizItemEntities){
+        QuizEntity quizEntity=new QuizEntity();
+        quizEntity.setId(id);
+        quizEntity.setTitle(title);
+        quizEntity.setCourseEntity(courseEntity);
+        quizEntity.setQuizItems(quizItemEntities);
+        return quizEntity;
+    }
+    public static QuizItemDto testQuizItemDto(Long id,Long quizId,Long quizItemId,String question,List<AnswerDto>listAnswers){
+        QuizItemDto quizItemDto=new QuizItemDto();
+        quizItemDto.setId(id);
+        quizItemDto.setQuizId(quizId);
+        quizItemDto.setQuizItemTypeId(quizItemId);
+        quizItemDto.setQuestion(question);
+        quizItemDto.setAnswers(listAnswers);
+        return quizItemDto;
+    }
+    public static QuizDto testQuizDto(Long id,String title,Long courseId,List<QuizItemDto>quizItemDtoList){
+        QuizDto quizDto=new QuizDto();
+        quizDto.setId(id);
+        quizDto.setTitle(title);
+        quizDto.setCourseId(courseId);
+        quizDto.setQuizItems(quizItemDtoList);
+        return quizDto;
+    }
+    public static QuizItemEntity testQuizItemEntity(Long id, String question, QuizItemTypeEntity quizItemTypeEntity, Set<AnswerEntity>answerSet,QuizEntity quizEntity){
+        QuizItemEntity quizItemEntity=new QuizItemEntity();
+        quizItemEntity.setId(id);
+        quizItemEntity.setQuestion(question);
+        quizItemEntity.setQuizItemType(quizItemTypeEntity);
+        quizItemEntity.setAnswerSet(answerSet);
+        quizItemEntity.setQuizEntity(quizEntity);
+        return quizItemEntity;
+    }
+    public static Set<QuizItemEntity>testQuizItemList(){
+        return Set.of(
+                testQuizItemEntity(1l,"Ce este..?",
+                        testQuizItemType(1l,null,null),null,null),
+                testQuizItemEntity(12l,"Ce fel este..?",
+                        testQuizItemType(1l,null,null),null,null));
+    }
+    public static QuizItemTypeEntity testQuizItemType(Long id,QuizItemTypeEnum quizItemTypeEnum,Set<QuizItemEntity>quizItemEntities){
+        QuizItemTypeEntity quizItemTypeEntity=new QuizItemTypeEntity();
+        quizItemTypeEntity.setId(id);
+        quizItemTypeEntity.setType(quizItemTypeEnum);
+        quizItemTypeEntity.setQuizItemEntities(quizItemEntities);
+        return quizItemTypeEntity;
+    }
+    public static List<QuizItemDto>testQuizItemDtoList(){
+        return Arrays.asList(
+                testQuizItemDto(1l,1l,1l,"Ce este",null),
+                testQuizItemDto(2l,2l,2l,"Ce este din",null));
+    }
+
+    public static AnswerEntity testAnswerEntity(Long id, String answerText, boolean isCorrect, QuizItemEntity quizItemEntity){
+        AnswerEntity answerEntity = new AnswerEntity();
+        answerEntity.setId(id);
+        answerEntity.setAnswerText(answerText);
+        answerEntity.setCorrect(isCorrect);
+        answerEntity.setQuizItemEntity(quizItemEntity);
+        return answerEntity;
+    }
+
+    public static AnswerDto testAnswerDto(Long id, String answerText, boolean isCorrect, Long quizItemId){
+        AnswerDto answerDto = new AnswerDto();
+        answerDto.setId(id);
+        answerDto.setAnswerText(answerText);
+        answerDto.setCorrect(isCorrect);
+        answerDto.setQuizItemId(quizItemId);
+        return answerDto;
+    }
+
 }
