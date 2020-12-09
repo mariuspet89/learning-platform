@@ -200,5 +200,6 @@ public class CourseServiceImplTest {
         Long idToDelete = 1l;
         courseService.deleteCourseById(idToDelete);
         verify(courseRepository, times(1)).deleteById(idToDelete);
+
     }
 }
