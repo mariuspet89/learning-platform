@@ -268,16 +268,17 @@ public class TestUtils {
                         "bad", null, testCourseEntity(1L, "course", "good", 3.0, null, null)));
     }
 
-    public static QuizEntity testQuizEntity(Long id,String title,CourseEntity courseEntity,Set<QuizItemEntity>quizItemEntities){
-        QuizEntity quizEntity=new QuizEntity();
+    public static QuizEntity testQuizEntity(Long id, String title, CourseEntity courseEntity, Set<QuizItemEntity> quizItemEntities) {
+        QuizEntity quizEntity = new QuizEntity();
         quizEntity.setId(id);
         quizEntity.setTitle(title);
         quizEntity.setCourseEntity(courseEntity);
         quizEntity.setQuizItems(quizItemEntities);
         return quizEntity;
     }
-    public static QuizItemDto testQuizItemDto(Long id,Long quizId,Long quizItemId,String question,List<AnswerDto>listAnswers){
-        QuizItemDto quizItemDto=new QuizItemDto();
+
+    public static QuizItemDto testQuizItemDto(Long id, Long quizId, Long quizItemId, String question, List<AnswerDto> listAnswers) {
+        QuizItemDto quizItemDto = new QuizItemDto();
         quizItemDto.setId(id);
         quizItemDto.setQuizId(quizId);
         quizItemDto.setQuizItemTypeId(quizItemId);
@@ -285,16 +286,18 @@ public class TestUtils {
         quizItemDto.setAnswers(listAnswers);
         return quizItemDto;
     }
-    public static QuizDto testQuizDto(Long id,String title,Long courseId,List<QuizItemDto>quizItemDtoList){
-        QuizDto quizDto=new QuizDto();
+
+    public static QuizDto testQuizDto(Long id, String title, Long courseId, List<QuizItemDto> quizItemDtoList) {
+        QuizDto quizDto = new QuizDto();
         quizDto.setId(id);
         quizDto.setTitle(title);
         quizDto.setCourseId(courseId);
         quizDto.setQuizItems(quizItemDtoList);
         return quizDto;
     }
-    public static QuizItemEntity testQuizItemEntity(Long id, String question, QuizItemTypeEntity quizItemTypeEntity, Set<AnswerEntity>answerSet,QuizEntity quizEntity){
-        QuizItemEntity quizItemEntity=new QuizItemEntity();
+
+    public static QuizItemEntity testQuizItemEntity(Long id, String question, QuizItemTypeEntity quizItemTypeEntity, Set<AnswerEntity> answerSet, QuizEntity quizEntity) {
+        QuizItemEntity quizItemEntity = new QuizItemEntity();
         quizItemEntity.setId(id);
         quizItemEntity.setQuestion(question);
         quizItemEntity.setQuizItemType(quizItemTypeEntity);
@@ -302,27 +305,30 @@ public class TestUtils {
         quizItemEntity.setQuizEntity(quizEntity);
         return quizItemEntity;
     }
-    public static Set<QuizItemEntity>testQuizItemList(){
+
+    public static Set<QuizItemEntity> testQuizItemList() {
         return Set.of(
-                testQuizItemEntity(1l,"Ce este..?",
-                        testQuizItemType(1l,null,null),null,null),
-                testQuizItemEntity(12l,"Ce fel este..?",
-                        testQuizItemType(1l,null,null),null,null));
+                testQuizItemEntity(1l, "Ce este..?",
+                        testQuizItemType(1l, null, null), null, null),
+                testQuizItemEntity(12l, "Ce fel este..?",
+                        testQuizItemType(1l, null, null), null, null));
     }
-    public static QuizItemTypeEntity testQuizItemType(Long id,QuizItemTypeEnum quizItemTypeEnum,Set<QuizItemEntity>quizItemEntities){
-        QuizItemTypeEntity quizItemTypeEntity=new QuizItemTypeEntity();
+
+    public static QuizItemTypeEntity testQuizItemType(Long id, QuizItemTypeEnum quizItemTypeEnum, Set<QuizItemEntity> quizItemEntities) {
+        QuizItemTypeEntity quizItemTypeEntity = new QuizItemTypeEntity();
         quizItemTypeEntity.setId(id);
         quizItemTypeEntity.setType(quizItemTypeEnum);
         quizItemTypeEntity.setQuizItemEntities(quizItemEntities);
         return quizItemTypeEntity;
     }
-    public static List<QuizItemDto>testQuizItemDtoList(){
+
+    public static List<QuizItemDto> testQuizItemDtoList() {
         return Arrays.asList(
-                testQuizItemDto(1l,1l,1l,"Ce este",null),
-                testQuizItemDto(2l,2l,2l,"Ce este din",null));
+                testQuizItemDto(1l, 1l, 1l, "Ce este", null),
+                testQuizItemDto(2l, 2l, 2l, "Ce este din", null));
     }
 
-    public static AnswerEntity testAnswerEntity(Long id, String answerText, boolean isCorrect, QuizItemEntity quizItemEntity){
+    public static AnswerEntity testAnswerEntity(Long id, String answerText, boolean isCorrect, QuizItemEntity quizItemEntity) {
         AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setId(id);
         answerEntity.setAnswerText(answerText);
@@ -331,13 +337,21 @@ public class TestUtils {
         return answerEntity;
     }
 
-    public static AnswerDto testAnswerDto(Long id, String answerText, boolean isCorrect, Long quizItemId){
+    public static AnswerDto testAnswerDto(Long id, String answerText, boolean isCorrect, Long quizItemId) {
         AnswerDto answerDto = new AnswerDto();
         answerDto.setId(id);
         answerDto.setAnswerText(answerText);
         answerDto.setCorrect(isCorrect);
         answerDto.setQuizItemId(quizItemId);
         return answerDto;
+    }
+
+    public static List<AnswerEntity> testAnswerEntityList() {
+        return Arrays.asList(
+                testAnswerEntity(1L, "aaa",
+                        true, testQuizItemEntity(1L, null, null, null, null)),
+                testAnswerEntity(2L, "bbb",
+                        false, testQuizItemEntity(1L, null, null, null, null)));
     }
 
 }
