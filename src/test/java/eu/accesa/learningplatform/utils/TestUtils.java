@@ -160,7 +160,7 @@ public class TestUtils {
         userDto.setImageUrl(imageUrl);
         userDto.setPassword(password);
         userDto.setCompetenceAreaId(competenceAreaId);
-        //  userDto.setJobTitleId(jobTitleId);
+        userDto.setJobTitleId(jobTitleId);
         userDto.setUserTypeId(userTypeID);
         return userDto;
     }
@@ -188,6 +188,65 @@ public class TestUtils {
         programDto.setCompetenceAreaId(competenceAreaId);
         return programDto;
     }
+
+    public static FeedbackEntity testFeedbackEntity(Long id, String title,
+                                                    String description,
+                                                    UserEntity userEntity,
+                                                    LessonEntity lessonEntity,
+                                                    Boolean archived) {
+
+        FeedbackEntity feedbackEntity = new FeedbackEntity();
+        feedbackEntity.setId(id);
+        feedbackEntity.setTitle(title);
+        feedbackEntity.setDescription(description);
+        feedbackEntity.setUserEntity(userEntity);
+        feedbackEntity.setLessonEntity(lessonEntity);
+        feedbackEntity.setArchived(archived);
+        return feedbackEntity;
+    }
+
+    public static FeedbackDto testFeedbackDto(Long id, String title,
+                                              String description,
+                                              Long userEntityId,
+                                              Long lessonEntityId,
+                                              Boolean archived) {
+
+        FeedbackDto feedbackDto = new FeedbackDto();
+        feedbackDto.setId(id);
+        feedbackDto.setTitle(title);
+        feedbackDto.setDescription(description);
+        feedbackDto.setUserEntityId(userEntityId);
+        feedbackDto.setLessonEntityId(lessonEntityId);
+        feedbackDto.setArchived(archived);
+        return feedbackDto;
+    }
+
+    public static List<FeedbackEntity> testFeedbackList() {
+
+        UserEntity userEntity1 =
+                testUserEntity(1L, null, null, null, null, null,
+                        null, null, null);
+
+        LessonEntity lessonEntity1 =
+                testLessonEntity(1L, null, 2.5, null);
+
+        return Arrays.asList(
+                testFeedbackEntity(1L,
+                        "Test Title1",
+                        "Test Description1", userEntity1, lessonEntity1, false),
+                testFeedbackEntity(2L,
+                        "Test Title2",
+                        "Test Description2", userEntity1, lessonEntity1, false),
+
+                testFeedbackEntity(3L,
+                        "Test Title3",
+                        "Test Description3", userEntity1, lessonEntity1, true),
+                testFeedbackEntity(4L,
+                        "Test Title4",
+                        "Test Description4", userEntity1, lessonEntity1, true)
+        );
+    }
+
 
     public static ApplicationEntity testApplicationEntity(Long id, ApplicationStatusEnum statusEnum, String courseIdea, UserEntity userEntity) {
         ApplicationEntity applicationEntity = new ApplicationEntity();
