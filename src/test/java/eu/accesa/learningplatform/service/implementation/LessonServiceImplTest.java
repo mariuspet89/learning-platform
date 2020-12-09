@@ -13,8 +13,7 @@ import org.mockito.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBeans;
+
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;

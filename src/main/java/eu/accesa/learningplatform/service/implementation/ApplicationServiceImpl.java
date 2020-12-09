@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     private final ApplicationRepository applicationRepository;
 

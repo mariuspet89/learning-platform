@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.LearningPlatformApplication;
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
 import eu.accesa.learningplatform.repository.JobTitleRepository;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -50,22 +52,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDtoForGetCalls> getAllUsers() {
         LOGGER.info("Service: retrieving all users");
 
-        return mapper.map(userRepository.findAll(), new TypeToken<List<UserDto>>() {
+        return mapper.map(userRepository.findAll(), new TypeToken<List<UserDtoForGetCalls>>() {
         }.getType());
     }
 
     @Override
-    public List<UserDto> getAllUsersByProgram(Long programId) {
+    public List<UserDtoForGetCalls> getAllUsersByProgram(Long programId) {
         List<UserEntity> userEntities = userRepository.findAllByProgramEntities_Id(programId);
-        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
+        return mapper.map(userEntities, new TypeToken<List<UserDtoForGetCalls>>() {
         }.getType());
     }
 
     @Override
-    public UserDto getUserById(Long id) {
+    public UserDtoForGetCalls getUserById(Long id) {
         LOGGER.info("Service: retrieving user with id: {}", id);
 
         UserEntity userEntity = userRepository.findById(id)
@@ -74,11 +76,11 @@ public class UserServiceImpl implements UserService {
                         "id",
                         id.toString()
                 ));
-        return mapper.map(userEntity, UserDto.class);
+        return mapper.map(userEntity, UserDtoForGetCalls.class);
     }
 
     @Override
-    public List<UserDto> getUsersByUserType(Long userTypeId) {
+    public List<UserDtoForGetCalls> getUsersByUserType(Long userTypeId) {
         LOGGER.info("Service: retrieving all users with user type: {}", userTypeId);
 
         List<UserEntity> userEntities = userRepository.findAllByUserTypeEntity_Id(userTypeId);
@@ -87,7 +89,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(UserEntity.class.getSimpleName(), "UserTypeId", userTypeId.toString());
         }
 
-        return mapper.map(userEntities, new TypeToken<List<UserDto>>() {
+        return mapper.map(userEntities, new TypeToken<List<UserDtoForGetCalls>>() {
         }.getType());
     }
 
