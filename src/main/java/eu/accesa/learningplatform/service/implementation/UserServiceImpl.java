@@ -2,6 +2,7 @@ package eu.accesa.learningplatform.service.implementation;
 
 import eu.accesa.learningplatform.LearningPlatformApplication;
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForApplication;
 import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.model.entity.*;
 import eu.accesa.learningplatform.repository.CompetenceAreaRepository;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -109,6 +109,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(completeUser);
 
         return mapper.map(completeUser, UserDto.class);
+    }
+    @Override
+    public UserDtoForApplication updateUserType(UserDtoForApplication userDtoForApplication) {
+        LOGGER.info("Service: updating User Type for user with id: {}", userDtoForApplication.getId());
+        UserEntity foundUser = userRepository.findById(userDtoForApplication.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        UserEntity.class.getSimpleName(),
+                        "id",
+                        userDtoForApplication.getId().toString()));
+        UserDto userDto = mapper.map(foundUser, UserDto.class);
+        userDto.setUserTypeId(userDtoForApplication.getUserTypeId());
+        UserEntity updatedUser = createCompleteUserEntity(userDto);
+        userRepository.save(updatedUser);
+        return mapper.map(updatedUser, UserDtoForApplication.class);
     }
 
     @Override
