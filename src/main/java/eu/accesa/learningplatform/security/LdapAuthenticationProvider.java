@@ -23,7 +23,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(LdapAuthenticationProvider.class);
 
     private static final String AUTHENTICATION_TYPE = "simple";
-    private static final String ACCESA_DOMAIN = "accesa";
+    public static final String ACCESA_DOMAIN = "accesa";
     private static final String LDAP_CTX_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
 
     @Value("${ldap.urls}")
@@ -31,7 +31,6 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         String username = authentication.getName();
 
         Object credentials = authentication.getCredentials();
@@ -45,7 +44,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
         throw new BadCredentialsException("Username or password are invalid!");
     }
 
-    private boolean authenticate(String username, String password) {
+    public boolean authenticate(String username, String password) {
         Hashtable<String, String> environment = new Hashtable<>();
         environment.put(Context.INITIAL_CONTEXT_FACTORY, LDAP_CTX_FACTORY);
         environment.put(Context.PROVIDER_URL, ldapUrls);

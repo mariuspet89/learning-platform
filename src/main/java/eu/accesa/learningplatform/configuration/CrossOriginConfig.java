@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableLdapRepositories(basePackages = "eu.accesa.learningplatform.repository.ldap.**")
 public class CrossOriginConfig {
 
     @Bean

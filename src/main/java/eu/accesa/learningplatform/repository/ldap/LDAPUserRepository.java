@@ -7,5 +7,5 @@ import eu.accesa.learningplatform.model.entity.ldap.User;
 
 @Repository
 public interface LDAPUserRepository extends LdapRepository<User> {
-    User findByUsernameAndPassword(String username, String password);
+//    User findByUsernameAndPassword(String username, String password);
 }

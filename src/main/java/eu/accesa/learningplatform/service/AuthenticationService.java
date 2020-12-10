@@ -5,8 +5,7 @@ import eu.accesa.learningplatform.authentication.AuthRequest;
 
 public interface AuthenticationService {
 
-	public AccessToken authenticate(AuthRequest authRequest);
-	
-	public boolean verifyToken(String token);
-	
+    AccessToken authenticate(AuthRequest authRequest);
+
+    boolean verifyToken(String token);
 }

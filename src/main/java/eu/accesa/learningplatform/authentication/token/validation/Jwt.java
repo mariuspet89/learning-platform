@@ -1,12 +1,11 @@
 package eu.accesa.learningplatform.authentication.token.validation;
 
-import java.io.IOException;
-import java.util.Base64;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.accesa.learningplatform.exceptionhandler.TokenValidationException;
 
-import eu.accesa.learningplatform.authentication.token.validation.exception.TokenValidationException;
+import java.io.IOException;
+import java.util.Base64;
 
 public class Jwt {
 
