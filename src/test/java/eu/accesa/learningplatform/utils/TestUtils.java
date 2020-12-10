@@ -468,6 +468,26 @@ public class TestUtils {
                         false, testQuizItemEntity(1L, null, null, null, null)));
     }
 
+    public static EnrollmentDto testEnrollmentDto(Long userId, Long programId) {
+
+        EnrollmentDto enrollmentDto = new EnrollmentDto();
+        enrollmentDto.setUserId(userId);
+        enrollmentDto.setUserId(programId);
+
+        return enrollmentDto;
+    }
+
+//    public static List<UserEntity> testUserEntityList() {
+//
+//        return Arrays.asList(
+//
+//                testUserEntity(1L, null, null, null, null, null,
+//                        null, null, null),
+//
+//                testUserEntity(2L, null, null, null, null, null,
+//                        null, null, null));
+//    }
+
 
     public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
         JobTitleEntity jobTitleEntity = new JobTitleEntity();
