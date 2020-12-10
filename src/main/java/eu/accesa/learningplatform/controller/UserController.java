@@ -1,6 +1,7 @@
 package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForApplication;
 import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -59,6 +60,11 @@ public class UserController {
         return userService.updateUser(userDto);
     }
 
+    @PutMapping("/userType/update")
+    @ResponseStatus(HttpStatus.OK)
+    private UserDtoForApplication updateUserType(@Valid @RequestBody UserDtoForApplication userDto) {
+        return userService.updateUserType(userDto);
+    }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     private void deleteUser(@PathVariable final Long id) {
