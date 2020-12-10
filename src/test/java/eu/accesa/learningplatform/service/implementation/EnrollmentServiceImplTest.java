@@ -21,6 +21,7 @@ import java.util.*;
 
 import static eu.accesa.learningplatform.utils.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -80,12 +81,35 @@ class EnrollmentServiceImplTest {
 
         assertEquals(enrollmentCreateDto.getUserId(), 1L);
         verify(userRepository).findById(enrollmentDto.getUserId());
-
-
     }
 
     @Test
     public void undoEnroll() {
+        LocalDate startDate = LocalDate.of(2020, 12, 1);
+        LocalDate endDate = LocalDate.of(2020, 12, 7);
+
+        Set<UserEntity> userEntities = new HashSet<>();
+
+        CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(1L, null);
+        ProgramEntity programEntity = testProgramWithUser(1L, "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
+        ProgramEntity removedProgramEntity = testProgramWithUser(1L, "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
+        UserEntity userEntity = testUserEntity("test", "test", null, null, null);
+
+        EnrollmentDto enrollmentDto = testEnrollmentDto(userEntity.getId(), programEntity.getId());
+
+        when(userRepository.findById(enrollmentDto.getUserId())).thenReturn(Optional.of(userEntity));
+        when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(programEntity));
+        when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(removedProgramEntity));
+
+        removedProgramEntity.getUserEntities().remove(userEntity);
+        userEntity.getProgramEntities().remove(removedProgramEntity);
+
+        when(programRepository.save(programEntity)).thenReturn(removedProgramEntity);
+
+        EnrollmentDto enrollmentRemovedDto = enrollmentService.enroll(enrollmentDto);
+
+        assertEquals(enrollmentRemovedDto.getUserId(), 1L);
+        verify(userRepository).findById(enrollmentDto.getUserId());
     }
 
     @Test
