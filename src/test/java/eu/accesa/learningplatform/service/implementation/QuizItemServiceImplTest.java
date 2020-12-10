@@ -90,7 +90,7 @@ public class QuizItemServiceImplTest {
         QuizItemDto quizItemDto = testQuizItemDto(null, 1L, 1L, "What is spring?", null);
 
         when(quizRepository.findById(quizItemEntity.getQuizEntity().getId())).thenReturn(Optional.of(quizEntity));
-        when(quizItemTypeRepository.findById(quizItemEntity.getQuizItemTypeEntity().getId())).thenReturn(Optional.of(quizItemTypeEntity));
+        when(quizItemTypeRepository.getOne(quizItemEntity.getQuizItemTypeEntity().getId())).thenReturn(quizItemTypeEntity);
         when(quizItemRepository.save(quizItemEntity)).thenReturn(createdQuizItemEntity);
 
         QuizItemDto createdQuizItemDto = quizItemService.createQuizItem(quizItemDto, quizItemDto.getQuizId());
