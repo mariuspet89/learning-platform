@@ -322,6 +322,23 @@ public class TestUtils {
         return programEntity;
     }
 
+    public static UserEntity testUserWithProgram(Long id, String firstName, String lastName, String email,
+                                                 String imageUrl, String password, UserTypeEntity userTypeEntity,
+                                                 JobTitleEntity jobTitleEntity, CompetenceAreaEntity competenceAreaEntity, Set<ProgramEntity> programEntities) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(id);
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(lastName);
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        userEntity.setImageUrl(imageUrl);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setUserTypeEntity(userTypeEntity);
+        userEntity.setProgramEntities(programEntities);
+        return userEntity;
+    }
+
 
     public static RatingEntity testRatingEntity(Long id, Integer noOfStars, String description, UserEntity userEntity, CourseEntity courseEntity) {
         RatingEntity ratingEntity = new RatingEntity();

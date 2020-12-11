@@ -1,7 +1,5 @@
 package eu.accesa.learningplatform.service.implementation;
 
-import eu.accesa.learningplatform.model.dto.CourseDto;
-import eu.accesa.learningplatform.model.dto.ProgramDto;
 import eu.accesa.learningplatform.model.dto.UserDto;
 import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.model.entity.*;
@@ -17,9 +15,11 @@ import org.slf4j.event.LoggingEvent;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static eu.accesa.learningplatform.utils.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -120,7 +120,7 @@ class UserServiceImplTest {
 
     @Test
     public void getUserById() {
-        UserEntity foundUserEntity =  testUserEntity(1L, "first", "last", "mail@email.com",
+        UserEntity foundUserEntity = testUserEntity(1L, "first", "last", "mail@email.com",
                 null, "strongp4ssw0rd", null, null, null);
         Long id = 1L;
         when(userRepository.findById(id)).thenReturn(Optional.of(foundUserEntity));
@@ -132,15 +132,70 @@ class UserServiceImplTest {
 
     @Test
     public void getUsersByUserType() {
-
+        Long userTypeId = 1L;
+        when(userRepository.findAllByUserTypeEntity_Id(userTypeId)).thenReturn(testUserEntityList());
+        final List<UserDtoForGetCalls> userDtoForGetCallsList = userServiceImpl.getUsersByUserType(userTypeId);
+        assertNotNull(userDtoForGetCallsList, "List is empty");
+        assertEquals(userDtoForGetCallsList.size(), 2, "List size doesn't match actual size");
+        UserDtoForGetCalls userDtoForGetCalls = userDtoForGetCallsList.get(0);
+        assertNotNull(userDtoForGetCalls.getId(), "Id should not be null");
+        assertEquals(userDtoForGetCalls.getFirstName(), "first", "First names do not match");
+        assertEquals(userDtoForGetCalls.getLastName(), "last", "Last names do not match");
+        assertEquals(userDtoForGetCalls.getEmail(), "mail@email.com", "Emails do not match");
+        assertEquals(userDtoForGetCalls.getPassword(), "strongp4ssw0rd", "Passwords do not match");
+        verify(userRepository).findAllByUserTypeEntity_Id(userTypeId);
+        verifyNoMoreInteractions(userRepository);
     }
 
     @Test
     public void updateUser() {
+        CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(1L, CompetenceAreaEnum.JAVA_TECHNOLOGY);
+        JobTitleEntity jobTitleEntity = testJobTitleEntity(1L, JobTitleEnum.JAVA_DEVELOPER);
+        UserTypeEntity userTypeEntity = testUserTypeEntity(1L, UserTypeEnum.TRAINEE);
+        UserEntity userEntity = testUserEntity(1L, "first", "last", "mail@email.com",
+                null, "strongp4ssw0rd", userTypeEntity, jobTitleEntity, competenceAreaEntity);
+        UserEntity updatedUser = testUserEntity(1L, "FIRST", "LASTT", "mail1@email.com",
+                null, "strongp4ssw0rd", userTypeEntity, jobTitleEntity, competenceAreaEntity);
+        when(userRepository.findById(userEntity.getId())).thenReturn(Optional.of(userEntity));
+        when(competenceAreaRepository.findById(updatedUser.getCompetenceAreaEntity().getId())).thenReturn(Optional.of(competenceAreaEntity));
+        when(userTypeRepository.findById(updatedUser.getUserTypeEntity().getId())).thenReturn(Optional.of(userTypeEntity));
+        when(jobTitleRepository.findById(updatedUser.getJobTitleEntity().getId())).thenReturn(Optional.of(jobTitleEntity));
+        when(userRepository.save(userEntity)).thenReturn(updatedUser);
 
+        UserDto userDto = testUserDto(updatedUser.getId(), updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getEmail(),
+                updatedUser.getImageUrl(), updatedUser.getPassword(), updatedUser.getCompetenceAreaEntity().getId(), updatedUser.getJobTitleEntity().getId(), updatedUser.getUserTypeEntity().getId());
+        UserDto updatedUserDto = userServiceImpl.updateUser(userDto);
+        assertNotNull(updatedUserDto, "updated user must not be null");
+        assertNotNull(updatedUserDto.getId(), "Created user's id must not be null");
+        assertEquals(updatedUserDto.getFirstName(), "FIRST", "First names do not match");
+        assertEquals(updatedUserDto.getLastName(), "LASTT", "Last names do not match");
+        assertEquals(updatedUserDto.getEmail(), "mail1@email.com", "Emails do not match");
+        assertEquals(updatedUserDto.getPassword(), "strongp4ssw0rd", "Passwords do not match");
+        assertEquals(updatedUserDto.getCompetenceAreaId(), 1L, "CompetenceAreaId not valid");
+        assertEquals(updatedUserDto.getJobTitleId(), 1L, "JobTitleId not valid");
+        assertEquals(updatedUserDto.getUserTypeId(), 1L, "UserTypeId not valid");
     }
 
+    @Test
     public void deleteUser() {
+        Long id = 1l;
+        JobTitleEntity jobTitleEntity = testJobTitleEntity(1L, JobTitleEnum.JAVA_DEVELOPER);
+        UserTypeEntity userTypeEntity = testUserTypeEntity(1L, UserTypeEnum.TRAINEE);
+        CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(2l, CompetenceAreaEnum.JAVA_TECHNOLOGY);
+        ProgramEntity programEntity = testProgramWithUser(1L,
+                "Java Internship",
+                "aa",
+                LocalDate.parse("2020-01-08"),
+                LocalDate.parse("2020-01-15"),
+                competenceAreaEntity,
+                testUserEntityList().stream().collect(Collectors.toSet()));
 
+        Set<ProgramEntity> programEntities = new HashSet<>();
+        programEntities.add(programEntity);
+        UserEntity userEntity = testUserWithProgram(1L, "first", "last", "mail@email.com",
+                null, "strongp4ssw0rd", userTypeEntity, jobTitleEntity, competenceAreaEntity, programEntities);
+        when(userRepository.findById(id)).thenReturn(Optional.of(userEntity));
+        userServiceImpl.deleteUser(id);
+        verify(userRepository, times(1)).delete(userEntity);
     }
 }
