@@ -46,7 +46,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public QuizDto create(QuizDto quizDto) {
         QuizEntity quizEntity = modelMapper.map(quizDto, QuizEntity.class);
         Long courseId = quizDto.getCourseId();
