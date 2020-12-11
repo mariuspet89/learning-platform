@@ -60,8 +60,7 @@ public class QuizEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QuizEntity that = (QuizEntity) o;
-        return id.equals(that.id) &&
-                title.equals(that.title);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(courseEntity, that.courseEntity) && Objects.equals(quizItems, that.quizItems);
     }
 
     @Override
