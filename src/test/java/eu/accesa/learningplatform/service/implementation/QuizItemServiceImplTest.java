@@ -11,10 +11,12 @@ import eu.accesa.learningplatform.repository.QuizItemTypeRepository;
 import eu.accesa.learningplatform.repository.QuizRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+@RunWith(SpringRunner.class)
 public class QuizItemServiceImplTest {
     @Mock
     private QuizItemRepository quizItemRepository;

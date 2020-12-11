@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TestUtils {
-    public static LessonContentEntity testLessonContentEntity(Long Id, String content, LessonEntity lesson){
+    public static LessonContentEntity testLessonContentEntity(Long Id, String content, LessonEntity lesson) {
         LessonContentEntity lessonContentEntity = new LessonContentEntity();
         lessonContentEntity.setId(Id);
         lessonContentEntity.setContent(content);
@@ -18,7 +18,7 @@ public class TestUtils {
         return lessonContentEntity;
     }
 
-    public static LessonContentDto testLessonContentDto(Long Id, String content, Long lessonId){
+    public static LessonContentDto testLessonContentDto(Long Id, String content, Long lessonId) {
         LessonContentDto lessonContentDto = new LessonContentDto();
         lessonContentDto.setId(Id);
         lessonContentDto.setContent(content);
@@ -26,8 +26,8 @@ public class TestUtils {
         return lessonContentDto;
     }
 
-    public static List<LessonContentEntity>testLessonContentList(){
-        LessonEntity lessonEntity =  testLessonEntity(1L, null, 2.5, null);
+    public static List<LessonContentEntity> testLessonContentList() {
+        LessonEntity lessonEntity = testLessonEntity(1L, null, 2.5, null);
         return Arrays.asList(
                 testLessonContentEntity(1L, "The best content", lessonEntity),
                 testLessonContentEntity(2L, "The best Java content", lessonEntity));
@@ -373,6 +373,7 @@ public class TestUtils {
         quizEntity.setId(id);
         quizEntity.setTitle(title);
         quizEntity.setCourseEntity(courseEntity);
+        quizEntity.setQuizItems(quizItemEntities);
         return quizEntity;
     }
 
@@ -391,6 +392,7 @@ public class TestUtils {
         quizDto.setId(id);
         quizDto.setTitle(title);
         quizDto.setCourseId(courseId);
+        quizDto.setQuizItems(quizItemDtoList);
         return quizDto;
     }
 
@@ -402,12 +404,28 @@ public class TestUtils {
         quizItemEntity.setQuizEntity(quizEntity);
         return quizItemEntity;
     }
+    public static QuizItemEntity testQuizItemWithAnswers(Long id, String question, QuizItemTypeEntity quizItemTypeEntity, Set<AnswerEntity> answerSet, QuizEntity quizEntity){
+        QuizItemEntity quizItemEntity = new QuizItemEntity();
+        quizItemEntity.setId(id);
+        quizItemEntity.setQuestion(question);
+        quizItemEntity.setQuizItemType(quizItemTypeEntity);
+        quizItemEntity.setQuizEntity(quizEntity);
+        quizItemEntity.setAnswerSet(answerSet);
+        return quizItemEntity;
+    }
 
     public static Set<QuizItemEntity> testQuizItemList() {
         return Set.of(
                 testQuizItemEntity(1l, "Ce este..?",
                         testQuizItemType(1l, null, null), null, null),
                 testQuizItemEntity(12l, "Ce fel este..?",
+                        testQuizItemType(1l, null, null), null, null));
+    }
+    public static Set<QuizItemEntity> testQuizItemListWithAnswers() {
+        return Set.of(
+                testQuizItemWithAnswers(1l, "Ce este..?",
+                        testQuizItemType(1l, null, null), null, null),
+                testQuizItemWithAnswers(12l, "Ce fel este..?",
                         testQuizItemType(1l, null, null), null, null));
     }
 
@@ -420,8 +438,8 @@ public class TestUtils {
 
     public static List<QuizItemDto> testQuizItemDtoList() {
         return Arrays.asList(
-                testQuizItemDto(1l, 1l, 1l, "Ce este", null),
-                testQuizItemDto(2l, 2l, 2l, "Ce este din", null));
+                testQuizItemDto(1l, 1l, 1l, "Ce este", testAnswerDtoList()),
+                testQuizItemDto(2l, 2l, 2l, "Ce este din", testAnswerDtoList()));
     }
 
     public static AnswerEntity testAnswerEntity(Long id, String answerText, boolean isCorrect, QuizItemEntity quizItemEntity) {
@@ -450,6 +468,7 @@ public class TestUtils {
                         false, testQuizItemEntity(1L, null, null, null, null)));
     }
 
+
     public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
         JobTitleEntity jobTitleEntity = new JobTitleEntity();
         jobTitleEntity.setId(id);
@@ -465,4 +484,23 @@ public class TestUtils {
                         null, "strongp4ssw0rd", null, null, null));
     }
 
+    public static List<QuizEntity> testQuizList() {
+        return Arrays.asList(
+                testQuizEntity(1l, "Ouiz for spring", testCourseEntity(1l, "Java Fundamentals", null, null, null, null), null),
+                testQuizEntity(2l, "Ouiz for Java", testCourseEntity(2l, "Spring Fundamentals", null, null, null, null), null));
+
+    }
+
+    public static List<AnswerDto> testAnswerDtoList() {
+        return Arrays.asList(
+                testAnswerDto(1l, "Raspuns", true, 1l),
+                testAnswerDto(2l, "Raspuns2", false, 1l));
+    }
+
+    public static JobTitleEntity testJobTitle(Long id, JobTitleEnum name) {
+        JobTitleEntity jobTitleEntity = new JobTitleEntity();
+        jobTitleEntity.setId(id);
+        jobTitleEntity.setName(name);
+        return jobTitleEntity;
+    }
 }
