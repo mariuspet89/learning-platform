@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDtoForGetCalls> getAllUsers() {
         LOGGER.info("Service: retrieving all users");
-
         return mapper.map(userRepository.findAll(), new TypeToken<List<UserDtoForGetCalls>>() {
         }.getType());
     }
