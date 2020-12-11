@@ -433,4 +433,19 @@ public class TestUtils {
                         false, testQuizItemEntity(1L, null, null, null, null)));
     }
 
+    public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
+        JobTitleEntity jobTitleEntity = new JobTitleEntity();
+        jobTitleEntity.setId(id);
+        jobTitleEntity.setName(jobTitleEnum);
+        return jobTitleEntity;
+    }
+
+    public static List<UserEntity> testUserEntityList(){
+        return Arrays.asList(
+                testUserEntity(1L, "first", "last", "mail@email.com",
+                        null, "strongp4ssw0rd", null, null, null),
+                testUserEntity(2L, "first", "last", "mail2@email.com",
+                        null, "strongp4ssw0rd", null, null, null));
+    }
+
 }
