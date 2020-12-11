@@ -1,5 +1,6 @@
 package eu.accesa.learningplatform.controller;
 
+import eu.accesa.learningplatform.model.dto.MostPopularTrainerDto;
 import eu.accesa.learningplatform.model.dto.RatingDto;
 import eu.accesa.learningplatform.service.RatingService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -53,5 +54,10 @@ public class RatingController {
     @GetMapping("/averageByCourseId/{id}")
     public ResponseEntity<OptionalDouble> getAverageRatingByCourseId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getAverageRatingByCourseId(id));
+    }
+
+    @GetMapping("/mostPopularTrainers")
+    public ResponseEntity<List<MostPopularTrainerDto>> getMostPopularTrainers(){
+        return ResponseEntity.status(HttpStatus.OK).body(ratingService.getMostPopularTrainers());
     }
 }

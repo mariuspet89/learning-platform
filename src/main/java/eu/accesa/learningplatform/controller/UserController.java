@@ -1,6 +1,8 @@
 package eu.accesa.learningplatform.controller;
 
 import eu.accesa.learningplatform.model.dto.UserDto;
+import eu.accesa.learningplatform.model.dto.UserDtoForApplication;
+import eu.accesa.learningplatform.model.dto.UserDtoForGetCalls;
 import eu.accesa.learningplatform.service.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,25 +32,25 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsers() {
+    private List<UserDtoForGetCalls> getUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    private UserDto getUserById(@PathVariable final Long id) {
+    private UserDtoForGetCalls getUserById(@PathVariable final Long id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("/userType/{userTypeId}")
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsersByUserType(@PathVariable final Long userTypeId) {
+    private List<UserDtoForGetCalls> getUsersByUserType(@PathVariable final Long userTypeId) {
         return userService.getUsersByUserType(userTypeId);
     }
 
     @GetMapping("/program/{programId}")
     @ResponseStatus(HttpStatus.OK)
-    private List<UserDto> getUsersByProgramId(@PathVariable final Long programId) {
+    private List<UserDtoForGetCalls> getUsersByProgramId(@PathVariable final Long programId) {
         return userService.getAllUsersByProgram(programId);
     }
 
@@ -58,6 +60,11 @@ public class UserController {
         return userService.updateUser(userDto);
     }
 
+    @PutMapping("/userType/update")
+    @ResponseStatus(HttpStatus.OK)
+    private UserDtoForApplication updateUserType(@Valid @RequestBody UserDtoForApplication userDto) {
+        return userService.updateUserType(userDto);
+    }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     private void deleteUser(@PathVariable final Long id) {

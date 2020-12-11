@@ -23,7 +23,6 @@ public class LessonContentServiceImpl implements LessonContentService {
     private final LessonRepository lessonRepository;
     private final ModelMapper mapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(LessonContentServiceImpl.class);
-
     public LessonContentServiceImpl(LessonContentRepository lessonContentRepository,
                                     LessonRepository lessonRepository, ModelMapper mapper) {
         this.lessonContentRepository = lessonContentRepository;
@@ -34,12 +33,13 @@ public class LessonContentServiceImpl implements LessonContentService {
     @Override
     public LessonContentDto createLessonContent(LessonContentDto lessonContentDto) {
         LOGGER.info("Service: creating a new lesson content with values : {}", lessonContentDto);
-        LessonContentEntity lessonContent = mapper.map(lessonContentDto, LessonContentEntity.class);
         LessonEntity lessonEntity = lessonRepository.findById(lessonContentDto.getLessonId())
                 .orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id",
                         lessonContentDto.getLessonId().toString()));
+        LessonContentEntity lessonContent = mapper.map(lessonContentDto, LessonContentEntity.class);
         lessonContent.setLessonEntity(lessonEntity);
-        return mapper.map(lessonContentRepository.save(lessonContent), LessonContentDto.class);
+        LessonContentEntity lessonContentEntitySaved = lessonContentRepository.save(lessonContent);
+        return mapper.map(lessonContentEntitySaved, LessonContentDto.class);
     }
 
     @Override
@@ -57,11 +57,11 @@ public class LessonContentServiceImpl implements LessonContentService {
         LessonContentEntity lessonContentEntity = lessonContentRepository.findById(lessonContentDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException(LessonContentEntity.class.getSimpleName(), "id",
                         lessonContentDto.getId().toString()));
-        mapper.map(lessonContentDto, lessonContentEntity);
         LessonEntity lessonEntity = lessonRepository.findById(lessonContentDto.getLessonId())
                 .orElseThrow(() -> new EntityNotFoundException(LessonEntity.class.getSimpleName(), "id",
                         lessonContentDto.getLessonId().toString()));
         lessonContentEntity.setLessonEntity(lessonEntity);
+        mapper.map(lessonContentDto, lessonContentEntity);
         return mapper.map(lessonContentRepository.save(lessonContentEntity), LessonContentDto.class);
     }
 

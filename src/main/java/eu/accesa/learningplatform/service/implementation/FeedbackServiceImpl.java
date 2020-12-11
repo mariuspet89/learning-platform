@@ -4,8 +4,10 @@ import eu.accesa.learningplatform.exceptionhandler.LearningPlatformException;
 import eu.accesa.learningplatform.model.dto.FeedbackDto;
 import eu.accesa.learningplatform.model.entity.FeedbackEntity;
 import eu.accesa.learningplatform.model.entity.LessonEntity;
+import eu.accesa.learningplatform.model.entity.UserEntity;
 import eu.accesa.learningplatform.repository.FeedbackRepository;
 import eu.accesa.learningplatform.repository.LessonRepository;
+import eu.accesa.learningplatform.repository.UserRepository;
 import eu.accesa.learningplatform.service.FeedbackService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -27,21 +29,41 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     private final LessonRepository lessonRepository;
 
+    private final UserRepository userRepository;
+
     public FeedbackServiceImpl(FeedbackRepository feedbackRepository,
                                ModelMapper modelMapper,
-                               LessonRepository lessonRepository) {
+                               LessonRepository lessonRepository,
+                               UserRepository userRepository) {
         this.feedbackRepository = feedbackRepository;
         this.modelMapper = modelMapper;
         this.lessonRepository = lessonRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public FeedbackDto createFeedback(FeedbackDto feedbackDto) {
 
         LOGGER.info("Creating Feedback " + feedbackDto.getId());
-        FeedbackEntity feedbackEntity =
-                feedbackRepository.save(modelMapper.map(feedbackDto, FeedbackEntity.class));
-        return modelMapper.map(feedbackEntity, FeedbackDto.class);
+
+        LessonEntity lessonEntity = lessonRepository.findById(feedbackDto.getLessonEntityId()).orElseThrow(()
+                -> new LearningPlatformException("Lesson Not Found with the following ID:"
+                + feedbackDto.getLessonEntityId()));
+
+        UserEntity userEntity = userRepository.findById(feedbackDto.getUserEntityId()).orElseThrow(()
+                -> new LearningPlatformException("User Not Found with the following ID:"
+                + feedbackDto.getLessonEntityId()));
+
+        FeedbackEntity feedbackEntity = modelMapper.map(feedbackDto, FeedbackEntity.class);
+
+        feedbackEntity.setLessonEntity(lessonEntity);
+        feedbackEntity.setUserEntity(userEntity);
+
+        FeedbackEntity feedbackEntitySaved = feedbackRepository.save(feedbackEntity);
+
+        FeedbackDto savedDto = modelMapper.map(feedbackEntitySaved, FeedbackDto.class);
+
+        return savedDto;
     }
 
     @Override
