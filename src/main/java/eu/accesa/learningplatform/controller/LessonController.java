@@ -79,12 +79,7 @@ public class LessonController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lesson deleted successfully",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-            @ApiResponse(responseCode = "404", description = "Lesson not found",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
-    })
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteById(@PathVariable Long id) {
         lessonService.deleteLesson(id);
         return new ResponseEntity<>("Deleted lesson with id " + id, HttpStatus.OK);
