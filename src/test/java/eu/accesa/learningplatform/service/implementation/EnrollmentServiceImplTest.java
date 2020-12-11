@@ -21,7 +21,6 @@ import java.util.*;
 
 import static eu.accesa.learningplatform.utils.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -48,40 +47,40 @@ class EnrollmentServiceImplTest {
 
     @Test
     public void enroll() {
-        LocalDate startDate = LocalDate.of(2020, 12, 1);
-        LocalDate endDate = LocalDate.of(2020, 12, 7);
 
-        Set<UserEntity> userEntities = new HashSet<>();
+            Set<ProgramEntity> programEntitySet=new HashSet<ProgramEntity>();
 
-        Set<ProgramEntity> programEntities = new HashSet<>();
+            Set<UserEntity>userEntities=new HashSet<UserEntity>();
 
-        CompetenceAreaEntity competenceAreaEntity =
-                testCompetenceAreaEntity(1L, null);
+            UserEntity userEntity= testUserWithProgram(1l,null,null,null,null,
+                    null,null,null,null,programEntitySet);
+            ProgramEntity programEntity=testProgramWithUser(1l,null,null,null,
+                    null,null,userEntities);
+            EnrollmentDto enrollment= new EnrollmentDto();
 
-        ProgramEntity programEntity = testProgramWithUser(1L,
-                "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
+            enrollment.setUserId(userEntity.getId());
 
-        UserEntity userEntity1 = testUserWithProgram(1L, "TEST", "TEST", "TEST",
-                null, null, null, null,
-                competenceAreaEntity, programEntities);
+            enrollment.setProgramId(programEntity.getId());
 
-        EnrollmentDto enrollmentDto = testEnrollmentDto(userEntity1.getId(), programEntity.getId());
+            when(programRepository.findById(enrollment.getProgramId())).
+                    thenReturn(java.util.Optional.of(programEntity));
 
-        when(userRepository.findById(enrollmentDto.getUserId())).thenReturn(Optional.of(userEntity1));
-        when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(programEntity));
+            when(userRepository.findById(enrollment.getUserId())).
+                    thenReturn(java.util.Optional.of(userEntity));
 
-        when(programRepository.save(programEntity)).thenReturn(programEntity);
-        when(userRepository.save(userEntity1)).thenReturn(userEntity1);
+            when(programRepository.save(programEntity)).
+                    thenReturn(programEntity);
 
-        EnrollmentDto enrollmentCreateDto = enrollmentService.enroll(enrollmentDto);
+            EnrollmentDto created=enrollmentService.enroll(enrollment);
 
-        assertEquals(enrollmentCreateDto.getUserId(), 1L);
-        verify(userRepository).findById(enrollmentDto.getUserId());
-        verify(programRepository).findById(enrollmentDto.getProgramId());
+            assertNotNull(created);
+            assertEquals(created.getProgramId(),1L);
+            assertEquals(created.getUserId(),1L);
     }
 
     @Test
     public void undoEnroll() {
+
         LocalDate startDate = LocalDate.of(2020, 12, 1);
         LocalDate endDate = LocalDate.of(2020, 12, 7);
 
@@ -121,6 +120,7 @@ class EnrollmentServiceImplTest {
 
     @Test
     public void getAllEnrollments() {
+
         LocalDate startDate = LocalDate.of(2020, 12, 1);
         LocalDate endDate = LocalDate.of(2020, 12, 7);
 
@@ -129,6 +129,13 @@ class EnrollmentServiceImplTest {
         Set<UserEntity> userEntitiesForProgram = new HashSet<>();
 
         CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(1L, null);
+
+        userEntitiesForProgram.add(testUserWithProgram(1L, "TEST1", "TEST1", "TEST1",
+                null, null, null, null,
+                competenceAreaEntity, programEntities));
+
+        programEntities.add(testProgramEntity(1l, "ceva", null,
+                null, null, competenceAreaEntity));
 
         List<ProgramEntity> programEntitiesForTest = new ArrayList<>();
 
@@ -160,15 +167,11 @@ class EnrollmentServiceImplTest {
         );
         when(userRepository.findAll()).thenReturn(userEntitiesForTest);
 
-        programEntitiesForTest.get(0).getUserEntities().add(userEntitiesForTest.get(0));
+        List<EnrollmentDto> enrollmentDtos = enrollmentService.getAllEnrollments();
 
-        userEntitiesForTest.get(0).getProgramEntities().add(programEntitiesForTest.get(0));
-        userEntitiesForTest.get(0).getProgramEntities().add(programEntitiesForTest.get(1));
-
-        assertTrue(userEntitiesForTest.get(0).getProgramEntities().contains(programEntitiesForTest.get(0)));
-        assertTrue(userEntitiesForTest.get(0).getProgramEntities().contains(programEntitiesForTest.get(1)));
-
-        assertTrue(programEntitiesForTest.get(0).getUserEntities().contains(userEntitiesForTest.get(0)));
+        assertNotNull(enrollmentDtos);
+        assertEquals(enrollmentDtos.get(0).getProgramId(), 1);
+        assertEquals(enrollmentDtos.get(0).getUserId(), 1);
 
     }
 }
