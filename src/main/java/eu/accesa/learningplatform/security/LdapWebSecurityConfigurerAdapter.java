@@ -38,12 +38,14 @@ public class LdapWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
+        http
+                .cors()
                 .and()
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .anyRequest()
+                .permitAll();
 
         http
                 .logout()
