@@ -477,18 +477,6 @@ public class TestUtils {
         return enrollmentDto;
     }
 
-//    public static List<UserEntity> testUserEntityList() {
-//
-//        return Arrays.asList(
-//
-//                testUserEntity(1L, null, null, null, null, null,
-//                        null, null, null),
-//
-//                testUserEntity(2L, null, null, null, null, null,
-//                        null, null, null));
-//    }
-
-
     public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
         JobTitleEntity jobTitleEntity = new JobTitleEntity();
         jobTitleEntity.setId(id);

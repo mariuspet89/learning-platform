@@ -20,8 +20,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static eu.accesa.learningplatform.utils.TestUtils.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,11 +48,12 @@ class EnrollmentServiceImplTest {
 
     @Test
     public void enroll() {
-
         LocalDate startDate = LocalDate.of(2020, 12, 1);
         LocalDate endDate = LocalDate.of(2020, 12, 7);
 
         Set<UserEntity> userEntities = new HashSet<>();
+
+        Set<ProgramEntity> programEntities = new HashSet<>();
 
         CompetenceAreaEntity competenceAreaEntity =
                 testCompetenceAreaEntity(1L, null);
@@ -61,26 +61,23 @@ class EnrollmentServiceImplTest {
         ProgramEntity programEntity = testProgramWithUser(1L,
                 "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
 
-        ProgramEntity programEntityUpdated = testProgramWithUser(1L,
-                "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
-
-        UserEntity userEntity1 = testUserEntity("test", "test", null, null, null);
+        UserEntity userEntity1 = testUserWithProgram(1L, "TEST", "TEST", "TEST",
+                null, null, null, null,
+                competenceAreaEntity, programEntities);
 
         EnrollmentDto enrollmentDto = testEnrollmentDto(userEntity1.getId(), programEntity.getId());
 
         when(userRepository.findById(enrollmentDto.getUserId())).thenReturn(Optional.of(userEntity1));
         when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(programEntity));
-        when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(programEntityUpdated));
 
-        programEntityUpdated.getUserEntities().add(userEntity1);
-        userEntity1.getProgramEntities().add(programEntityUpdated);
-
-        when(programRepository.save(programEntity)).thenReturn(programEntityUpdated);
+        when(programRepository.save(programEntity)).thenReturn(programEntity);
+        when(userRepository.save(userEntity1)).thenReturn(userEntity1);
 
         EnrollmentDto enrollmentCreateDto = enrollmentService.enroll(enrollmentDto);
 
         assertEquals(enrollmentCreateDto.getUserId(), 1L);
         verify(userRepository).findById(enrollmentDto.getUserId());
+        verify(programRepository).findById(enrollmentDto.getProgramId());
     }
 
     @Test
@@ -88,31 +85,90 @@ class EnrollmentServiceImplTest {
         LocalDate startDate = LocalDate.of(2020, 12, 1);
         LocalDate endDate = LocalDate.of(2020, 12, 7);
 
+        Set<ProgramEntity> programEntities = new HashSet<>();
+
         Set<UserEntity> userEntities = new HashSet<>();
 
         CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(1L, null);
-        ProgramEntity programEntity = testProgramWithUser(1L, "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
-        ProgramEntity removedProgramEntity = testProgramWithUser(1L, "test", "dest", startDate, endDate, competenceAreaEntity, userEntities);
-        UserEntity userEntity = testUserEntity("test", "test", null, null, null);
+
+        ProgramEntity programEntity = testProgramWithUser(1L, "test", "dest", startDate, endDate,
+                competenceAreaEntity, userEntities);
+
+        UserEntity userEntity = testUserWithProgram(1L, "TEST", "TEST", "TEST",
+                null, null, null, null,
+                competenceAreaEntity, programEntities);
 
         EnrollmentDto enrollmentDto = testEnrollmentDto(userEntity.getId(), programEntity.getId());
 
         when(userRepository.findById(enrollmentDto.getUserId())).thenReturn(Optional.of(userEntity));
         when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(programEntity));
-        when(programRepository.findById(enrollmentDto.getProgramId())).thenReturn(Optional.of(removedProgramEntity));
 
-        removedProgramEntity.getUserEntities().remove(userEntity);
-        userEntity.getProgramEntities().remove(removedProgramEntity);
+        programEntity.getUserEntities().add(userEntity);
+        userEntity.getProgramEntities().add(programEntity);
 
-        when(programRepository.save(programEntity)).thenReturn(removedProgramEntity);
+        assertTrue(programEntity.getUserEntities().contains(userEntity));
+        assertTrue(userEntity.getProgramEntities().contains(programEntity));
 
-        EnrollmentDto enrollmentRemovedDto = enrollmentService.enroll(enrollmentDto);
+        enrollmentService.undoEnroll(enrollmentDto);
 
-        assertEquals(enrollmentRemovedDto.getUserId(), 1L);
-        verify(userRepository).findById(enrollmentDto.getUserId());
+        when(programRepository.save(programEntity)).thenReturn(programEntity);
+        when(userRepository.save(userEntity)).thenReturn(userEntity);
+
+        assertTrue(programEntity.getUserEntities().isEmpty());
+        assertTrue(userEntity.getProgramEntities().isEmpty());
+
     }
 
     @Test
     public void getAllEnrollments() {
+        LocalDate startDate = LocalDate.of(2020, 12, 1);
+        LocalDate endDate = LocalDate.of(2020, 12, 7);
+
+        Set<ProgramEntity> programEntities = new HashSet<>();
+
+        Set<UserEntity> userEntitiesForProgram = new HashSet<>();
+
+        CompetenceAreaEntity competenceAreaEntity = testCompetenceAreaEntity(1L, null);
+
+        List<ProgramEntity> programEntitiesForTest = new ArrayList<>();
+
+        List<UserEntity> userEntitiesForTest = new ArrayList<>();
+
+        userEntitiesForTest.add(
+                testUserWithProgram(1L, "TEST1", "TEST1", "TEST1",
+                        null, null, null, null,
+                        competenceAreaEntity, programEntities)
+        );
+        userEntitiesForTest.add(
+                testUserWithProgram(2L, "TEST2", "TEST2", "TEST2",
+                        null, null, null, null,
+                        competenceAreaEntity, programEntities)
+        );
+
+        programEntitiesForTest.add(testProgramWithUser(1L, "test", "dest", startDate, endDate,
+                competenceAreaEntity, userEntitiesForProgram)
+
+        );
+        programEntitiesForTest.add(testProgramWithUser(2L, "dest", "dest", startDate, endDate,
+                competenceAreaEntity, userEntitiesForProgram)
+
+        );
+
+        programEntitiesForTest.add(testProgramWithUser(3L, "dest", "dest", startDate, endDate,
+                competenceAreaEntity, userEntitiesForProgram)
+
+        );
+        when(userRepository.findAll()).thenReturn(userEntitiesForTest);
+
+        programEntitiesForTest.get(0).getUserEntities().add(userEntitiesForTest.get(0));
+
+        userEntitiesForTest.get(0).getProgramEntities().add(programEntitiesForTest.get(0));
+        userEntitiesForTest.get(0).getProgramEntities().add(programEntitiesForTest.get(1));
+
+        assertTrue(userEntitiesForTest.get(0).getProgramEntities().contains(programEntitiesForTest.get(0)));
+        assertTrue(userEntitiesForTest.get(0).getProgramEntities().contains(programEntitiesForTest.get(1)));
+
+        assertTrue(programEntitiesForTest.get(0).getUserEntities().contains(userEntitiesForTest.get(0)));
+
     }
 }
