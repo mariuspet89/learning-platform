@@ -30,25 +30,26 @@ public class AuthTokenValidator implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         String authorization = httpServletRequest.getHeader("Authorization");
-        String bearer = AuthUtils.extractBearerToken(authorization);
+        String token = AuthUtils.extractBearerToken(authorization);
 
         boolean userHasAuthorisation = false;
 
         if (StringUtils.isNotEmpty(authorization)) {
-            if (tokenService.verifyToken(bearer)) {
-            	userHasAuthorisation = true;
-            } 
+            if (tokenService.verifyToken(token)) {
+                userHasAuthorisation = true;
+            }
         }
-        if (!(httpServletRequest.getRequestURL().indexOf("/authentication/token") == -1)) {
+
+        String requestURL = httpServletRequest.getRequestURL().toString();
+
+        if (requestURL.contains("authentication") || requestURL.contains("swagger") || requestURL.contains("v3/api")) {
             userHasAuthorisation = true;
         }
-        if (!(httpServletRequest.getRequestURL().indexOf("/swagger-ui/index.html") == -1)) {
-            userHasAuthorisation = true;
-        }
+
         if (userHasAuthorisation) {
-        	filterChain.doFilter(request, httpServletResponse);
+            filterChain.doFilter(request, httpServletResponse);
         } else {
-        	httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                     "Unauthorized. Please login before making a request.");
         }
     }
