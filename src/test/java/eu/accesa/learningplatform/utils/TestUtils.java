@@ -322,6 +322,23 @@ public class TestUtils {
         return programEntity;
     }
 
+    public static UserEntity testUserWithProgram(Long id, String firstName, String lastName, String email,
+                                                 String imageUrl, String password, UserTypeEntity userTypeEntity,
+                                                 JobTitleEntity jobTitleEntity, CompetenceAreaEntity competenceAreaEntity, Set<ProgramEntity> programEntities) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(id);
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(lastName);
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+        userEntity.setCompetenceAreaEntity(competenceAreaEntity);
+        userEntity.setImageUrl(imageUrl);
+        userEntity.setJobTitleEntity(jobTitleEntity);
+        userEntity.setUserTypeEntity(userTypeEntity);
+        userEntity.setProgramEntities(programEntities);
+        return userEntity;
+    }
+
 
     public static RatingEntity testRatingEntity(Long id, Integer noOfStars, String description, UserEntity userEntity, CourseEntity courseEntity) {
         RatingEntity ratingEntity = new RatingEntity();
@@ -431,6 +448,21 @@ public class TestUtils {
                         true, testQuizItemEntity(1L, null, null, null, null)),
                 testAnswerEntity(2L, "bbb",
                         false, testQuizItemEntity(1L, null, null, null, null)));
+    }
+
+    public static JobTitleEntity testJobTitleEntity(Long id, JobTitleEnum jobTitleEnum){
+        JobTitleEntity jobTitleEntity = new JobTitleEntity();
+        jobTitleEntity.setId(id);
+        jobTitleEntity.setName(jobTitleEnum);
+        return jobTitleEntity;
+    }
+
+    public static List<UserEntity> testUserEntityList(){
+        return Arrays.asList(
+                testUserEntity(1L, "first", "last", "mail@email.com",
+                        null, "strongp4ssw0rd", null, null, null),
+                testUserEntity(2L, "first", "last", "mail2@email.com",
+                        null, "strongp4ssw0rd", null, null, null));
     }
 
 }
