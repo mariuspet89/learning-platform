@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-class EnrollmentServiceImplTest {
+public class EnrollmentServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
