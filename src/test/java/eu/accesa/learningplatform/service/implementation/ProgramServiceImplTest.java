@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-class ProgramServiceImplTest {
+public class ProgramServiceImplTest {
     @Mock
     private ProgramRepository programRepository;
 
